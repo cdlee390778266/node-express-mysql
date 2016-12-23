@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <% include common/meta %>
+    </head>
+    <body>
+    
+        <% include common/header %>
+
+        <% include common/banner %>
+        
+        <div class="container mt20">
+          <div class="row">
+            <div class="col-xs-3">
+
+              <% include common/left %>
+
+            </div>
+            <div class="col-xs-9">
+                <div class="detail-box">
+
+                  <% include common/bar %>
+
+                  <div class="list-body">
+                    <ul>
+                       <%
+                        for(var i=0;i<news.length;i++){
+                       %>
+                        <li>
+                            <a href="<%=news[i].href %>">> <%=news[i].title %> <span><%=news[i].date %></span></a>
+                        </li>
+                       <%
+                        } 
+                       %>
+                    </ul>
+                    <nav>
+                      <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                      </ul>
+                    </nav> 
+                  </div> 
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <% include common/footer %>
+
+    </body>
+</html>

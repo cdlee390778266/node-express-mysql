@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <% include common/meta %>
+    </head>
+    <body>
+        
+        <% include common/header %>
+
+        <% include common/banner %>
+        
+
+        <div class="container mt20">
+          <div class="row">
+            <div class="col-xs-3">
+              <% include common/left %>
+            </div>
+            <div class="col-xs-9">
+                <div class="detail-box">
+                  <% include common/bar %>
+                  <div class="detail-body">
+                    <%= detail %>
+                  </div> 
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <% include common/footer %>
+
+    </body>
+</html>

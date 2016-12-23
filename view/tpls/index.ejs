@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+       <% include common/meta %> 
+    </head>
+    <body>
+
+        <% include common/header %>
+        
+        <% include common/banner %>
+
+        <div class="container wrapper">
+
+            <%
+            if(product.flag){
+            %>
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>
+                        <span class="title-cn"><%= product.title[0] %></span><span class="title-en"><%= product.title[1] %></span>
+                        <a href="" class="">更多</a>
+                    </h1>
+                </div>
+            </div>
+            <div class="row mt20">
+
+                <%
+                for(var i=0;i<product.data.length;i++){
+                %>
+                <div class="col-xs-6 col-sm-3">
+                    <div class="thumbnail">
+                      <div class="thum-img">
+                          <img  alt="..." src="<%= product.data[i].img %>" class="img-responsive" >
+                      </div>
+                      <div class="caption">
+                        <h3><%= product.data[i].title %></h3>
+                        <p><%= product.data[i].describe %></p>
+                        <p><a href="<%= product.data[i].href %>">查看更多 <span class="go">+</span></a></p>
+                      </div>
+                    </div>
+                </div>
+                <%
+                }
+                %>
+                  
+            </div>
+
+            <%
+            }
+            %>
+
+            <div class="row">
+
+                <%
+                if(about.flag){
+                %>
+                <div class="col-xs-12 col-sm-6">
+                    <h1>
+                        <span class="title-cn"><%= about.title[0] %></span><span class="title-en"><%= about.title[2] %></span>
+                        <a href="" class="">更多</a>
+                    </h1>
+                </div>
+                <% 
+                }
+                %>
+                
+                <%
+                if(iNews.flag){
+                %>
+                <div class="col-xs-12 col-sm-6">
+                    <h1>
+                        <span class="title-cn"><%= iNews.title[0] %></span><span class="title-en"><%= iNews.title[1] %></span>
+                        <a href="" class="">更多</a>
+                    </h1>
+                    <div class="media">
+                      <a class="media-left media-middle" href="#">
+                        <img src="<%= iNews.hot.img %>"  alt="..." width="125" >
+                      </a>
+                      <div class="media-body news-body">
+                        <h4 class="media-heading"><a href="<%= iNews.hot.href %>"><%= iNews.hot.title %></a></h4>
+                        <p><%= iNews.hot.describe %></p>
+                        <p><a href="<%= iNews.hot.href %>">查看更多></a></p>
+                      </div>
+                    </div>
+                    <ul class="news-list">
+                        <%
+                        for(var i=0;i<iNews.liData.length;i++){
+                        %>
+                        <li><a href="<%=iNews.liData[i].href %>">》<%=iNews.liData[i].title %> <span><%=iNews.liData[i].date %></span></a></li>
+                        <% 
+                        }
+                        %>
+                    </ul>
+                </div>
+                <% 
+                }
+                %>
+
+            </div>
+        </div>
+
+        <% include common/footer %>
+        
+
+    </body>
+</html>

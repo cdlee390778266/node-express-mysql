@@ -1,0 +1,20 @@
+<div class="detail-menu">
+  <h1><%= left.product.title[0] %><br><%= left.product.title[1] %></h1>
+  <ul>
+    <%
+    for(var i=0;i<left.product.liData.length;i++){
+    %>
+    <li class="<%= left.product.liData[i][2] %>"><a href="<%= left.product.liData[i][1] %>"><%= left.product.liData[i][0] %></a></li>
+    <%
+    }
+    %>
+  </ul>
+</div>
+<div class="contact">
+    <h1><%= left.contact.title[0] %><span><%= left.contact.title[1] %></span></h1>
+    <div class="contact-txt">
+      <p><%= left.contact.txt[0] %></p>
+      <p><%= left.contact.txt[1] %></p>
+      <p><%= left.contact.txt[2] %></p>
+    </div>
+</div>

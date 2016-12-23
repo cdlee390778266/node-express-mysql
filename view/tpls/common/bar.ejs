@@ -1,0 +1,23 @@
+<div class="detail-bar">
+  <div class="db-l">
+    产品展示
+  </div>
+  <div class="db-r">
+    <div class="gn-breadcrumb">
+      <%
+      for(var i=0;i<tags.length;i++){
+        if(i==tags.length-1){
+      %>
+      <a href="<%= tags[i][1] %>"><%= tags[i][0] %></a>
+      <%
+          }else{
+      %>
+      <a href="<%= tags[i][1] %>"><%= tags[i][0] %></a><span>></span>
+      <%
+          }
+      } 
+      %>
+      
+    </div>
+  </div>
+</div>
