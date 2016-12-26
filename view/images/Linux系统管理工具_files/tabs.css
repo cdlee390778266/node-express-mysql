@@ -1,0 +1,57 @@
+
+#tabs,.tabs{margin:0;text-align:left; width:100%; }
+
+.menu3box{
+	text-align:left;
+	margin:0;
+	background-color:#67a8c8;
+	width: 100%;
+	background-repeat: repeat-x; 
+	height:29px;
+}
+.menu3box ul{list-style:none; margin:0; padding:0;}
+#menu3 a{text-decoration:none;}
+#menu3 a:hover{
+	color:#6bfcf5;
+}
+#menu3 li{
+	color:#ffffff;
+	font-size:14px;
+	font-weight:bold;
+	width:120px;
+	height:29px;
+	float:left;
+	display:block;
+	cursor:pointer;
+	text-align:center;
+	margin:0 2px 0 0;
+	padding:0;
+	cursor:pointer;
+	text-decoration:none;
+	background-image: url(../images/bg.gif);
+	background-repeat: repeat-x;
+}
+#menu3 li.hover{
+	color:#000;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration:none;
+	height:29px;
+	width:120px;
+	cursor:pointer;
+	background-image: url(../images/bg2.gif);
+	background-repeat: repeat-x;
+}
+
+#menu3 li p{margin:8px 0 0;}
+#menu3 li p a{color: #fff;}
+
+.main3box{margin-top:-1px;width:100%; background-color:#fff;}
+#main3 ul{display: none;}
+#main3 ul.block{display: block;margin:0;}
+
+ul{ list-style:none;}
+/*-------------tabs NAV end------------------------*/
+
+
+

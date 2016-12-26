@@ -3,9 +3,9 @@
 	"use strict";
 
 	var options = {
-		events_source: 'assets/js/calendar/events.json.php',
+		events_source: 'view/admin/assets/js/calendar/events.json.php',
 		view: 'month',
-		tmpl_path: 'assets/js/calendar/tmpls/',
+		tmpl_path: 'view/admin/assets/js/calendar/tmpls/',
 		tmpl_cache: false,
 		day: '2014-03-12',
 		onAfterEventsLoad: function(events) {

@@ -55,19 +55,18 @@
                     <div class="account-box"> 
                         <form role="form" id="login">
 
-                            <div class="alert alert-danger hide login-error">
-                                <button data-dismiss="alert" class="close" type="button">×</button>
+                            <div class="alert alert-danger  login-error" style="display:none;">
                                 <span class="entypo-attention"></span>
-                                管理员账户或密码错误！
+                                <span class="error-txt"></span>
                             </div>
 
                             <div class="form-group">
                                 <label for="inputUsernameEmail">用户名</label>
-                                <input type="text" id="inputUsernameEmail" class="form-control">
+                                <input type="text" id="inputUsernameEmail" class="form-control" name="userName" maxlength="6" >
                             </div>
                             <div class="form-group"> 
                                 <label for="inputPassword">密码</label>
-                                <input type="password" id="inputPassword" class="form-control">
+                                <input type="password" id="inputPassword" class="form-control" name="userPWD" maxlength="16">
                             </div>
                             <div class="checkbox pull-left">
                                 <label>
@@ -94,8 +93,19 @@
         </div>
 
     </div>
-    <div id="test1" class="gmap3"></div>
-
+   
+    
+    <!-- 模态框（Modal） -->
+    <div class="modal fade " id="login-success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                
+                <div class="modal-body">
+                    登录成功
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 
 
     <!--  END OF PAPER WRAP -->
@@ -104,72 +114,41 @@
 
 
     <!-- MAIN EFFECT -->
-    <script type="text/javascript" src="view/admin/assets/js/preloader.js"></script>
+   
     <script type="text/javascript" src="view/admin/assets/js/bootstrap.js"></script>
-    <script type="text/javascript" src="view/admin/assets/js/app.js"></script>
-    <script type="text/javascript" src="view/admin/assets/js/load.js"></script>
-    <script type="text/javascript" src="view/admin/assets/js/main.js"></script>
-
-    <script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
-    <script type="text/javascript" src="view/admin/assets/js/map/gmap3.js"></script>
+  
     <script type="text/javascript">
     $(function() {
 
-        $("#test1").gmap3({
-            marker: {
-                latLng: [-7.782893, 110.402645],
-                options: {
-                    draggable: true
-                },
-                events: {
-                    dragend: function(marker) {
-                        $(this).gmap3({
-                            getaddress: {
-                                latLng: marker.getPosition(),
-                                callback: function(results) {
-                                    var map = $(this).gmap3("get"),
-                                        infowindow = $(this).gmap3({
-                                            get: "infowindow"
-                                        }),
-                                        content = results && results[1] ? results && results[1].formatted_address : "no address";
-                                    if (infowindow) {
-                                        infowindow.open(map, marker);
-                                        infowindow.setContent(content);
-                                    } else {
-                                        $(this).gmap3({
-                                            infowindow: {
-                                                anchor: marker,
-                                                options: {
-                                                    content: content
-                                                }
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            },
-            map: {
-                options: {
-                    zoom: 15
-                }
-            }
-        });
-
         $('#login').submit(function(){
+            var userName = $('#inputUsernameEmail').val();
+            var userPWD = $('#inputPassword').val();
+            $('.login-error').hide();
+            if(!userName || userPWD.length<5){
+                $('.error-txt').html('用户名为空或密码小于六位!');
+                $('.login-error').show();
+                return false;
+            }
             
             $.ajax({
                 url: '/check',
                 type: 'get',
-                data: {param1: 'value1'},
+                data: 'userName='+ userName + '&userPWD=' + userPWD,
             })
             .done(function(data) {
                 console.log(data)
-            })
-            .fail(function() {
-                console.log("error");
+                if(data.status==0){
+                    $('#login-success').modal({
+                        keyboard : true
+                    });
+                    setTimeout(function(){
+                        location.href = '/adminIndex'
+
+                    }, 2000)
+                }else{
+                    $('.error-txt').html(data.data);
+                    $('.login-error').show();
+                }
             })
 
             return false;

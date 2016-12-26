@@ -25,4 +25,120 @@ var query = function(sql,callback){
     })
 }
 
-module.exports = query;
+
+/*
+mysql 增
+ */
+var sqlInsert = function(req,res,sql,sucString,errString){
+    query(sql,function(err,rows,fields){
+        if(err){
+            console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+            res.json({
+                status : 1,
+                data : errString
+            });
+            return ;
+        }else{
+            res.json({
+                status : 0,
+                data : sucString
+            })
+        }
+
+    })
+}
+
+/*
+mysql 删
+ */
+var sqlDelete = function(req,res,sql){
+    query(sql,function(err,rows,fields){
+        if(err){
+            console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+            res.json({
+                status : 1,
+                data : '操作失败'
+            });
+            return ;
+        }else{
+            if(rows.length>0){
+                res.json({
+                    status : 0,
+                    data : '登录成功'
+                })
+            }else{
+                res.json({
+                    status : 1,
+                    data : ' 管理员账户或密码错误！'
+                })
+            }
+        }
+
+    })
+}
+
+/*
+mysql 改
+ */
+var sqlUpdate = function(req,res,sql){
+    query(sql,function(err,rows,fields){
+        if(err){
+            console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+            res.json({
+                status : 1,
+                data : '操作失败'
+            });
+            return ;
+        }else{
+            if(rows.length>0){
+                res.json({
+                    status : 0,
+                    data : '登录成功'
+                })
+            }else{
+                res.json({
+                    status : 1,
+                    data : ' 管理员账户或密码错误！'
+                })
+            }
+        }
+
+    })
+}
+
+/*
+mysql 查
+ */
+var sqlSelect = function(req,res,sql){
+    query(sql,function(err,rows,fields){
+        if(err){
+            console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+            res.json({
+                status : 1,
+                data : '操作失败'
+            });
+            return ;
+        }else{
+            if(rows.length>0){
+                res.json({
+                    status : 0,
+                    data : '登录成功'
+                })
+            }else{
+                res.json({
+                    status : 1,
+                    data : ' 管理员账户或密码错误！'
+                })
+            }
+        }
+
+    })
+}
+
+module.exports = {
+    'query' : query,
+    'sqlInsert' : sqlInsert,
+    'sqlDelete' : sqlDelete,
+    'sqlUpdate' : sqlUpdate,
+    'sqlSelect' : sqlSelect
+};

@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0028)http://192.168.1.73/home.php -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+
+<title>Linux系统管理工具</title>
+<link href="./Linux系统管理工具_files/base.css" rel="stylesheet" type="text/css">
+<link href="./Linux系统管理工具_files/jquery.treeview.css" rel="stylesheet">
+<link href="./Linux系统管理工具_files/screen.css" rel="stylesheet">
+<script language="javascript" src="./Linux系统管理工具_files/jslib.js.下载"></script>
+<script language="javascript" src="./Linux系统管理工具_files/tab.js.下载"></script>
+  	<script language="javascript" src="./Linux系统管理工具_files/jquery.js.下载"></script>
+	<script src="./Linux系统管理工具_files/jquery.js.下载" type="text/javascript"></script>
+	<script src="./Linux系统管理工具_files/jquery.cookie.js.下载" type="text/javascript"></script>
+	<script src="./Linux系统管理工具_files/jquery.treeview.js.下载" type="text/javascript"></script>
+  	<script type="text/javascript" src="./Linux系统管理工具_files/jslib.js.下载" language="javaScript"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#tree").treeview({
+				collapsed: true,
+				animated: "medium",
+				control:"#sidetreecontrol",
+				prerendered: true,
+				persist: "location"
+			});
+		})
+		
+		
+		function daynicHeightSize(frameID) {
+		
+			var browser=navigator.appName
+			var pTar = null;
+			if (document.getElementById){
+				pTar = document.getElementById(frameID);
+			}else{
+				eval('pTar = ' + down + ';');
+			}
+			if (pTar && !window.opera){
+
+				pTar.style.display="block"
+				if(browser=="Netscape"||browser=="Microsoft Internet Explorer")
+				{
+					//ie5+ syntax
+					 if (pTar.Document && pTar.Document.body.scrollHeight)
+					 {
+						pTar.height = pTar.Document.body.scrollHeight;
+						pTar.width = pTar.Document.body.scrollWidth;
+					 }				
+				}else if (pTar.contentDocument && pTar.contentDocument.body.offsetHeight){
+//ns6 syntax
+					pTar.height = pTar.contentDocument.body.offsetHeight +20;
+					pTar.width = pTar.contentDocument.body.scrollWidth+20;
+				}
+				
+				if(pTar.height < 680)
+					pTar.height = 680;
+			}
+		}
+</script> 
+		
+		
+	
+    <link href="./Linux系统管理工具_files/tabs.css" rel="stylesheet" type="text/css">
+</head>
+<body><div style="position: absolute; z-index: 19700; top: -1970px; left: -1970px; display: none;"><iframe style="width: 186px; height: 198px;" src="./Linux系统管理工具_files/My97DatePicker.html" frameborder="0" border="0" scrolling="no"></iframe></div>
+<div id="container">
+<div class="header">
+	<table width="1024px" height="75px">
+		<tbody><tr>
+			<td style="width:260px; height:75px; "></td>
+			<td style="width:400px; height:75px; color:#FFFFFF; padding-left:10px; " align="left" valign="bottom"><a href="http://192.168.1.73/messagemanager.php?read=1" target="page"><font color="#FFFFFF">最新:&nbsp;&nbsp;<span id="newmessage">''</span></font></a></td>
+			<td style="height:70px; color:#FFFFFF; padding-right:10px; " align="right" valign="bottom"><a href="http://192.168.1.73/messagemanager.php?read=0" target="page"><font color="#FFFFFF">未读消息&nbsp;&nbsp;<span id="messagecount">0</span>&nbsp;&nbsp;条</font></a></td>
+			<td style="width:140px; height:75px; "></td>
+		</tr>
+	</tbody></table>
+</div>
+<div class="main">
+<div class="subleft">
+<div class="menu"><ul class="treeview" id="tree">
+
+	<li><a target="page" href="http://192.168.1.73/start.php"><strong>钱龙Linux控制台</strong></a>
+	</li>
+	<li><a target="page" href="http://192.168.1.73/synchronization.php"><strong>用户数据同步</strong></a>
+	</li>
+	<li class="collapsable"><div class="hitarea collapsable-hitarea"></div><span class=""><strong>系统状态</strong></span>
+	<ul style="display: block;">
+		<!-- <li><a target="page" href="l2dcdinfo.php">转码状态</a></li>
+		<li><a target="page" href="cnfoldcdinfo.php">期货转码机状态</a></li> -->
+		
+		<li><a target="page" href="http://192.168.1.73/optioninfo.php" class="">4X服务状态</a></li>
+		<li class="last"><a target="page" href="http://192.168.1.73/srvplatinfo.php" class="">系统状态</a>
+		</li>
+		</ul>
+		</li>
+		
+		<li class="expandable"><div class="hitarea expandable-hitarea"></div><span class=""><strong>程序设置</strong></span>
+		<ul style="display: none;">
+			<!-- <li><a target="page" href="pathsetting.php">12dcd设置</a></li>
+			<li><a target="page" href="qihuosetting.php">期货转码机设置</a></li> -->
+			<li><a target="page" href="http://192.168.1.73/srvplat.php">服务平台设置</a></li>
+
+			<li style="display: block;" id="4x1"><a target="page" href="http://192.168.1.73/4xconfig.php">4X转码服务器</a></li>
+			<li style="display:none;" id="4x2"><a target="page" href="http://192.168.1.73/4xconfigcache.php">4X数据服务器</a></li>
+
+			<li><a target="page" href="http://192.168.1.73/zixun.php">资讯设置</a></li>
+			<li><a target="page" href="http://192.168.1.73/server.php">客户端设置</a></li>
+<li class="last"><a target="page" href="http://192.168.1.73/scclient.php">行情传输设置</a></li>	   	  
+		
+		</ul>
+		</li>
+		<li class="expandable"><div class="hitarea expandable-hitarea"></div><span><strong>工作站管理</strong></span>
+		<ul style="display: none;">
+			<li><a target="page" href="http://192.168.1.73/dhcp.php">DHCP配置</a></li>
+            
+			<li><a target="page" href="http://192.168.1.73/usermanager.php">用户管理</a></li>
+            
+			<li><a target="page" href="http://192.168.1.73/nodiskmanager.php">无盘站管理</a></li>
+			<li class="last"><a target="page" href="http://192.168.1.73/tradenet.php">委托配置</a></li>
+		</ul>
+		</li>
+		<li><a target="page" href="http://192.168.1.73/dellog.php"><strong>信息清理</strong></a></li>
+        <!--
+		<li><a target="page" href="messagemanager.php?read=1"><strong>监控消息管理</strong></a></li>
+        -->
+		<li><a target="page" href="http://192.168.1.73/changepass.php"><strong>修改密码</strong></a></li>
+		<li class="last"><a href="javascript:LogOut();"><strong>退出</strong></a></li>
+		
+
+	</ul></div>
+</div>
+<div class="subright">
+
+	<iframe name="page" id="page" frameborder="0" border="0" scrolling="no" style="width: 100%; border: none; display: block;" src="./Linux系统管理工具_files/start.html" align="left" onload="javascript:daynicHeightSize(&#39;page&#39;);" height="680"></iframe>
+
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+var tLontips=0;
+var tMsgCount=0;
+function getMessage()
+{
+	var xmlhttp ;
+	try
+	{
+		xmlhttp = new XMLHttpRequest() ;
+	}
+	catch(e)
+	{
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP") ;
+	}
+	xmlhttp.onreadystatechange=function(){
+		if( 4==xmlhttp.readyState){
+			if( 200 == xmlhttp.status)
+			{
+				var strRl = (xmlhttp.responseText);
+				var array=strRl.split("||");				
+				//var lastmessageLine=array[0];
+				//var lastmessageAarray = lastmessageLine.split("|");
+				
+				document.getElementById("newmessage").innerHTML= array[0];
+				document.getElementById("messagecount").innerHTML= array[1];
+			}//if
+		}//function
+	}//xmlhttp.onreadystatechange
+	xmlhttp.open("get" , "messagecount.php?ajaxtick=" + Math.random(), true ) ;
+	xmlhttp.send() ;
+	
+	setTimeout("getMessage()", 5000);
+}
+
+
+function getlontips()
+{
+if (tLontips==0)
+$.get('inc/getlontips.php?ajax='+escape(Math.random()), function(data)
+			{ 
+				if (data=="0"){	 tLontips=1;}
+				else  {
+				 alert(data);
+				  tLontips=1;
+				 }
+			}
+			);
+
+	setTimeout("getlontips()", 5000);
+}
+
+function getmsgCount()
+{
+if (tMsgCount==0)
+$.get('inc/getmsgCount.php?ajax='+escape(Math.random()), function(data)
+			{ 
+				var filecount=parseInt(data);
+				if(filecount>9999)
+				{
+				 alert('文件己超过'+data+'个请手动清除\n\r/opt/qianlong/sysdata/remote/msg/');
+				
+				 tMsgCount=1;
+				}
+				else
+				{
+				tMsgCount=1
+				}
+			}
+			);
+
+	setTimeout("getmsgCount()", 5000);
+}
+
+getMessage();
+getmsgCount();
+getlontips();
+</script>
+</body></html>
