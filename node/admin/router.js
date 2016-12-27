@@ -2,29 +2,38 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2016-12-26 18:03:14
+* @Last Modified time: 2016-12-27 18:12:48
 */
 
 var query = require('./mysql');
 
 exports.router = {
     login : function(req,res){
-        res.render('admin/login');
+
+        if(!global.user){
+            res.render('admin/login');
+        }else{
+            res.redirect('/adminIndex');
+        }
+        
     },
     check : function(req,res){
         var userName = req.query.userName;
         var userPWD = req.query.userPWD;
         var sql = 'select * from administrators where name="' + userName + '" and password="' + userPWD + '"';
     
-        query.sqlSelect(req,res,sql);
+        query.sqlSelectAjax(req,res,sql);
     },
 
     index : function(req,res){
-        res.render('admin/index');
+        res.render('admin/index',{
+            user : global.user
+        });
     },
 
     cfg : function(req,res){
-        res.render('admin/cfg');
+        var sql = 'select * from web_cfg';
+        query.sqlSelectRender(req,res,sql,'admin/cfg');
     },
 
     savecfg : function(req,res){
@@ -40,20 +49,43 @@ exports.router = {
         var webdsc = req.body.webdsc;
         var beian = req.body.beian;
         var date = req.body.date;
-        var sql = 'insert into web_cfg values('
-            + '"' + basehost + '",' 
-            + '"' + mainhost + '",'
-            + '"' + hostname + '",'
-            + '"' + webname + '",'
-            + '"' + imgurl + '",'
-            + '"' + docurl + '",'
-            + '"' + docstyle + '",'
-            + '"' + copyright + '",'
-            + '"' + keywords + '",'
-            + '"' + webdsc + '",'
-            + '"' + beian + '",'
-            + '"' + date + '"'
-            + ')';
-        query.sqlInsert(req,res,sql,'保存成功','保存失败');
+        var sql = 'update web_cfg set '
+            + 'basehost="' + basehost + '",' 
+            + 'mainhost="' + mainhost + '",'
+            + 'hostname="' + hostname + '",'
+            + 'webname="' + webname + '",'
+            + 'imgurl="' + imgurl + '",'
+            + 'docurl="' + docurl + '",'
+            + 'docstyle="' + docstyle + '",'
+            + 'copyright="' + copyright + '",'
+            + 'keywords="' + keywords + '",'
+            + 'webdsc="' + webdsc + '",'
+            + 'beian="' + beian + '",'
+            + 'date="' + date + '"'
+        query.sqlUpdate(req,res,sql,'保存成功','保存失败');
+    },
+
+    userlist : function(req,res){
+        var sql = 'select * from web_cfg';
+        query.sqlSelectRender(req,res,sql,'admin/cfg');
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    loginout : function(req,res){
+        global.user = '';
+        res.redirect('/admin');
     }
 }

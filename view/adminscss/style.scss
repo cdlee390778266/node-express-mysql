@@ -1,0 +1,40 @@
+form {
+    .error{
+        background: #ffe6e4;
+        padding: 2px 0px;
+        color: #ff2121;
+        min-width: 150px;
+        border: 1px solid #ffc7c7;
+        border-radius: 4px;
+        -webkit-animation: fadeIn;
+        -o-animation: fadeIn;
+        animation: fadeIn 1s;
+        font-weight: normal;
+        position:relative;
+        top:5px;
+        padding: 0 5px;
+        &:after{
+            content: '';
+            display: block;
+            width: 10px;
+            height: 7px;
+            position: absolute;
+            top: -6px;
+            left: 15px;
+            background: url(/view/admin/image/up.png) no-repeat;
+
+        }
+    }
+}
+
+@keyframes fadeIn
+{
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+@-webkit-keyframes fadeIn /* Safari and Chrome */
+{
+    from {opacity: 0}
+    to {opacity: 1}
+}

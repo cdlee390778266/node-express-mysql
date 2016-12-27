@@ -55,10 +55,6 @@
     <div class="wrap-fluid">
         <div class="container-fluid paper-wrap bevel tlbr">
 
-
-
-
-
             <!-- CONTENT -->
             <!--TITLE -->
             <% include common/nav %>
@@ -93,84 +89,91 @@
 
                                 <div class="form_center">
                                     <form role="form" class="form-horizontal" id="savecfg">
+
+                                        <% 
+                                        for(var i=0;i<data.length;i++){
+                                        %>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">站点根网址：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="basehost">站点根网址：</label>
                                             <div class="col-lg-10">
-                                                <input id="basehost" name="basehost" class="form-control" type="text" value="http://localhost">
+                                                <input id="basehost" name="basehost" class="form-control" type="text" value="<%= data[i].basehost %>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">网页主页链接：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="mainhost">网页主页链接：</label>
                                             <div class="col-lg-10">
-                                                <input  id="mainhost" name="mainhost" class="form-control" type="text" value="/uploads">
+                                                <input  id="mainhost" name="mainhost" class="form-control" type="text" value="<%= data[i].mainhost %>">
                                                 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">主页链接名：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="hostname">主页链接名：</label>
                                             <div class="col-lg-10">
-                                                <input  id="hostname" name="hostname" class="form-control" type="text" value="主页">
+                                                <input  id="hostname" name="hostname" class="form-control" type="text" value="<%= data[i].hostname %>">
                                                 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">网站名称：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="webname">网站名称：</label>
                                             <div class="col-lg-10">
-                                                <input  id="webname" name="webname" class="form-control" type="text" value="我的网站">
+                                                <input  id="webname" name="webname" class="form-control" type="text" value="<%= data[i].webname %>">
                                                 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">图片/上传文件默认路径：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="imgurl">图片/上传文件默认路径：</label>
                                             <div class="col-lg-10">
-                                                <input  id="imgurl" name="imgurl" class="form-control" type="text" value="/uploads">
+                                                <input  id="imgurl" name="imgurl" class="form-control" type="text" value="<%= data[i].imgurl %>">
                                                 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">文档HTML默认保存路径：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="htmlurl">文档HTML默认保存路径：</label>
                                             <div class="col-lg-10">
-                                                <input id="htmlurl" name="htmlurl" class="form-control" type="text" value="/a">
+                                                <input id="htmlurl" name="htmlurl" class="form-control" type="text" value="<%= data[i].htmlurl %>">
                                                 
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">编辑器(是/否)使用XHTML：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="docurl">编辑器(是/否)使用XHTML：</label>
                                             <div class="col-lg-10">
-                                                <input type="radio" name="docurl" />是
-                                                <input type="radio" name="docurl" />否
+                                                <input type="radio" name="docurl" value="1" <% if(data[i].docurl){%> checked="checked" <% } %>  />是
+                                                <input type="radio" name="docurl" value="0" <% if(!data[i].docurl){ %> checked="checked" <% } %> />否
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">模板默认风格： </label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="docstyle">模板默认风格： </label>
                                             <div class="col-lg-10">
-                                                <input  id="docstyle" name="docstyle" class="form-control" type="text" value="default">
+                                                <input  id="docstyle" name="docstyle" class="form-control" type="text" value="<%= data[i].docstyle %>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">网站版权信息：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="copyright">网站版权信息：</label>
                                             <div class="col-lg-10">
-                                                <textarea  id="copyright" name="copyright" class="form-control"  value="" cols="30" rows="10"></textarea>
+                                                <textarea  id="copyright" name="copyright" class="form-control"   cols="30" rows="10"><%= data[i].copyright %></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">站点默认关键字：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="keywords">站点默认关键字：</label>
                                             <div class="col-lg-10">
-                                                <input  id="keywords" name="keywords" class="form-control" type="text" value="">
+                                                <input  id="keywords" name="keywords" class="form-control" type="text" value="<%= data[i].keywords %>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">站点描述：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="webdsc">站点描述：</label>
                                             <div class="col-lg-10">
-                                                <input  id="webdsc" name="webdsc" class="form-control" type="text" value="">
+                                                <input  id="webdsc" name="webdsc" class="form-control" type="text" value="<%= data[i].webdsc %>">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label class="col-lg-2 col-sm-2 control-label" for="inputEmail1">网站备案号：</label>
+                                            <label class="col-lg-2 col-sm-2 control-label" for="beian">网站备案号：</label>
                                             <div class="col-lg-10">
-                                                <input  id="beian" name="beian" class="form-control" type="text" value="">
+                                                <input  id="beian" name="beian" class="form-control" type="text" value="<%= data[i].beian %>">
                                             </div>
                                         </div>
+                                        <%    
+                                        }
+                                        %>
 
                                         <div class="form-group">
                                             <div class="col-lg-offset-2 col-lg-10">
@@ -212,7 +215,6 @@
     <!-- END OF RIGHT SLIDER CONTENT-->
 
 
-    <script type="text/javascript" src="view/admin/assets/js/jquery.js"></script>
     <script src="view/admin/assets/js/progress-bar/src/jquery.velocity.min.js"></script>
     <script src="view/admin/assets/js/progress-bar/number-pb.js"></script>
     <script src="view/admin/assets/js/progress-bar/progress-app.js"></script>
@@ -311,48 +313,74 @@
 
     $(function(){
 
-        $('#savecfg').submit(function(){
-            var basehost = $('#basehost').val();
-            var mainhost = $('#mainhost').val();
-            var hostname = $('#hostname').val();
-            var webname = $('#webname').val();
-            var imgurl = $('#imgurl').val();
-            var docurl = $('#docurl').val();
-            var docstyle = $('#docstyle').val();
-            var copyright = $('#copyright').val();
-            var keywords = $('#keywords').val();
-            var webdsc = $('#webdsc').val();
-            var beian = $('#beian').val();
-            var date = new Date().Format("yyyy-MM-dd HH:mm:ss");  
-
-            $.ajax({
-                url: '/adminSaveCfg',
-                type: 'post',
-                data: {
-                    'basehost' : basehost,
-                    'mainhost' : mainhost,
-                    'hostname' : hostname,
-                    'webname' : webname,
-                    'imgurl' : imgurl,
-                    'docurl' : docurl,
-                    'docstyle' : docstyle,
-                    'copyright' : copyright,
-                    'keywords' : keywords,
-                    'webdsc' : webdsc,
-                    'beian' : beian,
-                    'date' : date
+        $('#savecfg').validate({
+            rules : {
+                basehost : { 
+                    required : true, 
+                    url : true
                 },
-            })
-            .done(function(data) {
-                $('#savecfg-mes .modal-body').html(data.data);
-                    $('#savecfg-mes').modal({
-                        keyboard : true
-                    });
-                })
-            
-            return false;
-        })
+            },
+            messages : {
+                basehost : {
+                    required : '站点根网址不得为空！'
+                },
+            },
+            //使用方法加载 class 并添加文本
+            success : function (label) {
+                
+            },
+            //高亮显示有错误的元素，变色式
+            highlight: function(element, errorClass) {
+                 
+            },
+            //成功的元素移出错误高亮
+            unhighlight : function (element, errorClass) {
+               $(element).parent().find('.error').remove(); 
+            },
+            submitHandler : function (form) {
+                var basehost = $('#basehost').val();
+                var mainhost = $('#mainhost').val();
+                var hostname = $('#hostname').val();
+                var webname = $('#webname').val();
+                var imgurl = $('#imgurl').val();
+                var docurl = $('input[name="docurl"]:checked').val();
+                var docstyle = $('#docstyle').val();
+                var copyright = $('#copyright').val();
+                var keywords = $('#keywords').val();
+                var webdsc = $('#webdsc').val();
+                var beian = $('#beian').val();
+                var date = new Date().Format("yyyy-MM-dd HH:mm:ss");  
 
+                $.ajax({
+                    url: '/adminSaveCfg',
+                    type: 'post',
+                    data: {
+                        'basehost' : basehost,
+                        'mainhost' : mainhost,
+                        'hostname' : hostname,
+                        'webname' : webname,
+                        'imgurl' : imgurl,
+                        'docurl' : docurl,
+                        'docstyle' : docstyle,
+                        'copyright' : copyright,
+                        'keywords' : keywords,
+                        'webdsc' : webdsc,
+                        'beian' : beian,
+                        'date' : date
+                    },
+                })
+                .done(function(data) {
+                    $('#savecfg-mes .modal-body').html(data.data);
+                        $('#savecfg-mes').modal({
+                            keyboard : true
+                        });
+                        setTimeout(function(){
+                        $('#savecfg-mes').modal('hide')
+                        },1000);
+                    })
+
+            }
+        });
     })
     </script>
 

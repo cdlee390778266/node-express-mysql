@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 12 月 26 日 18:38
+-- 生成日期: 2016 年 12 月 27 日 18:22
 -- 服务器版本: 5.5.40
 -- PHP 版本: 5.3.29
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `administrators` (
   `level` int(11) NOT NULL,
   `name` text NOT NULL COMMENT '管理员名字',
   `password` text NOT NULL COMMENT '管理员密码',
+  `faceurl` text NOT NULL,
   PRIMARY KEY (`level`),
   UNIQUE KEY `id` (`id`),
   KEY `id_2` (`id`)
@@ -40,9 +41,29 @@ CREATE TABLE IF NOT EXISTS `administrators` (
 -- 转存表中的数据 `administrators`
 --
 
-INSERT INTO `administrators` (`id`, `level`, `name`, `password`) VALUES
-(1, 1, 'admin', 'admin'),
-(2, 2, 'root', 'root\r\n');
+INSERT INTO `administrators` (`id`, `level`, `name`, `password`, `faceurl`) VALUES
+(1, 1, 'admin', 'admin', '/view/admin/image/userface.jpg'),
+(2, 2, 'root', 'root\r\n', '');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `userlevel`
+--
+
+CREATE TABLE IF NOT EXISTS `userlevel` (
+  `level` int(1) NOT NULL,
+  `levelname` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=gbk;
+
+--
+-- 转存表中的数据 `userlevel`
+--
+
+INSERT INTO `userlevel` (`level`, `levelname`) VALUES
+(1, '超级管理员'),
+(2, '频道管理员'),
+(3, '信息发布员');
 
 -- --------------------------------------------------------
 
@@ -56,13 +77,13 @@ CREATE TABLE IF NOT EXISTS `web_cfg` (
   `hostname` text NOT NULL,
   `webname` text NOT NULL,
   `imgurl` text NOT NULL,
-  `docurl` text NOT NULL,
+  `docurl` int(2) NOT NULL,
   `docstyle` text NOT NULL,
   `copyright` text NOT NULL,
   `keywords` text NOT NULL,
   `webdsc` text NOT NULL,
   `beian` text NOT NULL,
-  `date` date NOT NULL
+  `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 --
@@ -70,14 +91,7 @@ CREATE TABLE IF NOT EXISTS `web_cfg` (
 --
 
 INSERT INTO `web_cfg` (`basehost`, `mainhost`, `hostname`, `webname`, `imgurl`, `docurl`, `docstyle`, `copyright`, `keywords`, `webdsc`, `beian`, `date`) VALUES
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26'),
-('http://localhost', '/uploads', '主页', '我的网站', '/uploads', 'undefined', 'default', '', '', '', '', '2016-12-26');
+('http://localhos.com', '/uploads', '主页', '这是一个模板网站', '/uploads', 1, 'default', 'LEE', '狂拽炫', '非主流', '250', '2016-12-27 15:07:46');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

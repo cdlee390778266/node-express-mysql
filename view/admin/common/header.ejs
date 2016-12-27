@@ -1,4 +1,7 @@
+<link rel="stylesheet" href="view//css/adminStyle.css">
 <script src="view/admin/js/base.js"></script>
+<script type="text/javascript" src="view/admin/assets/js/jquery.js"></script>
+<script src="view/admin/js/jquery.validate.js"></script>
 <nav role="navigation" class="navbar navbar-static-top">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -100,31 +103,26 @@
                 <ul style="margin-right:0;" class="nav navbar-nav navbar-right">
                     <li>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" class="admin-pic img-circle" src="http://api.randomuser.me/portraits/thumb/men/10.jpg">Hi, Dave Mattew <b class="caret"></b>
+                            <img alt="" class="admin-pic img-circle" src="<%= user.faceurl %>">Hi, <%= user.username %> <b class="caret"></b>
                         </a>
                         <ul style="margin-top:14px;" role="menu" class="dropdown-setting dropdown-menu">
                             <li>
                                 <a href="#">
-                                    <span class="entypo-user"></span>&#160;&#160;My Profile</a>
+                                    <span class="entypo-user"></span>&#160;&#160;个人资料</a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="entypo-vcard"></span>&#160;&#160;Account Setting</a>
+                                    <span class="entypo-vcard"></span>&#160;&#160;账户设置</a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="entypo-lifebuoy"></span>&#160;&#160;Help</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="http://themeforest.net/item/apricot-navigation-admin-dashboard-template/7664475?WT.ac=category_item&WT.z_author=themesmile">
-                                    <span class="entypo-basket"></span>&#160;&#160; Purchase</a>
+                                    <span class="entypo-lifebuoy"></span>&#160;&#160;帮助</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="icon-gear"></span>&#160;&#160;Setting</a>
+                            <span class="icon-gear"></span>&#160;&#160;设置肤色</a>
                         <ul role="menu" class="dropdown-setting dropdown-menu">
 
                             <li class="theme-bg">
