@@ -1,10 +1,13 @@
 var express = require('express');
 var bodyParser = require("body-parser");  
 var session = require('express-session');
+var base = require('./node/common/base');
 var router = require('./node/tpl/router');
 var adminRouter = require('./node/admin/router');
 var app = express();
 
+app.locals.dateformat = base.dateFormat;
+    
 app.use(express.static(__dirname));
 app.set('views','./view');
 //app.engine("html",require("ejs").__express); // or   app.engine("html",require("ejs").renderFile);
@@ -40,7 +43,7 @@ app.get('/adminCheck',adminRouter.router.check);
 app.get('/adminIndex',adminRouter.router.index);
 app.get('/adminCfg',adminRouter.router.cfg);
 app.post('/adminSaveCfg',adminRouter.router.savecfg);
-app.post('/adminUserLIst',adminRouter.router.userlist);
+app.get('/adminUserList',adminRouter.router.userlist);
 
 
 

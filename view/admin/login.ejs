@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    
+    <script type="text/javascript" src="view/admin/js/base.js"></script>
     <!-- Le styles -->
     <script type="text/javascript" src="view/admin/assets/js/jquery.min.js"></script>
 
@@ -96,7 +97,7 @@
    
     
     <!-- 模态框（Modal） -->
-    <div class="modal fade " id="login-success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade  modal_align" id="login-success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 
@@ -123,6 +124,7 @@
         $('#login').submit(function(){
             var userName = $('#inputUsernameEmail').val();
             var userPWD = $('#inputPassword').val();
+            var loginTime = new Date().getTime();
             $('.login-error').hide();
             if(!userName || userPWD.length<5){
                 $('.error-txt').html('用户名为空或密码小于六位!');
@@ -133,7 +135,7 @@
             $.ajax({
                 url: '/adminCheck',
                 type: 'get',
-                data: 'userName='+ userName + '&userPWD=' + userPWD,
+                data: 'userName='+ userName + '&userPWD=' + userPWD + '&loginTime=' + loginTime,
             })
             .done(function(data) {
                 console.log(data)

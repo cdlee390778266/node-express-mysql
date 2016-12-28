@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2016-12-27 18:12:48
+* @Last Modified time: 2016-12-28 16:26:08
 */
 
 var query = require('./mysql');
@@ -20,9 +20,10 @@ exports.router = {
     check : function(req,res){
         var userName = req.query.userName;
         var userPWD = req.query.userPWD;
-        var sql = 'select * from administrators where name="' + userName + '" and password="' + userPWD + '"';
-    
-        query.sqlSelectAjax(req,res,sql);
+        var loginTime = req.query.loginTime;
+        var sql = 'select * from administrators where loginname="' + userName + '" and password="' + userPWD + '"';
+        var updateSql = 'update administrators set logintime="' + loginTime + '"  where name="' + userName + '"';
+        query.sqlSelectLogin(req,res,sql,updateSql);
     },
 
     index : function(req,res){
@@ -66,8 +67,8 @@ exports.router = {
     },
 
     userlist : function(req,res){
-        var sql = 'select * from web_cfg';
-        query.sqlSelectRender(req,res,sql,'admin/cfg');
+        var sql = 'select * from administrators  where level>' + global.user.level;
+        query.sqlSelectRender(req,res,sql,'admin/userlist');
     },
 
 

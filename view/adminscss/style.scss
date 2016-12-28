@@ -38,3 +38,33 @@ form {
     from {opacity: 0}
     to {opacity: 1}
 }
+
+.titleToggle {
+    .btn{
+        position:relative;
+        top : -5px;
+    }
+}
+
+.modal_align{
+    display: table;
+    width:100%;
+    height: 100%;
+    margin: 0px auto;
+}
+
+// .modal-sm{
+//     .modal-content{
+//         width:300px;
+//         margin-left: auto;
+//         margin-right: auto;
+//     }
+// }
+
+// .modal-dialog{
+//     .modal-content{
+//         width:666px;
+//         margin-left: auto;
+//         margin-right: auto;
+//     }
+// }

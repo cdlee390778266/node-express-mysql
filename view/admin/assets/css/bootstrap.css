@@ -5124,6 +5124,8 @@ button.close {
   position: relative;
   width: auto;
   margin: 10px;
+  /*display: table-cell ;
+  vertical-align: middle;*/
 }
 .modal-content {
   z-index: 2147483647;

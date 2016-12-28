@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var config = require('../config');
+var config = require('../common/config');
 
 var pool = mysql.createPool({
     host : 'localhost',
@@ -19,6 +19,7 @@ var query = function(sql,callback){
                //释放连接
                 conn.release();
                 //事件驱动回调
+                if(typeof callback == 'function')
                 callback(err,rows,fields);
             })
         }
@@ -103,7 +104,7 @@ var sqlUpdate = function(req,res,sql,sucString,errString){
 /*
 mysql 查
  */
-var sqlSelectAjax = function(req,res,sql){
+var sqlSelectLogin = function(req,res,sql,updateSql){
     query(sql,function(err,rows,fields){
         if(err){
             console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
@@ -114,6 +115,7 @@ var sqlSelectAjax = function(req,res,sql){
             return ;
         }else{
             if(rows.length>0){
+                query(updateSql);
                 res.json({
                     status : 0,
                     data : '登录成功'
@@ -143,11 +145,8 @@ var sqlSelectRender = function(req,res,sql,tplUrl){
             res.render(tplUrl);
             return ;
         }else{
-            if(rows.length>0){
                 res.render(tplUrl,{data : rows})
-            }else{
-                res.render(tplUrl)
-            }
+            
         }
 
     })
@@ -159,5 +158,5 @@ module.exports = {
     'sqlDelete' : sqlDelete,
     'sqlUpdate' : sqlUpdate,
     'sqlSelectRender' : sqlSelectRender,
-    'sqlSelectAjax' : sqlSelectAjax
+    'sqlSelectLogin' : sqlSelectLogin
 };
