@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 12 月 27 日 18:22
+-- 生成日期: 2016 年 12 月 28 日 17:35
 -- 服务器版本: 5.5.40
 -- PHP 版本: 5.3.29
 
@@ -27,23 +27,26 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `administrators` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '管理员id',
+  `loginname` varchar(100) NOT NULL COMMENT '管理员id',
   `level` int(11) NOT NULL,
-  `name` text NOT NULL COMMENT '管理员名字',
-  `password` text NOT NULL COMMENT '管理员密码',
-  `faceurl` text NOT NULL,
-  PRIMARY KEY (`level`),
-  UNIQUE KEY `id` (`id`),
-  KEY `id_2` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=gbk AUTO_INCREMENT=3 ;
+  `name` varchar(100) NOT NULL COMMENT '管理员名字',
+  `password` varchar(100) NOT NULL COMMENT '管理员密码',
+  `pseudonym` varchar(100) NOT NULL COMMENT '笔名',
+  `faceurl` varchar(100) NOT NULL,
+  `eamil` varchar(100) NOT NULL,
+  `logintime` bigint(255) NOT NULL,
+  PRIMARY KEY (`loginname`),
+  UNIQUE KEY `id` (`loginname`),
+  KEY `id_2` (`loginname`)
+) ENGINE=MyISAM  DEFAULT CHARSET=gbk;
 
 --
 -- 转存表中的数据 `administrators`
 --
 
-INSERT INTO `administrators` (`id`, `level`, `name`, `password`, `faceurl`) VALUES
-(1, 1, 'admin', 'admin', '/view/admin/image/userface.jpg'),
-(2, 2, 'root', 'root\r\n', '');
+INSERT INTO `administrators` (`loginname`, `level`, `name`, `password`, `pseudonym`, `faceurl`, `eamil`, `logintime`) VALUES
+('admin', 1, '张三', 'admin', '吹牛', '/view/admin/image/userface.jpg', '', 1482912791767),
+('rootaa', 2, '李四', 'rootaa', '发生大', '', '', 1482910130458);
 
 -- --------------------------------------------------------
 
@@ -91,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `web_cfg` (
 --
 
 INSERT INTO `web_cfg` (`basehost`, `mainhost`, `hostname`, `webname`, `imgurl`, `docurl`, `docstyle`, `copyright`, `keywords`, `webdsc`, `beian`, `date`) VALUES
-('http://localhos.com', '/uploads', '主页', '这是一个模板网站', '/uploads', 1, 'default', 'LEE', '狂拽炫', '非主流', '250', '2016-12-27 15:07:46');
+('http://localhos.com', '/uploads', '主页', '这是一个模板网站', '/uploads', 1, 'default', 'LEE', '狂拽炫', '非主流', '250', '2016-12-28 16:26:55');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
