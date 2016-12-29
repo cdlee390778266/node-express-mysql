@@ -44,6 +44,7 @@ app.get('/adminIndex',adminRouter.router.index);
 app.get('/adminCfg',adminRouter.router.cfg);
 app.post('/adminSaveCfg',adminRouter.router.savecfg);
 app.get('/adminUserList',adminRouter.router.userlist);
+app.post('/adminAddUser',adminRouter.router.adduser);
 
 
 

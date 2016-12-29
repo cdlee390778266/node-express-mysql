@@ -3,5 +3,6 @@ module.exports = {
     port : 888,
     sqluser : 'root',
     sqlpassword : 'root',
-    database : 'demo'
+    database : 'demo',
+    saveimgurl : '/upload'  //图片存放地址
 }

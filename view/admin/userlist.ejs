@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" type="text/css" href="view/admin/assets/js/progress-bar/number-pb.css">
     
+    <link rel="stylesheet" href="view/admin/js/bootstrap_file_input/fileinput.css">
 
     <style type="text/css">
     canvas#canvas4 {
@@ -357,7 +358,7 @@
 
     <!-- Modal -->
     <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog ">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -365,7 +366,7 @@
           </div>
           <div class="modal-body">
                 <div class="form_center">
-                <form role="form" class="form-horizontal" id="add-user" novalidate="novalidate">
+                <form role="form" class="form-horizontal" id="add-user" novalidate="novalidate" enctype="multipart/form-data" action ="/adminAddUser" method="post">
 
                     <div class="form-group">
                         <label class="col-lg-3 col-sm-3 control-label" for="basehost">用户登录ID：</label>
@@ -403,7 +404,14 @@
                             <input id="email" name="email" class="form-control" value="" type="password">
                         </div>
                     </div>
-                     
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" >用户头像：</label>
+                        <div class="col-lg-9">
+                            <input id="userface" class="" type="file" >
+                        </div>
+                        
+                    </div>
+                        <input type="submit" />
                 </form>
             </div>
           </div>
@@ -417,7 +425,6 @@
 
 
 
-    <script type="text/javascript" src="view/admin/assets/js/jquery.js"></script>
     <script src="view/admin/assets/js/progress-bar/src/jquery.velocity.min.js"></script>
     <script src="view/admin/assets/js/progress-bar/number-pb.js"></script>
     <script src="view/admin/assets/js/progress-bar/progress-app.js"></script>
@@ -446,6 +453,9 @@
 
 
     <script src="view/admin/assets/js/jhere-custom.js"></script>
+
+    <script src="view/admin/js/bootstrap_file_input/fileinput.js"></script>
+    <script src="view/admin/js/bootstrap_file_input/zh.js"></script>
 
     <script type="text/javascript">
     /* Javascript
@@ -520,74 +530,102 @@
             $('#add-user').submit();
         })
         
-         $('#add-user').validate({
-            rules : {
-                loginID : { 
-                    required : true, 
-                    url : true
-                },
-            },
-            messages : {
-                loginID : {
-                    required : '站点根网址不得为空！'
-                },
-            },
-            //使用方法加载 class 并添加文本
-            success : function (label) {
+        //  $('#add-user').validate({
+        //     rules : {
+        //         loginID : { 
+        //             required : true, 
+        //             rangelength : [5,20]
+        //         },
+        //         pseudonym : { 
+        //             required : true, 
+        //             rangelength : [2,10]
+        //         },
+        //         loginPWD : { 
+        //             required : true, 
+        //             rangelength : [5,20]
+        //         },
+        //         loginCPWD : { 
+        //             required : true, 
+        //             rangelength : [5,20],
+        //             equalTo : '#loginPWD'
+        //         },
+        //         email : { 
+        //             email : true
+        //         }
+        //     },
+        //     messages : {
+        //         loginID : {
+        //             required : '登录ID不得为空！',
+        //             rangelength :  $.validator.format('登录ID限制在{0}-{1}位！')
+        //         },
+        //         pseudonym : { 
+        //             required : '用户笔名不得为空！', 
+        //             rangelength : $.validator.format('用户笔名限制在{0}-{1}位！')
+        //         },
+        //         loginPWD : { 
+        //             required : '密码不得为空！', 
+        //             rangelength : $.validator.format('密码限制在{0}-{1}位！')
+        //         },
+        //         loginCPWD : { 
+        //             required : '确认密码不得为空！', 
+        //             rangelength : $.validator.format('登录ID限制在{0}-{1}位！'),
+        //             equalTo : '确认密码与用户密码不同!',
+        //         }
+        //     },
+        //     //使用方法加载 class 并添加文本
+        //     success : function (label) {
                 
-            },
-            //高亮显示有错误的元素，变色式
-            highlight: function(element, errorClass) {
+        //     },
+        //     //高亮显示有错误的元素，变色式
+        //     highlight: function(element, errorClass) {
                  
-            },
-            //成功的元素移出错误高亮
-            unhighlight : function (element, errorClass) {
-               $(element).parent().find('.error').remove(); 
-            },
-            submitHandler : function (form) {
-                // var basehost = $('#basehost').val();
-                // var mainhost = $('#mainhost').val();
-                // var hostname = $('#hostname').val();
-                // var webname = $('#webname').val();
-                // var imgurl = $('#imgurl').val();
-                // var docurl = $('input[name="docurl"]:checked').val();
-                // var docstyle = $('#docstyle').val();
-                // var copyright = $('#copyright').val();
-                // var keywords = $('#keywords').val();
-                // var webdsc = $('#webdsc').val();
-                // var beian = $('#beian').val();
-                // var date = new Date().Format("yyyy-MM-dd HH:mm:ss");  
+        //     },
+        //     //成功的元素移出错误高亮
+        //     unhighlight : function (element, errorClass) {
+        //        $(element).parent().find('.error').remove(); 
+        //     },
+        //     submitHandler : function (form) {
 
-                $.ajax({
-                    url: '/adminSaveCfg',
-                    type: 'post',
-                    data: {
-                        // 'basehost' : basehost,
-                        // 'mainhost' : mainhost,
-                        // 'hostname' : hostname,
-                        // 'webname' : webname,
-                        // 'imgurl' : imgurl,
-                        // 'docurl' : docurl,
-                        // 'docstyle' : docstyle,
-                        // 'copyright' : copyright,
-                        // 'keywords' : keywords,
-                        // 'webdsc' : webdsc,
-                        // 'beian' : beian,
-                        // 'date' : date
-                    },
-                })
-                .done(function(data) {
-                    // $('#savecfg-mes .modal-body').html(data.data);
-                    //     $('#savecfg-mes').modal({
-                    //         keyboard : true
-                    //     });
-                    //     setTimeout(function(){
-                    //     $('#savecfg-mes').modal('hide')
-                    //     },1000);
-                    })
+        //         var loginID = $('#loginID').val();
+        //         var pseudonym = $('#pseudonym').val();
+        //         var loginPWD = $('#loginPWD').val();
+        //         var name = $('#name').val();
+        //         var email = $('#email').val();
+        //         var userface = $("#userface").val();
+        //         var date = new Date().getTime(); 
+        //         console.log(userface)
+        //         $.ajax({
+        //             url: '/adminAddUser',
+        //             type: 'post',
+        //             data: {
+        //                 'loginID' : loginID,
+        //                 'pseudonym' : pseudonym,
+        //                 'loginPWD' : loginPWD,
+        //                 'name' : name,
+        //                 'email' : email,
+        //                 'userface' : userface,
+        //                 'date' : date
+        //             },
+        //         })
+        //         .done(function(data) {
+        //             // $('#savecfg-mes .modal-body').html(data.data);
+        //             //     $('#savecfg-mes').modal({
+        //             //         keyboard : true
+        //             //     });
+        //             //     setTimeout(function(){
+        //             //     $('#savecfg-mes').modal('hide')
+        //             //     },1000);
+        //             })
 
-            }
-        });
+        //     }
+        // });
+
+        // $("#userface").fileinput({
+        //     language: 'zh',
+        //     allowedFileExtensions : ['jpg', 'png','gif'],
+        //     showUpload: false, //是否显示上传按钮
+        //     showCaption: false,//是否显示标题
+        // });
 
     })
 
