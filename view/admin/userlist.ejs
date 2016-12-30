@@ -366,7 +366,7 @@
           </div>
           <div class="modal-body">
                 <div class="form_center">
-                <form role="form" class="form-horizontal" id="add-user" novalidate="novalidate" enctype="multipart/form-data" action ="/adminAddUser" method="post">
+                <form role="form" class="form-horizontal" id="add-user" novalidate="novalidate" enctype="multipart/form-data">
 
                     <div class="form-group">
                         <label class="col-lg-3 col-sm-3 control-label" for="basehost">用户登录ID：</label>
@@ -407,11 +407,11 @@
                     <div class="form-group">
                         <label class="col-lg-3 col-sm-3 control-label" >用户头像：</label>
                         <div class="col-lg-9">
-                            <input id="userface" class="" type="file" >
+                            <input id="userface" name="userface" class="" type="file" >
                         </div>
                         
                     </div>
-                        <input type="submit" />
+
                 </form>
             </div>
           </div>
@@ -530,102 +530,92 @@
             $('#add-user').submit();
         })
         
-        //  $('#add-user').validate({
-        //     rules : {
-        //         loginID : { 
-        //             required : true, 
-        //             rangelength : [5,20]
-        //         },
-        //         pseudonym : { 
-        //             required : true, 
-        //             rangelength : [2,10]
-        //         },
-        //         loginPWD : { 
-        //             required : true, 
-        //             rangelength : [5,20]
-        //         },
-        //         loginCPWD : { 
-        //             required : true, 
-        //             rangelength : [5,20],
-        //             equalTo : '#loginPWD'
-        //         },
-        //         email : { 
-        //             email : true
-        //         }
-        //     },
-        //     messages : {
-        //         loginID : {
-        //             required : '登录ID不得为空！',
-        //             rangelength :  $.validator.format('登录ID限制在{0}-{1}位！')
-        //         },
-        //         pseudonym : { 
-        //             required : '用户笔名不得为空！', 
-        //             rangelength : $.validator.format('用户笔名限制在{0}-{1}位！')
-        //         },
-        //         loginPWD : { 
-        //             required : '密码不得为空！', 
-        //             rangelength : $.validator.format('密码限制在{0}-{1}位！')
-        //         },
-        //         loginCPWD : { 
-        //             required : '确认密码不得为空！', 
-        //             rangelength : $.validator.format('登录ID限制在{0}-{1}位！'),
-        //             equalTo : '确认密码与用户密码不同!',
-        //         }
-        //     },
-        //     //使用方法加载 class 并添加文本
-        //     success : function (label) {
+         $('#add-user').validate({
+            rules : {
+                loginID : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                pseudonym : { 
+                    required : true, 
+                    rangelength : [2,10]
+                },
+                loginPWD : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                loginCPWD : { 
+                    required : true, 
+                    rangelength : [5,20],
+                    equalTo : '#loginPWD'
+                },
+                email : { 
+                    email : true
+                }
+            },
+            messages : {
+                loginID : {
+                    required : '登录ID不得为空！',
+                    rangelength :  $.validator.format('登录ID限制在{0}-{1}位！')
+                },
+                pseudonym : { 
+                    required : '用户笔名不得为空！', 
+                    rangelength : $.validator.format('用户笔名限制在{0}-{1}位！')
+                },
+                loginPWD : { 
+                    required : '密码不得为空！', 
+                    rangelength : $.validator.format('密码限制在{0}-{1}位！')
+                },
+                loginCPWD : { 
+                    required : '确认密码不得为空！', 
+                    rangelength : $.validator.format('登录ID限制在{0}-{1}位！'),
+                    equalTo : '确认密码与用户密码不同!',
+                }
+            },
+            //使用方法加载 class 并添加文本
+            success : function (label) {
                 
-        //     },
-        //     //高亮显示有错误的元素，变色式
-        //     highlight: function(element, errorClass) {
+            },
+            //高亮显示有错误的元素，变色式
+            highlight: function(element, errorClass) {
                  
-        //     },
-        //     //成功的元素移出错误高亮
-        //     unhighlight : function (element, errorClass) {
-        //        $(element).parent().find('.error').remove(); 
-        //     },
-        //     submitHandler : function (form) {
+            },
+            //成功的元素移出错误高亮
+            unhighlight : function (element, errorClass) {
+               $(element).parent().find('.error').remove(); 
+            },
+            submitHandler : function (form) {
 
-        //         var loginID = $('#loginID').val();
-        //         var pseudonym = $('#pseudonym').val();
-        //         var loginPWD = $('#loginPWD').val();
-        //         var name = $('#name').val();
-        //         var email = $('#email').val();
-        //         var userface = $("#userface").val();
-        //         var date = new Date().getTime(); 
-        //         console.log(userface)
-        //         $.ajax({
-        //             url: '/adminAddUser',
-        //             type: 'post',
-        //             data: {
-        //                 'loginID' : loginID,
-        //                 'pseudonym' : pseudonym,
-        //                 'loginPWD' : loginPWD,
-        //                 'name' : name,
-        //                 'email' : email,
-        //                 'userface' : userface,
-        //                 'date' : date
-        //             },
-        //         })
-        //         .done(function(data) {
-        //             // $('#savecfg-mes .modal-body').html(data.data);
-        //             //     $('#savecfg-mes').modal({
-        //             //         keyboard : true
-        //             //     });
-        //             //     setTimeout(function(){
-        //             //     $('#savecfg-mes').modal('hide')
-        //             //     },1000);
-        //             })
+                var data = new FormData($('#add-user')[0]);
+                data.append('date',new Date().getTime());
+                
+                $.ajax({
+                    url: '/adminAddUser',
+                    type: 'post',
+                    data: data,
+                    cache: false,
+                    contentType: false,    //不可缺
+                    processData: false,    //不可缺
+                })
+                .done(function(data) {
+                    // $('#savecfg-mes .modal-body').html(data.data);
+                    //     $('#savecfg-mes').modal({
+                    //         keyboard : true
+                    //     });
+                    //     setTimeout(function(){
+                    //     $('#savecfg-mes').modal('hide')
+                    //     },1000);
+                    })
 
-        //     }
-        // });
+            }
+        });
 
-        // $("#userface").fileinput({
-        //     language: 'zh',
-        //     allowedFileExtensions : ['jpg', 'png','gif'],
-        //     showUpload: false, //是否显示上传按钮
-        //     showCaption: false,//是否显示标题
-        // });
+        $("#userface").fileinput({
+            language: 'zh',
+            allowedFileExtensions : ['jpg', 'png','gif'],
+            showUpload: false, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+        });
 
     })
 

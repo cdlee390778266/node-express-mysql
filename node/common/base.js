@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2016-12-28 15:31:21
+* @Last Modified time: 2016-12-30 15:16:36
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -25,6 +25,24 @@ var dateFormat=function(fmt) {
     return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;         
 } 
 
+var format = function (obj,fmt) { 
+    var o = {
+        "M+": obj.getMonth() + 1, //月份 
+        "d+": obj.getDate(), //日 
+        "h+": obj.getHours(), //小时 
+        "m+": obj.getMinutes(), //分 
+        "s+": obj.getSeconds(), //秒 
+        "q+": Math.floor((obj.getMonth() + 3) / 3), //季度 
+        "S": obj.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (obj.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+
+}
+
 module.exports = {
-    'dateFormat' : dateFormat
+    'dateFormat' : dateFormat,
+    'format' : format
 }      

@@ -4,5 +4,5 @@ module.exports = {
     sqluser : 'root',
     sqlpassword : 'root',
     database : 'demo',
-    saveimgurl : '/upload'  //图片存放地址
+    uploadDir : '/upload'  //图片存放地址
 }
