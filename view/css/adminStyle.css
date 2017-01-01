@@ -51,3 +51,10 @@ form .error:after {
   height: 100%;
   margin: 0px auto;
 }
+
+.modal-body .form_center {
+  max-height: 400px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

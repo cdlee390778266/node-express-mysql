@@ -149,7 +149,7 @@
                                 <h6>管理员帐号</h6>
                                 <div class="titleToggle">
 
-                                   <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">添加管理员</button>
+                                   <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal-allUser">添加管理员</button>
                                 </div>
                             </div>
 
@@ -168,8 +168,9 @@
                                         <th>登录ID</th>
                                         <th>笔名</th>
                                         <th>真实姓名</th>
-                                        <th>级别</th>
+                                        <th>权限级别</th>
                                         <th>登录时间</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -184,6 +185,10 @@
                                         <td><%= data[i].pseudonym %></td>
                                         <td><%= data[i].level %></td>
                                         <td><%= dateformat(data[i].logintime) %></td>
+                                        <td>
+                                        <button  class="btn btn-success btn-update" data-userId="<%= data[i].loginname %>">更改</button>
+                                        <button  class="btn btn-warning user-handle" data-userId="<%= data[i].loginname %>"  >删除</button>
+                                        </td>
                                 </tr>
                                 <%
                                         }
@@ -356,8 +361,8 @@
 
     <!-- END OF RIGHT SLIDER CONTENT-->
 
-    <!-- Modal -->
-    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+    <!-- 添加管理员弹窗 -->
+    <div class="modal fade " id="myModal-allUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
       <div class="modal-dialog ">
         <div class="modal-content">
           <div class="modal-header">
@@ -395,13 +400,13 @@
                     <div class="form-group">
                         <label class="col-lg-3 col-sm-3 control-label" for="basehost">真实姓名：</label>
                         <div class="col-lg-9">
-                            <input id="name" name="name" class="form-control" value="" type="password">
+                            <input id="name" name="name" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 col-sm-3 control-label" for="basehost">电子邮箱：</label>
                         <div class="col-lg-9">
-                            <input id="email" name="email" class="form-control" value="" type="password">
+                            <input id="email" name="email" class="form-control" value="" type="text">
                         </div>
                     </div>
                     <div class="form-group">
@@ -409,7 +414,18 @@
                         <div class="col-lg-9">
                             <input id="userface" name="userface" class="" type="file" >
                         </div>
-                        
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">权限：</label>
+                        <div class="col-lg-9">
+                            <select class="form-control" name="level" id="level">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
                     </div>
 
                 </form>
@@ -422,8 +438,106 @@
       </div>
     </div>
 
+    <!-- 修改管理员弹窗 -->
+    <div class="modal fade " id="myModal-updateUser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" >修改管理员信息</h4>
+          </div>
+          <div class="modal-body">
+                <div class="form_center">
+                <form role="form" class="form-horizontal" id="update-user" novalidate="novalidate" enctype="multipart/form-data">
 
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">用户登录ID：</label>
+                        <div class="col-lg-9">
+                            <input id="uloginID" name="uloginID" class="form-control" value="" type="text" disabled="disabled" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">用户笔名：</label>
+                        <div class="col-lg-9">
+                            <input id="upseudonym" name="upseudonym" class="form-control" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">原始密码：</label>
+                        <div class="col-lg-9">
+                            <input id="oldPWD" name="oldPWD" class="form-control" value="" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">新密码：</label>
+                        <div class="col-lg-9">
+                            <input id="newPWD" name="newPWD" class="form-control" value="" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">确认新密码：</label>
+                        <div class="col-lg-9">
+                            <input id="newCPWD" name="newCPWD" class="form-control" value="" type="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">真实姓名：</label>
+                        <div class="col-lg-9">
+                            <input id="uname" name="uname" class="form-control" value="" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 col-sm-3 control-label" for="basehost">权限：</label>
+                        <div class="col-lg-9">
+                            <select class="form-control" name="level" id="ulevel">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
 
+                </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="btn-update">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 消息提示弹窗 -->
+    <div class="modal fade" id="mes">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 删除确认弹窗弹窗 -->
+    <div class="modal fade" id="confirm">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">消息提示</h4>
+          </div>
+          <div class="modal-body">
+            <p>您确定删除所选用户吗？</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary " id="delete">确定</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal"  >关闭</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <script src="view/admin/assets/js/progress-bar/src/jquery.velocity.min.js"></script>
     <script src="view/admin/assets/js/progress-bar/number-pb.js"></script>
@@ -525,7 +639,46 @@
     });
 
     $(function(){
+        var delIdArr = [];
 
+        //上传图片预览插件初始化
+        $("#userface").fileinput({
+            language: 'zh',
+            allowedFileExtensions : ['jpg', 'png','gif'],
+            showUpload: false, //是否显示上传按钮
+            showCaption: false,//是否显示标题
+        });
+
+        //删除管理员
+        $('.user-handle').click(function(){
+            $('#confirm').modal();
+            delIdArr = [];
+            delIdArr.push($(this).data('userid'));
+        });
+
+        $('#delete').click(function(){
+            console.log(delIdArr)
+            $('#confirm').modal('hide');
+                $.ajax({
+                    url : '/adminDelUser',
+                    type : 'post',
+                    data : 'loginnames=' + delIdArr,
+                    success : function(data){
+                        $('#mes .modal-body').html(data.data);
+                        $('#mes').modal({
+                            keyboard : true
+                        });
+                        setTimeout(function(){
+                        $('#mes').modal('hide');
+                            if(data.status == 0){
+                                location.href = '/adminUserList';
+                            }
+                        },1000);
+                    }
+                })
+        })
+
+        //添加管理员
         $('#btn-add').click(function(){
             $('#add-user').submit();
         })
@@ -585,7 +738,7 @@
                $(element).parent().find('.error').remove(); 
             },
             submitHandler : function (form) {
-
+                $('#myModal-allUser').modal('hide');
                 var data = new FormData($('#add-user')[0]);
                 data.append('date',new Date().getTime());
                 
@@ -598,24 +751,120 @@
                     processData: false,    //不可缺
                 })
                 .done(function(data) {
-                    // $('#savecfg-mes .modal-body').html(data.data);
-                    //     $('#savecfg-mes').modal({
-                    //         keyboard : true
-                    //     });
-                    //     setTimeout(function(){
-                    //     $('#savecfg-mes').modal('hide')
-                    //     },1000);
-                    })
+                    $('#mes .modal-body').html(data.data);
+                    $('#mes').modal({
+                        keyboard : true
+                    });
+                    setTimeout(function(){
+                    $('#mes').modal('hide');
+                        if(data.status == 0){
+                            location.href = '/adminUserList';
+                        }
+                    },1000);
+                })
 
             }
         });
 
-        $("#userface").fileinput({
-            language: 'zh',
-            allowedFileExtensions : ['jpg', 'png','gif'],
-            showUpload: false, //是否显示上传按钮
-            showCaption: false,//是否显示标题
+         //修改管理员信息
+         $('.btn-update').click(function (e) {
+            $('#uloginID').val($(this).parents('tr').find('td').eq(0).html());
+            $('#upseudonym').val($(this).parents('tr').find('td').eq(1).html());
+            $('#uname').val($(this).parents('tr').find('td').eq(2).html());
+            $('#ulevel').val($(this).parents('tr').find('td').eq(3).html());
+            $('#myModal-updateUser').modal();  
+        })
+
+        $('#btn-update').click(function(){
+            $('#update-user').submit();
+        })
+        
+         $('#update-user').validate({
+            rules : {
+                uloginID : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                oldPWD : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                newPWD : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                newCPWD : { 
+                    required : true, 
+                    rangelength : [5,20],
+                    equalTo : '#newPWD'
+                }
+            },
+            messages : {
+                loginID : {
+                    required : '登录ID不得为空！',
+                    rangelength :  $.validator.format('登录ID限制在{0}-{1}位！')
+                },
+                oldPWD : { 
+                    required : '原始密码不得为空！', 
+                    rangelength : $.validator.format('原始密码限制在{0}-{1}位！')
+                },
+                newPWD : { 
+                    required : '新密码不得为空！', 
+                    rangelength : $.validator.format('新密码限制在{0}-{1}位！')
+                },
+                newCPWD : { 
+                    required : '确认密码不得为空！', 
+                    rangelength : $.validator.format('新密码限制在{0}-{1}位！'),
+                    equalTo : '新密码与确认密码不同!',
+                }
+            },
+            //使用方法加载 class 并添加文本
+            success : function (label) {
+                
+            },
+            //高亮显示有错误的元素，变色式
+            highlight: function(element, errorClass) {
+                 
+            },
+            //成功的元素移出错误高亮
+            unhighlight : function (element, errorClass) {
+               $(element).parent().find('.error').remove(); 
+            },
+            submitHandler : function (form) {
+
+                $('#myModal-updateUser').modal('hide');
+                var data = {
+                    uloginID : $('#uloginID').val(),
+                    upseudonym : $('#upseudonym').val(),
+                    oldPWD : $('#oldPWD').val(),
+                    newPWD : $('#newPWD').val(),
+                    newCPWD : $('#newCPWD').val(),
+                    uname : $('#uname').val(),
+                    ulevel : $('#ulevel').val()
+                }
+                
+                $.ajax({
+                    url: '/adminUpdateUser',
+                    type: 'post',
+                    data: data,
+                })
+                .done(function(data) {
+                    $('#mes .modal-body').html(data.data);
+                    $('#mes').modal({
+                        keyboard : true
+                    });
+                    setTimeout(function(){
+                    $('#mes').modal('hide');
+                        if(data.status == 0){
+                            location.href = '/adminUserList';
+                        }
+                    },1000);
+                })
+
+            }
         });
+
+        
 
     })
 

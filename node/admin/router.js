@@ -73,11 +73,58 @@ exports.router = {
         query.sqlSelectRender(req,res,sql,'admin/userlist');
     },
 
-    adduser : function(req,res){
-        
-        upload(req,res);
+    adduser : function(req,res){  
+        upload(req,res,function(fields,imgurls){
+            query.sqlInsert(req,res,'insert into administrators values('
+                + '"'+ fields.loginID +'",'
+                + '"'+ fields.level +'",'
+                + '"'+ fields.name +'",'
+                + '"'+ fields.loginPWD +'",'
+                + '"'+ fields.pseudonym +'",'
+                + '"'+ imgurls +'",'
+                + '"'+ fields.email +'",'
+                + '"'+ fields.date +'"'
+                +')','添加成功!','添加失败!');
+        });
     },
 
+    deluser : function(req,res){
+        var loginnames = req.body.loginnames.split(',');
+        var sql = 'delete from administrators where loginname in (';
+        for(var i=0;i<loginnames.length;i++){
+            if(i !=(loginnames.length-1)){
+                sql += '"' + loginnames[i] + '",';
+            }else{
+                sql += '"' + loginnames[i] + '"';
+            }
+        }
+        sql += ')';
+        query.sqlDelete(req,res,sql,'删除成功','删除失败');
+    },
+
+    updateuser : function(req,res){
+        var sql = 'select * from administrators where loginname="' + req.body.uloginID + '" and password="' + req.body.oldPWD + '"';
+        query.query(sql,function(err,rows,fields){
+
+            if(rows.length>0){
+                if(rows[0].password != req.body.newPWD){
+                    var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",password="' + req.body.newPWD + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
+                    query.sqlUpdate(req,res,usql,'修改成功','修改失败！');
+                }else{
+                    res.json({
+                        status : 1,
+                        data : '新密码与原始密码相同!'
+                    })
+                }
+                
+            }else{
+                res.json({
+                    status : 1,
+                    data : '原始密码不正确!'
+                })
+            }
+        })
+    },
 
 
 

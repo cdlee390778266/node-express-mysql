@@ -53,6 +53,15 @@ form {
     margin: 0px auto;
 }
 
+.modal-body{
+    .form_center{
+        max-height: 400px;
+        width:100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
 // .modal-sm{
 //     .modal-content{
 //         width:300px;

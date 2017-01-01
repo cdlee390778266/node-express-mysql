@@ -52,27 +52,20 @@ var sqlInsert = function(req,res,sql,sucString,errString){
 /*
 mysql 删
  */
-var sqlDelete = function(req,res,sql){
+var sqlDelete = function(req,res,sql,sucString,errString){
     query(sql,function(err,rows,fields){
         if(err){
             console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
             res.json({
                 status : 1,
-                data : '操作失败'
+                data : errString
             });
             return ;
         }else{
-            if(rows.length>0){
-                res.json({
+            res.json({
                     status : 0,
-                    data : '登录成功'
+                    data : sucString
                 })
-            }else{
-                res.json({
-                    status : 1,
-                    data : ' 管理员账户或密码错误！'
-                })
-            }
         }
 
     })
@@ -151,6 +144,8 @@ var sqlSelectRender = function(req,res,sql,tplUrl){
 
     })
 }
+
+
 
 module.exports = {
     'query' : query,

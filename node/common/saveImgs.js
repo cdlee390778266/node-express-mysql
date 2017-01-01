@@ -6,15 +6,14 @@
 */
 var fs = require('fs');
 var multiparty = require('multiparty');
-var path = require('path'); 
-// var bodyParser = require("body-parser");  
+var path = require('path');  
 var config = require('./config');
 var base = require('./base');
 
 //项目根目录
 var uploadDir = path.dirname(require.main.filename) + config.uploadDir;
 
-var upload = function(req, res){
+var upload = function(req, res,callback){
 
     if (req.method === 'POST') {
   
@@ -30,27 +29,27 @@ var upload = function(req, res){
     //form.maxFields = 1000;  设置所以文件的大小总和
     
     form.parse(req, function(err, fields, files) {
-    	console.log(req.body)
+    	
        if(err){
-			console.log('图片上传出错!');
+			console.log('图片上传出错!' + err);
 			res.json({
 			    status : 1,
 			    data : '图片上传出错!'
 			});
         }else{
         	if(files){
-
+                var imgurls  = [];
         		for(var i in files){
         			
         			for(var j=0;j<files[i].length;j++){
         				//同步重命名文件名
         			 	var date = base.format(new Date(),'yyyy-MM-dd hh-mm-ss_');
         			 	fs.renameSync(files[i][j].path,uploadDir +'/' + date + files[i][j].originalFilename);
-        			 	
+        			 	console.log('图片上传成功!');
+                        imgurls.push(uploadDir +'/' + date + files[i][j].originalFilename);
         			}
-        			console.log('图片上传成功!');
-					
         		}
+                callback(fields,imgurls);
         	}else{
         		console.log('图片上传出错!');
 				res.json({
