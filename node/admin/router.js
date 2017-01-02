@@ -2,11 +2,13 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2016-12-30 15:58:02
+* @Last Modified time: 2017-01-02 23:23:24
 */
 
 var query = require('./mysql');
+var base = require('../common/base');
 var upload = require('../common/saveImgs');
+var config = require('../common/config');
 
 exports.router = {
     login : function(req,res){
@@ -69,23 +71,75 @@ exports.router = {
 
     userlist : function(req,res){
         // var sql = 'select * from administrators  where level>' + global.user.level;
-        var sql = 'select * from administrators  where level>1' ;
-        query.sqlSelectRender(req,res,sql,'admin/userlist');
+        var sql = 'select * from administrators  where level>1 limit 0,' + config.userListPageNum ;
+        query.query('select count(*) as records from administrators where level>1',function(perr,prows,pfields){
+            pages = Math.ceil(prows[0].records/config.userListPageNum);
+            query.sqlSelectRender(req,res,sql,'admin/userlist',pages);
+        })
+       
     },
 
-    adduser : function(req,res){  
-        upload(req,res,function(fields,imgurls){
+     userlistpage : function(req,res){
+        // var sql = 'select * from administrators  where level>' + global.user.level;
+        var start = req.body.page;
+        var sql = 'select loginname,pseudonym,name,level,logintime from administrators  where level>1 limit ' + start + ',' + config.userListPageNum ;
+        query.query(sql,function(err,rows,fields){
+            if(err){
+                res.json({
+                    status : 1,
+                    data : '操作失败'
+                })
+            }else{
+                for(var i=0;i<rows.length;i++){
+                    rows[i].logintime = base.dateFormat(rows[i].logintime);
+                }
+                res.json({
+                    status : 0,
+                    data : rows
+                })
+            }
+        })
+    },
+
+    adduser : function(req,res){ 
+
+        if(req.body.userface != ''){ //有头像上传
+            upload(req,res,function(fields,imgurls){
+                query.sqlInsert(req,res,'insert into administrators values('
+                    + '"'+ fields.loginID +'",'
+                    + '"'+ fields.level +'",'
+                    + '"'+ fields.name +'",'
+                    + '"'+ fields.loginPWD +'",'
+                    + '"'+ fields.pseudonym +'",'
+                    + '"'+ imgurls +'",'
+                    + '"'+ fields.email +'",'
+                    + '"'+ fields.date +'"'
+                    +')','添加成功!','添加失败!');
+            });
+        }else{  //无头像上传
             query.sqlInsert(req,res,'insert into administrators values('
-                + '"'+ fields.loginID +'",'
-                + '"'+ fields.level +'",'
-                + '"'+ fields.name +'",'
-                + '"'+ fields.loginPWD +'",'
-                + '"'+ fields.pseudonym +'",'
-                + '"'+ imgurls +'",'
-                + '"'+ fields.email +'",'
-                + '"'+ fields.date +'"'
+                + '"'+ req.body.loginID +'",'
+                + '"'+ req.body.level +'",'
+                + '"'+ req.body.name +'",'
+                + '"'+ req.body.loginPWD +'",'
+                + '"'+ req.body.pseudonym +'",'
+                + '"'+ req.body.userface +'",'
+                + '"'+ req.body.email +'",'
+                + '"'+ req.body.date +'"'
                 +')','添加成功!','添加失败!');
-        });
+        }
+    },
+
+    adduser_checkID : function(req,res){
+        var sql = 'select * from administrators where loginname="' + req.query.loginID + '"';
+        query.query(sql,function(err,rows,fields){
+            if(rows.length){
+                res.end('false');
+            }else{
+                res.end('true');
+            }
+        })
+        
     },
 
     deluser : function(req,res){
@@ -104,26 +158,30 @@ exports.router = {
 
     updateuser : function(req,res){
         var sql = 'select * from administrators where loginname="' + req.body.uloginID + '" and password="' + req.body.oldPWD + '"';
-        query.query(sql,function(err,rows,fields){
-
-            if(rows.length>0){
-                if(rows[0].password != req.body.newPWD){
-                    var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",password="' + req.body.newPWD + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
-                    query.sqlUpdate(req,res,usql,'修改成功','修改失败！');
+        if(req.body.newPWD){
+            query.query(sql,function(err,rows,fields){
+                if(rows.length>0){
+                    if(rows[0].password != req.body.newPWD){
+                        var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",password="' + req.body.newPWD + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
+                        query.sqlUpdate(req,res,usql,'修改成功','修改失败！');
+                    }else{
+                        res.json({
+                            status : 1,
+                            data : '新密码与原始密码相同!'
+                        })
+                    }
+                    
                 }else{
                     res.json({
                         status : 1,
-                        data : '新密码与原始密码相同!'
+                        data : '原始密码不正确!'
                     })
                 }
-                
-            }else{
-                res.json({
-                    status : 1,
-                    data : '原始密码不正确!'
-                })
-            }
-        })
+            })
+        }else{
+            var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
+                query.sqlUpdate(req,res,usql,'修改成功','修改失败！');
+        }
     },
 
 

@@ -43,8 +43,11 @@ app.get('/adminCheck',adminRouter.router.check);
 app.get('/adminIndex',adminRouter.router.index);
 app.get('/adminCfg',adminRouter.router.cfg);
 app.post('/adminSaveCfg',adminRouter.router.savecfg);
+
 app.get('/adminUserList',adminRouter.router.userlist);
+app.post('/adminUserListPage',adminRouter.router.userlistpage);
 app.post('/adminAddUser',adminRouter.router.adduser);
+app.get('/adminAddUser_checkID',adminRouter.router.adduser_checkID);
 app.post('/adminDelUser',adminRouter.router.deluser);
 app.post('/adminUpdateUser',adminRouter.router.updateuser);
 

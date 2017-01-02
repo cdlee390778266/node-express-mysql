@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-29 14:15:13
     图片储存 npm install multiparty
-* @Last Modified time: 2016-12-30 15:47:38
+* @Last Modified time: 2017-01-02 22:43:44
 */
 var fs = require('fs');
 var multiparty = require('multiparty');
@@ -37,16 +37,20 @@ var upload = function(req, res,callback){
 			    data : '图片上传出错!'
 			});
         }else{
+            console.log(files)
         	if(files){
                 var imgurls  = [];
         		for(var i in files){
         			
         			for(var j=0;j<files[i].length;j++){
+
+                        if(files[i][j].originalFilename){
         				//同步重命名文件名
         			 	var date = base.format(new Date(),'yyyy-MM-dd hh-mm-ss_');
         			 	fs.renameSync(files[i][j].path,uploadDir +'/' + date + files[i][j].originalFilename);
         			 	console.log('图片上传成功!');
                         imgurls.push(uploadDir +'/' + date + files[i][j].originalFilename);
+                        }
         			}
         		}
                 callback(fields,imgurls);

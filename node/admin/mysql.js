@@ -130,7 +130,7 @@ var sqlSelectLogin = function(req,res,sql,updateSql){
     })
 }
 
-var sqlSelectRender = function(req,res,sql,tplUrl){
+var sqlSelectRender = function(req,res,sql,tplUrl,pages){
     
     query(sql,function(err,rows,fields){
         if(err){
@@ -138,7 +138,10 @@ var sqlSelectRender = function(req,res,sql,tplUrl){
             res.render(tplUrl);
             return ;
         }else{
-                res.render(tplUrl,{data : rows})
+                res.render(tplUrl,{
+                    data : rows,
+                    pages : pages
+                })
             
         }
 
