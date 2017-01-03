@@ -51,6 +51,11 @@ app.get('/adminAddUser_checkID',adminRouter.router.adduser_checkID);
 app.post('/adminDelUser',adminRouter.router.deluser);
 app.post('/adminUpdateUser',adminRouter.router.updateuser);
 
+app.get('/adminArticleList',adminRouter.router.articlelist);
+app.get('/adminArticle',adminRouter.router.article);
+app.post('/adminSaveArticle ',adminRouter.router.savearticle);
+
+
 
 
 app.get('/adminLoginOut',adminRouter.router.loginout);

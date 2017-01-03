@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-02 23:23:24
+* @Last Modified time: 2017-01-03 16:34:10
 */
 
 var query = require('./mysql');
@@ -184,8 +184,17 @@ exports.router = {
         }
     },
 
+    articlelist : function(req,res){
+        res.render('admin/articlelist');
+    },
 
+    article : function(req,res){
+        res.render('admin/article');
+    },
 
+    savearticle : function(req,res){
+        console.log(req.body)
+    },
 
 
 

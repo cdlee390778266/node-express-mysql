@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="view/admin/assets/css/bootstrap.css">
 
     <link rel="stylesheet" type="text/css" href="view/admin/assets/js/progress-bar/number-pb.css">
+    <link rel="stylesheet" type="text/css" href="frameworks/wysiwyg-editor/css/wysiwyg-editor.css">
     
 
     <style type="text/css">
@@ -146,7 +147,7 @@
                         <div class="nest" id="horizontalClose">
                             <div class="title-alt">
                                 <h6>
-                                    系统配置参数</h6>
+                                    发布文章</h6>
                                 <div class="titleClose">
                                     <a class="gone" href="#horizontalClose">
                                         <span class="entypo-cancel"></span>
@@ -161,9 +162,121 @@
                             </div>
 
                             <div class="body-nest" id="horizontal">
-
                                 
+                                    <form class="form-horizontal article" id="article" enctype="multipart/form-data" method="post" action="/adminSaveArticle" >
 
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">文章标题：</span>
+                                                    <input type="text" class="form-control" id="art_title" name="art_title">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">自定义属性：</span>
+                                                    <input type="text" class="form-control" id="art_diy" name="art_diy">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">TAG标签：</span>
+                                                    <input type="text" class="form-control" id="art_tag" name="art_tag">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">权重：</span>
+                                                    <input type="text" class="form-control" id="art_weight" name="art_weight">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">作者：</span>
+                                                    <input type="text" class="form-control" id="art_writer" name="art_writer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">文章主栏目：</span>
+                                                    <select name="art_type" id="art_type" class="form-control">
+                                                        <option value="1"></option>
+                                                        <option value="1"></option>
+                                                        <option value="1"></option>
+                                                        <option value="1"></option>
+                                                        <option value="1"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">关键字：</span>
+                                                    <input id="art_keywords" name="art_keywords" class="form-control" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-12 control-label txtleft" for="sart_description">文章摘要：</label>
+                                            <div class="col-xs-12">
+                                                <textarea name="art_description" id="art_description" class="form-control"  ></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <h6>文章内容：</h6>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <textarea name="content" id="content" ></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12" for="art_description">附加选项：<input type="checkbox" id="art_needwatermark" name="art_needwatermark" /> 图片是否加水印 </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12" for="art_description">评论选项：
+                                            <input type="radio"  name="notpost" value="0" /> 允许评论
+                                            <input type="radio"  name="notpost" value="1" /> 禁止评论 
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">浏览次数：</span>
+                                                    <input type="text" class="form-control" id="art_click" name="art_click">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">发布时间：</span>
+                                                    <input type="text" class="form-control" id="art_date" name="art_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <input value="保存" class="btn btn-info" type="submit">
+                                                <input class="btn btn-warning" value="重置" type="reset">
+                                            </div>
+                                        </div>
+                                    </form>
+                                 
                             </div>
 
                         </div>
@@ -308,7 +421,6 @@
     </div>
 
     <!-- END OF RIGHT SLIDER CONTENT-->
-    <script type="text/javascript" src="view/admin/assets/js/jquery.js"></script>
     <script src="view/admin/assets/js/progress-bar/src/jquery.velocity.min.js"></script>
     <script src="view/admin/assets/js/progress-bar/number-pb.js"></script>
     <script src="view/admin/assets/js/progress-bar/progress-app.js"></script>
@@ -338,6 +450,8 @@
 
     <script src="view/admin/assets/js/jhere-custom.js"></script>
 
+    <script src="frameworks/wysiwyg-editor/js/wysiwyg.js"></script>
+    <script src="frameworks/wysiwyg-editor/js/wysiwyg-editor.js"></script>
     <script type="text/javascript">
     /* Javascript
      *
@@ -404,9 +518,10 @@
 
             '<span>%M</span>' + '<span class="start-min">:</span>' + '<span class="start-min">%S</span>'));
     });
+
     </script>
 
-
+    <script src="view/admin/js/article.js"></script>
 </body>
 
 </html>

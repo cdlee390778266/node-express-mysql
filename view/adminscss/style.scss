@@ -1,3 +1,12 @@
+.txtleft {
+    text-align: left  !important;
+}
+.txtcenter {
+    text-align: center !important;
+}
+.txtright {
+    text-align: right !important;
+}
 form {
     .error{
         background: #ffe6e4;
@@ -62,6 +71,23 @@ form {
     }
 }
 
+.wysiwyg-popup{
+    white-space: normal;
+}
+
+.wysiwyg-toolbar{
+    white-space: normal ;
+}
+
+.wysiwyg-editor{
+    min-height: 20em;
+}
+
+.article{
+    .input-group-addon{
+        background:#fff;
+    }
+}
 // .modal-sm{
 //     .modal-content{
 //         width:300px;
