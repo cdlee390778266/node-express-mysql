@@ -53,7 +53,7 @@ app.post('/adminUpdateUser',adminRouter.router.updateuser);
 
 app.get('/adminArticleList',adminRouter.router.articlelist);
 app.get('/adminArticle',adminRouter.router.article);
-app.post('/adminSaveArticle ',adminRouter.router.savearticle);
+app.post('/adminSaveArticle',adminRouter.router.savearticle);
 
 
 

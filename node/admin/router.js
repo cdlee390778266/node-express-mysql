@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-03 16:34:10
+* @Last Modified time: 2017-01-04 17:52:42
 */
 
 var query = require('./mysql');
@@ -193,7 +193,19 @@ exports.router = {
     },
 
     savearticle : function(req,res){
-        console.log(req.body)
+        var content = base.replaceSrc(req.body.content);
+        //接收前台POST过来的base64
+        var imgData = req.body.imgData;
+        //过滤data:URL
+        var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
+        var dataBuffer = new Buffer(base64Data, 'base64');
+        fs.writeFile("image.png", dataBuffer, function(err) {
+            if(err){
+              res.send(err);
+            }else{
+              res.send("保存成功！");
+            }
+        });
     },
 
 
