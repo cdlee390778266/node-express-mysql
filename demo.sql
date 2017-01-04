@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2016 年 12 月 28 日 17:35
+-- 生成日期: 2017 年 01 月 04 日 17:57
 -- 服务器版本: 5.5.40
 -- PHP 版本: 5.3.29
 
@@ -46,7 +46,32 @@ CREATE TABLE IF NOT EXISTS `administrators` (
 
 INSERT INTO `administrators` (`loginname`, `level`, `name`, `password`, `pseudonym`, `faceurl`, `eamil`, `logintime`) VALUES
 ('admin', 1, '张三', 'admin', '吹牛', '/view/admin/image/userface.jpg', '', 1482912791767),
-('rootaa', 2, '李四', 'rootaa', '发生大', '', '', 1482910130458);
+('rootaa', 2, '李四', 'rootaa', '发生大', '', '', 1482910130458),
+('eefasfsd', 1, '', 'fffff', 'ffff', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-04 14-43-47_9.jpg', '', 1483512227143);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `article`
+--
+
+CREATE TABLE IF NOT EXISTS `article` (
+  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `title` text NOT NULL,
+  `diy` varchar(100) NOT NULL,
+  `tag` varchar(100) NOT NULL,
+  `weight` int(100) NOT NULL DEFAULT '0',
+  `writer` varchar(100) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `keywords` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `content` text NOT NULL,
+  `needwatermark` int(2) NOT NULL,
+  `notpost` int(2) NOT NULL,
+  `click` int(11) NOT NULL,
+  `date` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=gbk AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
