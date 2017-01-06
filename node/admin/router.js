@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-04 17:52:42
+* @Last Modified time: 2017-01-06 14:59:16
 */
 
 var query = require('./mysql');
@@ -193,19 +193,59 @@ exports.router = {
     },
 
     savearticle : function(req,res){
-        var content = base.replaceSrc(req.body.content);
-        //接收前台POST过来的base64
-        var imgData = req.body.imgData;
-        //过滤data:URL
-        var base64Data = imgData.replace(/^data:image\/\w+;base64,/, "");
-        var dataBuffer = new Buffer(base64Data, 'base64');
-        fs.writeFile("image.png", dataBuffer, function(err) {
-            if(err){
-              res.send(err);
-            }else{
-              res.send("保存成功！");
-            }
-        });
+        upload(req,res,function(fields,imgurls){
+           base.saveBase64ToImg(req,res,fields,'content',function(imgurls){
+               base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
+                    needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
+                    var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
+                        + '"' + fields.art_title + '",' 
+                        + '"' + fields.art_diy + '",' 
+                        + '"' + fields.art_tag + '",' 
+                        + fields.art_weight + ',' 
+                        + '"' + fields.art_writer + '",' 
+                        + '"' + fields.art_type + '",' 
+                        + '"' + fields.art_keywords + '",' 
+                        + '"' + fields.art_description + '",' 
+                        + '\'' +fields.content + '\',' 
+                        + needwatermark + ',' 
+                        + fields.notpost+ ',' 
+                        + fields.art_click + ',' 
+                        + '"' + fields.art_date+ '"' 
+                        +')'
+               
+                    query.query(sql,function(err,rows,sqlfield){
+                        if(err){
+                            res.render('admin/message',{
+                                status : 1,
+                                data : {
+                                        title : '发布文章失败',
+                                        linkData : [
+                                        ['发布新文章','/adminArticle'],
+                                        ['查看更改','/adminUpdateArticle'],
+                                        ['查看文章','/'],
+                                        ['管理文章','/adminArticleList']
+                                    ]
+                                }
+                            })
+                        }else{
+                            res.render('admin/message',{
+                                status : 0,
+                                data : {
+                                    title : '发布文章成功',
+                                    linkData : [
+                                        ['发布新文章','/adminArticle'],
+                                        ['查看更改','/adminUpdateArticle'],
+                                        ['查看文章','/'],
+                                        ['管理文章','/adminArticleList']
+                                    ]
+                                }
+                            })
+                        }
+                    })
+               });
+           });
+        })
+        
     },
 
 
