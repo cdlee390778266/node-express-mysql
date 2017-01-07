@@ -138,6 +138,7 @@ var sqlSelectRender = function(req,res,sql,tplUrl,pages){
             res.render(tplUrl);
             return ;
         }else{
+            console.log(rows)
                 res.render(tplUrl,{
                     data : rows,
                     pages : pages

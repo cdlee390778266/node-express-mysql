@@ -415,8 +415,48 @@ $(document).ready(function(){
         // });
     });
     
-    $('#article').submit(function(){
-        
-    })
+    $("#art_date").datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:ss',
+        language:  'zh-CN',
+        autoclose: true,
+        todayBtn: true,
+        pickerPosition: "bottom-left"
+    });
+
+    $('#article').validate({
+            rules : {
+                art_title : { 
+                    required : true, 
+                    rangelength : [5,20]
+                },
+                art_type : { 
+                    required : true
+                }
+            },
+            messages : {
+                art_title : {
+                    required : '文章标题不得为空！',
+                    rangelength :  $.validator.format('文章标题限制在{0}-{1}位！')
+                },
+                art_type : {  
+                    required : '文章主栏目不得为空！' 
+                }
+            },
+            //使用方法加载 class 并添加文本
+            success : function (label) {
+                
+            },
+            //高亮显示有错误的元素，变色式
+            highlight: function(element, errorClass) {
+                 
+            },
+            //成功的元素移出错误高亮
+            unhighlight : function (element, errorClass) {
+               $(element).parent().find('.error').remove(); 
+            },
+            submitHandler : function (form) {
+                form.submit();
+            }
+        });
    
 });

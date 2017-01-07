@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-06 14:59:16
+* @Last Modified time: 2017-01-07 13:06:38
 */
 
 var query = require('./mysql');
@@ -185,7 +185,13 @@ exports.router = {
     },
 
     articlelist : function(req,res){
-        res.render('admin/articlelist');
+
+        var sql = 'select * from article limit 0,' + config.articlePageNum ;
+        query.query('select count(*) as records from article ',function(perr,prows,pfields){
+            pages = Math.ceil(prows[0].records/config.articlePageNum);
+            query.sqlSelectRender(req,res,sql,'admin/articlelist',pages);
+        })
+
     },
 
     article : function(req,res){
@@ -194,56 +200,113 @@ exports.router = {
 
     savearticle : function(req,res){
         upload(req,res,function(fields,imgurls){
-           base.saveBase64ToImg(req,res,fields,'content',function(imgurls){
-               base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
-                    needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
-                    var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
-                        + '"' + fields.art_title + '",' 
-                        + '"' + fields.art_diy + '",' 
-                        + '"' + fields.art_tag + '",' 
-                        + fields.art_weight + ',' 
-                        + '"' + fields.art_writer + '",' 
-                        + '"' + fields.art_type + '",' 
-                        + '"' + fields.art_keywords + '",' 
-                        + '"' + fields.art_description + '",' 
-                        + '\'' +fields.content + '\',' 
-                        + needwatermark + ',' 
-                        + fields.notpost+ ',' 
-                        + fields.art_click + ',' 
-                        + '"' + fields.art_date+ '"' 
-                        +')'
-               
-                    query.query(sql,function(err,rows,sqlfield){
-                        if(err){
-                            res.render('admin/message',{
-                                status : 1,
-                                data : {
-                                        title : '发布文章失败',
-                                        linkData : [
-                                        ['发布新文章','/adminArticle'],
-                                        ['查看更改','/adminUpdateArticle'],
-                                        ['查看文章','/'],
-                                        ['管理文章','/adminArticleList']
-                                    ]
-                                }
-                            })
-                        }else{
-                            res.render('admin/message',{
-                                status : 0,
-                                data : {
-                                    title : '发布文章成功',
+           if(fields.content.toString().indexOf('data:image') == -1){
+                var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
+                var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
+                var click = fields.art_click.toString().length ? fields.art_click : 0;
+                var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
+                var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
+                    + '"' + fields.art_title + '",' 
+                    + '"' + fields.art_diy + '",' 
+                    + '"' + fields.art_tag + '",' 
+                    + weight + ',' 
+                    + '"' + fields.art_writer + '",' 
+                    + '"' + fields.art_type + '",' 
+                    + '"' + fields.art_keywords + '",' 
+                    + '"' + fields.art_description + '",' 
+                    + '\'' +fields.content + '\',' 
+                    + needwatermark + ',' 
+                    + fields.notpost+ ',' 
+                    + click + ',' 
+                    + '"' + date + '"' 
+                    +')'
+                query.query(sql,function(err,rows,sqlfield){
+                    if(err){
+                        console.log('发布文章失败,错误信息：' + err);
+                        res.render('admin/message',{
+                            status : 1,
+                            data : {
+                                    title : '发布文章失败',
                                     linkData : [
                                         ['发布新文章','/adminArticle'],
                                         ['查看更改','/adminUpdateArticle'],
                                         ['查看文章','/'],
                                         ['管理文章','/adminArticleList']
-                                    ]
-                                }
-                            })
-                        }
-                    })
+                                ]
+                            }
+                        })
+                    }else{
+                        console.log('发布文章成功');
+                        res.render('admin/message',{
+                            status : 0,
+                            data : {
+                                title : '发布文章成功',
+                                linkData : [
+                                    ['发布新文章','/adminArticle'],
+                                    ['查看更改','/adminUpdateArticle'],
+                                    ['查看文章','/'],
+                                    ['管理文章','/adminArticleList']
+                                ]
+                            }
+                        })
+                    }
+                })
+           }else{
+                base.saveBase64ToImg(req,res,fields,'content',function(imgurls){
+                   base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
+                        var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
+                        var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
+                        var click = fields.art_click.toString().length ? fields.art_click : 0;
+                        var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
+                        var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
+                            + '"' + fields.art_title + '",' 
+                            + '"' + fields.art_diy + '",' 
+                            + '"' + fields.art_tag + '",' 
+                            + weight + ',' 
+                            + '"' + fields.art_writer + '",' 
+                            + '"' + fields.art_type + '",' 
+                            + '"' + fields.art_keywords + '",' 
+                            + '"' + fields.art_description + '",' 
+                            + '\'' +fields.content + '\',' 
+                            + needwatermark + ',' 
+                            + fields.notpost+ ',' 
+                            + click + ',' 
+                            + '"' + date + '"' 
+                            +')'
+                        query.query(sql,function(err,rows,sqlfield){
+                            if(err){
+                                console.log('发布文章失败,错误信息：' + err);
+                                res.render('admin/message',{
+                                    status : 1,
+                                    data : {
+                                            title : '发布文章失败',
+                                            linkData : [
+                                                ['发布新文章','/adminArticle'],
+                                                ['查看更改','/adminUpdateArticle'],
+                                                ['查看文章','/'],
+                                                ['管理文章','/adminArticleList']
+                                        ]
+                                    }
+                                })
+                            }else{
+                                console.log('发布文章成功');
+                                res.render('admin/message',{
+                                    status : 0,
+                                    data : {
+                                        title : '发布文章成功',
+                                        linkData : [
+                                            ['发布新文章','/adminArticle'],
+                                            ['查看更改','/adminUpdateArticle'],
+                                            ['查看文章','/'],
+                                            ['管理文章','/adminArticleList']
+                                        ]
+                                    }
+                                })
+                            }
+                        })
+                   });
                });
-           });
+           }
         })
         
     },

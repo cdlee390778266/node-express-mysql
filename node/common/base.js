@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2017-01-06 10:51:50
+* @Last Modified time: 2017-01-07 11:42:36
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -88,7 +88,7 @@ var saveBase64ToImg = function(req,res,fields,field,callback){
         //接收前台POST过来的base64
         var contentData = fields[field][0];
         //过滤data:URL
-        var base64Data = contentData.match(/src\s*=\s*[\"\']([^\"\']*)[\"\']/g);
+        var base64Data = contentData.match(/src\s*=\s*[\"\']\s*data:image([^\"\']*)[\"\']/g);
         for(var i=0;i<base64Data.length;i++){
             var srcData = base64Data[i].match(/[\"\']([^\"\']*)[\"\']/);
             if(i == base64Data.length-1){

@@ -91,41 +91,54 @@
                                             <th>更新时间</th>
                                             <th>类目</th>
                                             <th>点击</th>
-                                            <th>权限</th>
+                                            <th>权重</th>
                                             <th>发布人</th>
                                             <th>操作</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        <%
+                                        for(var i=0;i<data.length;i++){
+                                        %>
                                         <tr>
-                                            <td>1</td>
-                                            <td><input type="checkbox" /></td>
-                                            <td>文章标题</td>
-                                            <td>更新时间</td>
-                                            <td>类目</td>
-                                            <td>点击</td>
-                                            <td>权限</td>
-                                            <td>发布人</td>
+                                            <td><%= data[i].id %></td>
+                                            <td><input type="checkbox" value="<%= data[i].id %>" /></td>
+                                            <td><%= data[i].title %></td>
+                                            <td><%= data[i].date %></td>
+                                            <td><%= data[i].type %></td>
+                                            <td><%= data[i].click %></td>
+                                            <td><%= data[i].weight %></td>
+                                            <td><%= data[i].writer %></td>
                                             <td>
                                                 <button class="btn btn-success">编辑属性</button>
                                                 <a class="btn btn-success" href="/adminArticle">编辑</a>
                                                 <button class="btn btn-success">预览</button>
                                             </td>  
                                         </tr>
+                                        <%
+                                        }
+                                        %>
+                                        
                                 
                                     </tbody>
                                 </table>
                                 
-                                <nav>
-                                  <ul class="pagination">
-                                    <li><a href="#">&laquo;</a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">&raquo;</a></li>
+                                <ul class="pagination">
+                                    <li id="page-first"><a href="javascript:void(0);" data-page="0">首页</a></li>
+                                    <%
+                                        for(var i=0;i<pages;i++){
+                                            if(i==0){
+                                    %>
+                                    <li class="active listpage"><a href="javascript:void(0);"  data-page="<%= i %>"><%= i+1 %></a></li>
+                                    <%
+                                                }else{
+                                    %>
+                                    <li class="listpage"><a href="javascript:void(0);" data-page="<%= i %>"><%= i+1 %></a></li>
+                                    <%
+                                                }   
+                                        }
+                                    %>
+                                    <li id="page-last"><a href="javascript:void(0);" data-page="<%= pages-1 %>">尾页</a></li>
                                   </ul>
                                 </nav>
 
