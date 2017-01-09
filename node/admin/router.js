@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-07 13:06:38
+* @Last Modified time: 2017-01-09 17:10:25
 */
 
 var query = require('./mysql');
@@ -81,7 +81,7 @@ exports.router = {
 
      userlistpage : function(req,res){
         // var sql = 'select * from administrators  where level>' + global.user.level;
-        var start = req.body.page;
+        var start = req.body.page*config.userListPageNum;
         var sql = 'select loginname,pseudonym,name,level,logintime from administrators  where level>1 limit ' + start + ',' + config.userListPageNum ;
         query.query(sql,function(err,rows,fields){
             if(err){
@@ -184,19 +184,39 @@ exports.router = {
         }
     },
 
+   
     articlelist : function(req,res){
-
         var sql = 'select * from article limit 0,' + config.articlePageNum ;
-        query.query('select count(*) as records from article ',function(perr,prows,pfields){
+        query.query('select count(*) as records from article',function(perr,prows,pfields){
             pages = Math.ceil(prows[0].records/config.articlePageNum);
             query.sqlSelectRender(req,res,sql,'admin/articlelist',pages);
         })
+       
+    },
 
+     articlelistpage : function(req,res){
+        var start = req.body.page * config.articlePageNum;
+        var sql = 'select * from article limit ' + start + ',' + config.articlePageNum ;
+        query.query(sql,function(err,rows,fields){
+            if(err){
+                res.json({
+                    status : 1,
+                    data : '操作失败'
+                })
+            }else{
+                res.json({
+                    status : 0,
+                    data : rows
+                })
+            }
+        })
     },
 
     article : function(req,res){
         res.render('admin/article');
     },
+
+
 
     savearticle : function(req,res){
         upload(req,res,function(fields,imgurls){

@@ -122,8 +122,15 @@
                                 
                                     </tbody>
                                 </table>
+
+                                <div class="article-btn-group">
+                                    <button class="btn btn-success" id="article_all">全选</button>
+                                    <button class="btn btn-success" id="article_cancle">取消</button>
+                                    <button class="btn btn-warning" id="cancle">删除</button>
+                                </div>
                                 
-                                <ul class="pagination">
+                                <nav class="txtright">
+                                  <ul class="pagination">
                                     <li id="page-first"><a href="javascript:void(0);" data-page="0">首页</a></li>
                                     <%
                                         for(var i=0;i<pages;i++){
@@ -141,17 +148,6 @@
                                     <li id="page-last"><a href="javascript:void(0);" data-page="<%= pages-1 %>">尾页</a></li>
                                   </ul>
                                 </nav>
-
-                                <div class="article-btn-group">
-                                    <button class="btn btn-default">全选</button>
-                                    <button class="btn btn-default">取消</button>
-                                    <button class="btn btn-default">审核</button>
-                                    <button class="btn btn-success">推荐</button>
-                                    <button class="btn btn-success">移动</button>
-                                    <button class="btn btn-warning">删除</button>
-                                    <button class="btn btn-info">增加属性</button>
-                                    <button class="btn btn-info">删除属性</button>
-                                </div>
 
                             </div>
 
@@ -172,6 +168,114 @@
     <!-- cononjs -->
     <% include common/commonjs %>
     <!-- END OF cononjs-->
+    
+    <script>
+        $(function(){
+            //初始化
+            var page = $('.pagination li.active').find('a').data('page');
+            if(page == $('#page-first a').data('page')){
+                $('#page-first').addClass('disabled');
+            }else{
+                $('#page-first').removeClass('disabled');
+            }
+
+            if(page == $('#page-last a').data('page')){
+                $('#page-last').addClass('disabled');
+            }else{
+                $('#page-last').removeClass('disabled');
+            }
+
+            //分页
+            $('#page-first').click(function(event) {
+                if($(this).hasClass('disabled')) 
+                    return ;
+                $('.pagination .listpage').first().click();
+            });
+
+            $('#page-last').click(function(event) {
+                if($(this).hasClass('disabled')) 
+                    return ;
+                $('.pagination .listpage').last().click();
+            });
+
+            $('.pagination').delegate('.listpage', 'click', function(event) {
+                var self = this;
+                if($(this).hasClass('active'))
+                    return;
+                page = $(this).find('a').data('page');
+
+                $.ajax({
+                    url: '/adminArticleListPage',
+                    type: 'post',
+                    data: {page : page},
+                })
+                .done(function(data) {
+                    var tbody = '';
+                    if(data.status == 1){
+                        $('#mes .modal-body').html(data.data);
+                        $('#mes').modal({
+                            keyboard : true
+                        });
+                        setTimeout(function(){
+                        $('#mes').modal('hide');
+                      },1000);
+                    }else{
+                        $('.pagination li').removeClass('active');
+                        $(self).addClass('active');
+                        if(page == $('#page-first a').data('page')){
+                            $('#page-first').addClass('disabled');
+                        }else{
+                            $('#page-first').removeClass('disabled');
+                        }
+
+                        if(page == $('#page-last a').data('page')){
+                            $('#page-last').addClass('disabled');
+                        }else{
+                            $('#page-last').removeClass('disabled');
+                        }
+
+                        for(var i=0;i<data.data.length;i++){
+                            tbody += '<tr>'
+                                  + '<td>' + data.data[i].id +'</td>'
+                                  + '<td><input type="checkbox" value="' + data.data[i].id + '" /></td>'
+                                  + '<td>' + data.data[i].title +'</td>'
+                                  + '<td>' + data.data[i].date +'</td>'
+                                  + '<td>' + data.data[i].type +'</td>'
+                                  + '<td>' + data.data[i].click +'</td>'
+                                  + '<td>' + data.data[i].weight +'</td>'
+                                  + '<td>' + data.data[i].writer +'</td>'
+                                  + '<td>'
+                                  +     '<button  class="btn btn-success" data-articleId="' + data.data[i].id + '">编辑属性</button>  '
+                                  +     '<a class="btn btn-success" href="/adminArticle">编辑</a>'
+                                  +     '<button  class="btn btn-warning user-handle" data-userId="' + data.data[i].id + '"  >预览</button></td>'
+                                  + '</tr>'
+                        }
+                        $('#table-userlist tbody').html(tbody);
+
+                    }
+                    
+                })
+                
+                
+            });
+            
+            //全选
+            $('#article_all').click(function(event) {
+                $('#table-userlist tbody input').each(function(index, val) {
+                    $(this).get(0).checked = true;
+                });
+            }); 
+
+            //取消
+            $('#article_cancle').click(function(event) {
+                $('#table-userlist tbody input').each(function(index, val) {
+                    $(this).get(0).checked = false;
+                });
+            }); 
+
+
+        })
+    </script>
 
 </body>
 

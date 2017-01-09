@@ -52,6 +52,7 @@ app.post('/adminDelUser',adminRouter.router.deluser);
 app.post('/adminUpdateUser',adminRouter.router.updateuser);
 
 app.get('/adminArticleList',adminRouter.router.articlelist);
+app.post('/adminArticleListPage',adminRouter.router.articlelistpage);
 app.get('/adminArticle',adminRouter.router.article);
 app.post('/adminSaveArticle',adminRouter.router.savearticle);
 

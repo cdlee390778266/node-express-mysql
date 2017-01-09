@@ -5,7 +5,7 @@ module.exports = {
     sqlpassword : 'root',
     database : 'demo',
     uploadDir : '/upload/userface',  //图片存放地址
-    userListPageNum : 1 ,
+    userListPageNum : 2 ,
     articleImgDir : '/upload/article',
-    articlePageNum : 5
+    articlePageNum : 3
 }
