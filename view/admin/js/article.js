@@ -1,4 +1,5 @@
 $(document).ready(function(){
+   
     // Full featured editor
     $('#content').each( function(index, element)
     {
@@ -415,6 +416,7 @@ $(document).ready(function(){
         // });
     });
     
+    $('#content').html('pig')
     $("#art_date").datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss',
         language:  'zh-CN',

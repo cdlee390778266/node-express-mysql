@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-10 13:52:57
+* @Last Modified time: 2017-01-10 23:55:33
 */
 
 var query = require('./mysql');
@@ -227,7 +227,14 @@ exports.router = {
     },
 
     article : function(req,res){
-        res.render('admin/article');
+        var articleId = req.query.id;
+        if(articleId){
+            var sql = 'select * from article where id=' + articleId;
+            query.sqlSelectRender(req,res,sql,'admin/article',0);
+        }else{
+            res.render('admin/article');
+        }
+        
     },
 
 
