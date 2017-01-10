@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-09 17:10:25
+* @Last Modified time: 2017-01-10 13:52:57
 */
 
 var query = require('./mysql');
@@ -69,7 +69,7 @@ exports.router = {
         query.sqlUpdate(req,res,sql,'保存成功','保存失败');
     },
 
-    userlist : function(req,res){
+    userList : function(req,res){
         // var sql = 'select * from administrators  where level>' + global.user.level;
         var sql = 'select * from administrators  where level>1 limit 0,' + config.userListPageNum ;
         query.query('select count(*) as records from administrators where level>1',function(perr,prows,pfields){
@@ -79,7 +79,7 @@ exports.router = {
        
     },
 
-     userlistpage : function(req,res){
+     userListPage : function(req,res){
         // var sql = 'select * from administrators  where level>' + global.user.level;
         var start = req.body.page*config.userListPageNum;
         var sql = 'select loginname,pseudonym,name,level,logintime from administrators  where level>1 limit ' + start + ',' + config.userListPageNum ;
@@ -101,7 +101,7 @@ exports.router = {
         })
     },
 
-    adduser : function(req,res){ 
+    addUser : function(req,res){ 
 
         if(req.body.userface != ''){ //有头像上传
             upload(req,res,function(fields,imgurls){
@@ -142,7 +142,7 @@ exports.router = {
         
     },
 
-    deluser : function(req,res){
+    delUser : function(req,res){
         var loginnames = req.body.loginnames.split(',');
         var sql = 'delete from administrators where loginname in (';
         for(var i=0;i<loginnames.length;i++){
@@ -156,7 +156,7 @@ exports.router = {
         query.sqlDelete(req,res,sql,'删除成功','删除失败');
     },
 
-    updateuser : function(req,res){
+    updateUser : function(req,res){
         var sql = 'select * from administrators where loginname="' + req.body.uloginID + '" and password="' + req.body.oldPWD + '"';
         if(req.body.newPWD){
             query.query(sql,function(err,rows,fields){
@@ -185,7 +185,7 @@ exports.router = {
     },
 
    
-    articlelist : function(req,res){
+    articleList : function(req,res){
         var sql = 'select * from article limit 0,' + config.articlePageNum ;
         query.query('select count(*) as records from article',function(perr,prows,pfields){
             pages = Math.ceil(prows[0].records/config.articlePageNum);
@@ -194,7 +194,7 @@ exports.router = {
        
     },
 
-     articlelistpage : function(req,res){
+     articleListPage : function(req,res){
         var start = req.body.page * config.articlePageNum;
         var sql = 'select * from article limit ' + start + ',' + config.articlePageNum ;
         query.query(sql,function(err,rows,fields){
@@ -212,13 +212,27 @@ exports.router = {
         })
     },
 
+    delArticle : function(req,res){
+        var checkedArr = req.body.checkedArr.split(',');
+        var sql = 'delete from article where id in (';
+        for(var i=0;i<checkedArr.length;i++){
+            if(i !=(checkedArr.length-1)){
+                sql += '"' + checkedArr[i] + '",';
+            }else{
+                sql += '"' + checkedArr[i] + '"';
+            }
+        }
+        sql += ')';
+        query.sqlDelete(req,res,sql,'删除成功','删除失败');
+    },
+
     article : function(req,res){
         res.render('admin/article');
     },
 
 
 
-    savearticle : function(req,res){
+    saveArticle : function(req,res){
         upload(req,res,function(fields,imgurls){
            if(fields.content.toString().indexOf('data:image') == -1){
                 var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
@@ -341,7 +355,7 @@ exports.router = {
 
 
 
-    loginout : function(req,res){
+    loginOut : function(req,res){
         global.user = '';
         res.redirect('/admin');
     }

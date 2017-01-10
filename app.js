@@ -44,21 +44,22 @@ app.get('/adminIndex',adminRouter.router.index);
 app.get('/adminCfg',adminRouter.router.cfg);
 app.post('/adminSaveCfg',adminRouter.router.savecfg);
 
-app.get('/adminUserList',adminRouter.router.userlist);
-app.post('/adminUserListPage',adminRouter.router.userlistpage);
-app.post('/adminAddUser',adminRouter.router.adduser);
+app.get('/adminUserList',adminRouter.router.userList);
+app.post('/adminUserListPage',adminRouter.router.userListPage);
+app.post('/adminAddUser',adminRouter.router.addUser);
 app.get('/adminAddUser_checkID',adminRouter.router.adduser_checkID);
-app.post('/adminDelUser',adminRouter.router.deluser);
-app.post('/adminUpdateUser',adminRouter.router.updateuser);
+app.post('/adminDelUser',adminRouter.router.delUser);
+app.post('/adminUpdateUser',adminRouter.router.updateUser);
 
-app.get('/adminArticleList',adminRouter.router.articlelist);
-app.post('/adminArticleListPage',adminRouter.router.articlelistpage);
+app.get('/adminArticleList',adminRouter.router.articleList);
+app.post('/adminArticleListPage',adminRouter.router.articleListPage);
 app.get('/adminArticle',adminRouter.router.article);
-app.post('/adminSaveArticle',adminRouter.router.savearticle);
+app.post('/adminSaveArticle',adminRouter.router.saveArticle);
+app.post('/adminDelArticle',adminRouter.router.delArticle);
 
 
 
-app.get('/adminLoginOut',adminRouter.router.loginout);
+app.get('/adminLoginOut',adminRouter.router.loginOut);
 
 
 
