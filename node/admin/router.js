@@ -2,7 +2,11 @@
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
-* @Last Modified time: 2017-01-11 15:18:01
+<<<<<<< HEAD
+* @Last Modified time: 2017-01-11 17:44:16
+=======
+* @Last Modified time: 2017-01-10 23:55:33
+>>>>>>> 926e4607e17d13491f2979e23f6e69cb5cf3615a
 */
 
 var query = require('./mysql');
@@ -186,7 +190,7 @@ exports.router = {
 
    
     articleList : function(req,res){
-        var sql = 'select * from article limit 0,' + config.articlePageNum ;
+        var sql = 'select * from article '+  'ORDER BY id DESC ' +' limit 0,' + config.articlePageNum  ;
         query.query('select count(*) as records from article',function(perr,prows,pfields){
             pages = Math.ceil(prows[0].records/config.articlePageNum);
             query.sqlSelectRender(req,res,sql,'admin/articlelist',pages);
@@ -196,7 +200,7 @@ exports.router = {
 
      articleListPage : function(req,res){
         var start = req.body.page * config.articlePageNum;
-        var sql = 'select * from article limit ' + start + ',' + config.articlePageNum ;
+        var sql = 'select * from article ORDER BY id DESC limit ' + start + ',' + config.articlePageNum ;
         query.query(sql,function(err,rows,fields){
             if(err){
                 res.json({
@@ -227,7 +231,30 @@ exports.router = {
     },
 
     article : function(req,res){
-        res.render('admin/article');
+        var articleId = req.query.id;
+        if(articleId){
+            var sql = 'select * from article where id=' + articleId;
+            query.sqlSelectRender(req,res,sql,'admin/article',0);
+        }else{
+            res.render('admin/article',{
+                data : [{
+                    title: '',
+                    diy: '',
+                    tag: '',
+                    weight: '',
+                    writer: '',
+                    type: '',
+                    keywords: '',
+                    description: '',
+                    content: '',
+                    needwatermark: '',
+                    notpost: '',
+                    click: '',
+                    date: ''
+                }]
+            });
+        }
+        
     },
 
 
@@ -263,8 +290,6 @@ exports.router = {
                                     title : '发布文章失败',
                                     linkData : [
                                         ['发布新文章','/adminArticle'],
-                                        ['查看更改','/adminUpdateArticle'],
-                                        ['查看文章','/'],
                                         ['管理文章','/adminArticleList']
                                 ]
                             }
@@ -277,7 +302,7 @@ exports.router = {
                                 title : '发布文章成功',
                                 linkData : [
                                     ['发布新文章','/adminArticle'],
-                                    ['查看更改','/adminUpdateArticle'],
+                                    ['查看更改','/adminArticle?id='+rows.insertId],
                                     ['查看文章','/'],
                                     ['管理文章','/adminArticleList']
                                 ]
@@ -307,6 +332,7 @@ exports.router = {
                             + click + ',' 
                             + '"' + date + '"' 
                             +')'
+                        
                         query.query(sql,function(err,rows,sqlfield){
                             if(err){
                                 console.log('发布文章失败,错误信息：' + err);
@@ -316,8 +342,6 @@ exports.router = {
                                             title : '发布文章失败',
                                             linkData : [
                                                 ['发布新文章','/adminArticle'],
-                                                ['查看更改','/adminUpdateArticle'],
-                                                ['查看文章','/'],
                                                 ['管理文章','/adminArticleList']
                                         ]
                                     }
@@ -330,7 +354,7 @@ exports.router = {
                                         title : '发布文章成功',
                                         linkData : [
                                             ['发布新文章','/adminArticle'],
-                                            ['查看更改','/adminUpdateArticle'],
+                                            ['查看更改','/adminArticle?id='+rows.insertId],
                                             ['查看文章','/'],
                                             ['管理文章','/adminArticleList']
                                         ]

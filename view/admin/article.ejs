@@ -94,7 +94,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">文章标题：</span>
-                                                    <input type="text" class="form-control" id="art_title" name="art_title">
+                                                    <input type="text" class="form-control" id="art_title" name="art_title" value="<%= data[0].title %>">
                                                 </div>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">自定义属性：</span>
-                                                    <input type="text" class="form-control" id="art_diy" name="art_diy">
+                                                    <input type="text" class="form-control" id="art_diy" name="art_diy" value="<%= data[0].diy %>" >
                                                 </div>
                                             </div>
                                         </div>
@@ -110,7 +110,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">TAG标签：</span>
-                                                    <input type="text" class="form-control" id="art_tag" name="art_tag">
+                                                    <input type="text" class="form-control" id="art_tag" name="art_tag" value="<%= data[0].tag %>">
                                                 </div>
                                             </div>
                                         </div>
@@ -118,7 +118,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">权重：</span>
-                                                    <input type="text" class="form-control" id="art_weight" name="art_weight">
+                                                    <input type="text" class="form-control" id="art_weight" name="art_weight" value="<%= data[0].weight %>">
                                                 </div>
                                             </div>
                                         </div>
@@ -126,7 +126,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">作者：</span>
-                                                    <input type="text" class="form-control" id="art_writer" name="art_writer">
+                                                    <input type="text" class="form-control" id="art_writer" name="art_writer" value="<%= data[0].writer %>" >
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +134,7 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">文章主栏目：</span>
-                                                    <select name="art_type" id="art_type" class="form-control">
+                                                    <select name="art_type" id="art_type" class="form-control" value="<%= data[0].type %>" >
                                                         <option value="1"></option>
                                                         <option value="1"></option>
                                                         <option value="1"></option>
@@ -148,14 +148,14 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">关键字：</span>
-                                                    <input id="art_keywords" name="art_keywords" class="form-control" type="text" />
+                                                    <input id="art_keywords" name="art_keywords" class="form-control" type="text" value="<%= data[0].keywords %>" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-xs-12 control-label txtleft" for="sart_description">文章摘要：</label>
                                             <div class="col-xs-12">
-                                                <textarea name="art_description" id="art_description" class="form-control"  ></textarea>
+                                                <textarea name="art_description" id="art_description" class="form-control" ><%= data[0].description %></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -165,11 +165,24 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-xs-12">
-                                                <textarea name="content" id="content" ></textarea>
+                                                <textarea name="content" id="content" ><%= data[0].content %></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div class="col-xs-12" >附加选项：<input type="checkbox" id="art_needwatermark" name="art_needwatermark" value="1" /> 图片是否加水印 </div>
+                                            <div class="col-xs-12" >
+                                            附加选项：
+                                            <%
+                                            if(data[0].needwatermark){
+                                            %>
+                                            <input type="checkbox" id="art_needwatermark" name="art_needwatermark" value="1" checked="checked" />
+                                            <%
+                                                }else{
+                                            %>
+                                            <input type="checkbox" id="art_needwatermark" name="art_needwatermark" value="1" />
+                                            <%
+                                                }
+                                            %>
+                                             图片是否加水印 </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-xs-12" for="art_description">评论选项：

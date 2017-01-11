@@ -107,9 +107,8 @@
                                             <td><%= data[i].weight %></td>
                                             <td><%= data[i].writer %></td>
                                             <td>
-                                                <button class="btn btn-success btn-sm">编辑属性</button>
-                                                <a class="btn btn-success btn-sm" href="/adminArticle">编辑</a>
-                                                <button class="btn btn-success btn-sm">预览</button>
+                                                <a class="btn btn-success btn-sm" href="/adminArticle?id=<%= data[i].id %>">编辑</a>
+                                                <button class="btn btn-warning btn-sm">预览</button>
                                             </td>  
                                         </tr>
                                         <%
@@ -273,9 +272,8 @@
                                   + '<td>' + data.data[i].weight +'</td>'
                                   + '<td>' + data.data[i].writer +'</td>'
                                   + '<td>'
-                                  +     '<button  class="btn btn-success" data-articleId="' + data.data[i].id + '">编辑属性</button>  '
-                                  +     '<a class="btn btn-success" href="/adminArticle">编辑</a>'
-                                  +     '<button  class="btn btn-warning user-handle" data-userId="' + data.data[i].id + '"  >预览</button></td>'
+                                  +     '<a class="btn btn-success" href="/adminArticle?id=' + data.data[i].id + '">编辑</a>'
+                                  +     ' <button  class="btn btn-warning user-handle" data-userId="' + data.data[i].id + '"  >预览</button></td>'
                                   + '</tr>'
                         }
                         $('#table-articlelist tbody').html(tbody);

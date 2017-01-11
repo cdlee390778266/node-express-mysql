@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2017-01-11 15:17:53
+* @Last Modified time: 2017-01-11 18:00:50
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -66,20 +66,21 @@ fs.exists(uploadImgDir, function(exists){
 var imgurls = [];
 
 var saveImg = function(imgData,callback){
-
+    imgurls = [];
     var base64Data = imgData.replace(/^data:image\/\w+;base64,/g, "");
         var dataBuffer = new Buffer(base64Data, 'base64');
-        var imgurl = uploadImgDir + '/' + format(new Date(),'yyyyMMddhhmmss') + Math.ceil(Math.random()*1000) + '.png';
+        var imgname = format(new Date(),'yyyyMMddhhmmss') + Math.ceil(Math.random()*1000) + '.png';
+        var imgurl = uploadImgDir + '/' + imgname;
         fs.writeFile(imgurl, dataBuffer, function(err) {
             if(err){
               console.log(err);
               res.end('保存失败');
             }else{
               console.log("保存成功！");
+              imgurls.push(config.articleImgDir + '/' + imgname);
               if(typeof callback == 'function'){
                 callback(imgurls);
               }
-              imgurls.push(imgurl);
             }
         });
 }
@@ -89,6 +90,7 @@ var saveBase64ToImg = function(req,res,fields,field,callback){
         var contentData = fields[field][0];
         //过滤data:URL
         var base64Data = contentData.match(/src\s*=\s*[\"\']\s*data:image([^\"\']*)[\"\']/g);
+        console.log(base64Data.length)
         for(var i=0;i<base64Data.length;i++){
             var srcData = base64Data[i].match(/[\"\']([^\"\']*)[\"\']/);
             if(i == base64Data.length-1){
@@ -105,7 +107,7 @@ var replaceBase64Src = function(req,res,fields,field,imgurls,callback){
         var contentData = fields[field][0];
 
         //过滤data:URL
-        var base64Data = contentData.match(/src\s*=\s*[\"\']([^\"\']*)[\"\']/g);
+        var base64Data = contentData.match(/src\s*=\s*[\"\']\s*data:image\/\w+;base64,([^\"\']*)[\"\']/g);
         for(var i=0;i<base64Data.length;i++){
             
            contentData = contentData.replace(base64Data[i],'src="'+imgurls[i] + '"');      
