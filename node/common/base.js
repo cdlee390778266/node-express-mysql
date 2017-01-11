@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2017-01-07 11:42:36
+* @Last Modified time: 2017-01-11 15:17:53
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
