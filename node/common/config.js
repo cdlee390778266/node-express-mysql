@@ -7,5 +7,5 @@ module.exports = {
     uploadDir : '/upload/userface',  //图片存放地址
     userListPageNum : 2 ,
     articleImgDir : '/upload/article',
-    articlePageNum : 4
+    articlePageNum : 10
 }

@@ -72,7 +72,18 @@
                         <div class="nest" id="horizontalClose">
                             <div class="title-alt">
                                 <h6>
-                                    发布文章</h6>
+                                <%
+                                if(data[0].id){
+                                %>
+                                修改文章
+                                <%
+                                }else{
+                                %>
+                                发布文章
+                                <%
+                                }
+                                %>
+                                    </h6>
                                 <div class="titleClose">
                                     <a class="gone" href="#horizontalClose">
                                         <span class="entypo-cancel"></span>
@@ -90,6 +101,8 @@
                                 
                                     <form class="form-horizontal article" id="article"  method="post" action="/adminSaveArticle" enctype="multipart/form-data" >
 
+                                        <input type="hidden" name="art_id" value="<%= data[0].id %>" />
+                                       
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="input-group">
@@ -135,11 +148,11 @@
                                                 <div class="input-group">
                                                     <span class="input-group-addon">文章主栏目：</span>
                                                     <select name="art_type" id="art_type" class="form-control" value="<%= data[0].type %>" >
-                                                        <option value="1"></option>
-                                                        <option value="1"></option>
-                                                        <option value="1"></option>
-                                                        <option value="1"></option>
-                                                        <option value="1"></option>
+                                                        <option value="0">0</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -186,15 +199,26 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="col-xs-12" for="art_description">评论选项：
+                                            <%
+                                            if(!data[0].notpost){
+                                            %>
                                             <input type="radio"  name="notpost" value="0" checked="" /> 允许评论
                                             <input type="radio"  name="notpost" value="1" /> 禁止评论 
+                                            <%
+                                            }else{
+                                            %>
+                                            <input type="radio"  name="notpost" value="0"  /> 允许评论
+                                            <input type="radio"  name="notpost" value="1" checked="" /> 禁止评论 
+                                            <%
+                                            }
+                                            %>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">浏览次数：</span>
-                                                    <input type="text" class="form-control" id="art_click" name="art_click">
+                                                    <input type="text" class="form-control" id="art_click" name="art_click" value="<%= data[0].click %>">
                                                 </div>
                                             </div>
                                         </div>
@@ -202,12 +226,12 @@
                                             <div class="col-xs-12">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">发布时间：</span>
-                                                    <input type="text" class="form-control" id="art_date" name="art_date" readonly>
+                                                    <input type="text" class="form-control" id="art_date" name="art_date" readonly value="<%= data[0].date %>">
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div class="form-group">
+                                        <div class="form-group article-btn-group">
                                             <div class="col-lg-offset-2 col-lg-10">
                                                 <input value="保存" class="btn btn-info" type="submit">
                                                 <input class="btn btn-warning" value="重置" type="reset">

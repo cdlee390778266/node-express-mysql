@@ -86,3 +86,6 @@ form .error:after {
 .article .input-group-addon {
   background: #fff;
 }
+.article select option {
+  color: #555 !important;
+}
