@@ -1,9 +1,37 @@
-var express = require('express');
-var app = express();
-// app.set('views','')
-app.get('/',function(req,res){
-    console.log('go');
-})
-app.listen(888,function(){
-    console.log('server runnning at 127.0.0.1:888');
-})
+var mysql = require('mysql');
+var query = require('../admin/mysql');
+var config = require('../common/config');
+
+
+
+
+var sqlSelectAll = function(req,res,sqlArr,callback){
+    var data = {};
+    var index = 0;
+    function sqlSelectOne(length){
+        query.query(sqlArr[index].sql,function(err,rows,fields){
+            if(err){
+                console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+                res.redirect('/notfound');
+                return ;
+            }else{
+               data[sqlArr[index].field] = rows;
+               index++;
+               if(index<length){
+                    sqlSelectOne(index);
+               }else{
+                    callback(data);
+               }
+            }
+
+        })
+    }
+    sqlSelectOne(sqlArr.length);
+
+}
+
+
+
+module.exports = {
+    sqlSelectAll : sqlSelectAll
+};

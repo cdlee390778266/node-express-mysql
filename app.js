@@ -28,6 +28,7 @@ app.get('/index',router.router.index);
 app.get('/cat',router.router.cat);
 app.get('/detail',router.router.detail);
 app.get('/list',router.router.list);
+app.get('/notfound',router.router.notfound);
 
 //后台
 // app.use(function(req,res,next){

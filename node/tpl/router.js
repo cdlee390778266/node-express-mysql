@@ -1,9 +1,13 @@
 /* 
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
-* @Last Modified by:   anchen
-* @Last Modified time: 2016-12-23 10:47:31
 */
+
+var query = require('../admin/mysql');
+var tplQuery = require('./mysql');
+var base = require('../common/base');
+var upload = require('../common/saveImgs');
+var config = require('../common/config');
 
 //头部数据
 var header = [
@@ -47,13 +51,13 @@ var header = [
 
 //页脚数据
 var footer = {
-                imgl : 'view/images/ewcode.png',
+                imgl : 'view/tpls/images/ewcode.png',
                 txt : '版权所有:2013-2014 xxxxxxxxx 蜀ICP备000000000号 公司总机：028-xxxxxxxx 传真：028-8xxxxxxxx 地址：成都市xxxxxxx ',
-                imgr : 'view/images/ewcode.png'
+                imgr : 'view/tpls/images/ewcode.png'
             }
 
 //轮播图数据
-var banner = ['view/images/banner1.jpg','view/images/banner2.jpg','view/images/banner1.jpg','view/images/banner2.jpg'];
+var banner = ['view/tpls/images/banner1.jpg','view/tpls/images/banner2.jpg','view/tpls/images/banner1.jpg','view/tpls/images/banner2.jpg'];
 
 exports.router = {
     index : function(req,res){
@@ -68,31 +72,31 @@ exports.router = {
                 title : ['产品展示','Product display'],
                 data : [{
                             title : '在位清洗系统',
-                            img : 'view/images/product_img1.jpg',
+                            img : 'view/tpls/images/product_img1.jpg',
                             describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                             href : '/'
                         },
                         {
                             title : '在位清洗系统',
-                            img : 'view/images/product_img1.jpg',
+                            img : 'view/tpls/images/product_img1.jpg',
                             describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                             href : '/'
                         },
                         {
                             title : '在位清洗系统',
-                            img : 'view/images/product_img2.jpg',
+                            img : 'view/tpls/images/product_img2.jpg',
                             describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                             href : '/'
                         },
                         {
                             title : '在位清洗系统',
-                            img : 'view/images/product_img3.jpg',
+                            img : 'view/tpls/images/product_img3.jpg',
                             describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                             href : '/'
                         },
                         {
                             title : '在位清洗系统',
-                            img : 'view/images/product_img4.jpg',
+                            img : 'view/tpls/images/product_img4.jpg',
                             describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                             href : '/'
                         }]
@@ -110,7 +114,7 @@ exports.router = {
                 hot : {
                     title : 'About us',
                     describe : '多功能提取罐适用于中草药、植物、动物、食品、生物药，化工行业...',
-                    img : 'view/images/news.jpg',
+                    img : 'view/tpls/images/news.jpg',
                     href : '/index'
                 },
                 liData : [
@@ -168,31 +172,31 @@ exports.router = {
                    product :[
                                 {
                                     title : '在位清洗系统',
-                                    img : 'view/images/product_img1.jpg',
+                                    img : 'view/tpls/images/product_img1.jpg',
                                     describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                                     href : '/'
                                 },
                                 {
                                     title : '在位清洗系统',
-                                    img : 'view/images/product_img1.jpg',
+                                    img : 'view/tpls/images/product_img1.jpg',
                                     describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                                     href : '/'
                                 },
                                 {
                                     title : '在位清洗系统',
-                                    img : 'view/images/product_img2.jpg',
+                                    img : 'view/tpls/images/product_img2.jpg',
                                     describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                                     href : '/'
                                 },
                                 {
                                     title : '在位清洗系统',
-                                    img : 'view/images/product_img3.jpg',
+                                    img : 'view/tpls/images/product_img3.jpg',
                                     describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                                     href : '/'
                                 },
                                 {
                                     title : '在位清洗系统',
-                                    img : 'view/images/product_img4.jpg',
+                                    img : 'view/tpls/images/product_img4.jpg',
                                     describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
                                     href : '/'
                                 }
@@ -202,39 +206,60 @@ exports.router = {
                 });
     },
     detail : function(req,res){
-        res.render('tpls/detail',{
+        if(req.query.id){
+            var sqlArr = [
+                    {
+                        sql : 'select * from web_cfg',
+                        field : 'cfg'
+                    },
+                    {
+                        sql : 'select * from article where id=' + req.query.id,
+                        field : 'article'
+                    }
+                ]
+            tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
+                console.log(data)
+                res.render('tpls/detail',{
 
-                        header : header,
+                    header : header,
 
-                        banner : banner,
+                    banner : banner,
 
-                        left : {
-                            product : {
-                                title :['产品展示','Product display'],
-                                liData : [
-                                    ['食品化工机械','http://www.baidu.com','active'],
-                                    ['制药设备','http://www.baidu.com'],
-                                    ['PE化粪池','http://www.baidu.com'],
-                                    ['方形-保温水箱','http://www.baidu.com'],
-                                    ['水箱封盖及半成品','http://www.baidu.com']
-                                ]
-                            },
-                            contact : {
-                                title :['联系我们','Contact us'],
-                                txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
-                            }
+                    left : {
+                        product : {
+                            title :['产品展示','Product display'],
+                            liData : [
+                                ['食品化工机械','http://www.baidu.com','active'],
+                                ['制药设备','http://www.baidu.com'],
+                                ['PE化粪池','http://www.baidu.com'],
+                                ['方形-保温水箱','http://www.baidu.com'],
+                                ['水箱封盖及半成品','http://www.baidu.com']
+                            ]
                         },
+                        contact : {
+                            title :['联系我们','Contact us'],
+                            txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                        }
+                    },
 
-                        tags : [
-                            ['首页','/index'],
-                            ['产品展示','/index'],
-                            ['水处理设备','/index']
-                        ],
+                    tags : [
+                        ['首页','/index'],
+                        ['产品展示','/index'],
+                        ['水处理设备','/index']
+                    ],
 
-                        detail : '产品说明',
+                    detail : data.article,
 
-                        footer : footer
-                    })
+                    cfg : data.cfg,
+                    
+                    footer : footer
+                })
+            })
+            
+        }else{
+            res.redirect('/notfound');
+        }
+        
     },
     list : function(req,res){
         res.render('tpls/list',{
@@ -286,5 +311,9 @@ exports.router = {
 
             footer : footer
         });
+    },
+
+    notfound : function(req,res){
+        res.render('tpls/404');
     }
 }
