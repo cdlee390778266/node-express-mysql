@@ -89,3 +89,8 @@ form .error:after {
 .article select option {
   color: #555 !important;
 }
+
+.treeview li {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

@@ -58,7 +58,9 @@ app.get('/adminArticle',adminRouter.router.article);
 app.post('/adminSaveArticle',adminRouter.router.saveArticle);
 app.post('/adminDelArticle',adminRouter.router.delArticle);
 
-
+app.get('/adminColumn',adminRouter.router.column);
+app.get('/adminAddColumn',adminRouter.router.addColumn);
+app.get('/adminSaveColumn',adminRouter.router.saveColumn);
 
 app.get('/adminLoginOut',adminRouter.router.loginOut);
 

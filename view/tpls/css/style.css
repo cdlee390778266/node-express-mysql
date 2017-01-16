@@ -754,8 +754,20 @@ a:hover {
 .detail-box .detail-bar .db-r .gn-breadcrumb a:hover {
   text-decoration: underline;
 }
+.detail-box .detail-bar .db-r .gn-breadcrumb a:last-child {
+  cursor: default;
+}
+.detail-box .detail-bar .db-r .gn-breadcrumb a:last-child:hover {
+  text-decoration: none;
+}
 .detail-box .detail-bar .db-r .gn-breadcrumb span {
   margin: 0 5px;
+}
+.detail-box h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
 }
 
 .list-body > ul {

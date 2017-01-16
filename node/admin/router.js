@@ -3,7 +3,7 @@
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
 <<<<<<< HEAD
-* @Last Modified time: 2017-01-12 18:02:39
+* @Last Modified time: 2017-01-16 17:46:07
 =======
 * @Last Modified time: 2017-01-10 23:55:33
 >>>>>>> 926e4607e17d13491f2979e23f6e69cb5cf3615a
@@ -483,9 +483,51 @@ exports.router = {
         
     },
 
+    column : function(req,res){
+        res.render('admin/column');
+    },
 
+    addColumn : function(req,res){
+        res.render('admin/addcolumn',{
+            'parentId' : 0
+        });
+    },
 
-
+    saveColumn : function(req,res){
+        var parentId = req.query.parentId ? req.query.parentId : 0;
+            var sql = 'insert into web_column (colname,hide,rank,sort,parentid) values ('
+                + '"' + req.query.colname + '"'
+                + ',' + req.query.colhide 
+                + ',' + req.query.rank + ''
+                + ',' + req.query.colsort
+                + ',"' + parentId + '"'
+                + ')';
+        query.query(sql,function(err,rows){
+            if(err){
+                console.log('保存失败，错误信息：' + err);
+                res.render('admin/message',{
+                    status : 1,
+                    data : {
+                        title : '添加栏目失败',
+                        linkData : [
+                            ['栏目管理','/adminColumn']
+                        ]
+                    }
+                })
+            }else{
+               res.render('admin/message',{
+                    status : 0,
+                    data : {
+                        title : '添加栏目成功',
+                        linkData : [
+                            ['继续添加顶级栏目','/adminAddColumn'],
+                            ['栏目管理','/adminColumn']
+                        ]
+                    }
+                }) 
+            }
+        })
+    },
 
 
 

@@ -245,7 +245,7 @@ exports.router = {
                     tags : [
                         ['首页','/index'],
                         ['产品展示','/index'],
-                        ['水处理设备','/index']
+                        [data.article[0].title,'']
                     ],
 
                     detail : data.article,
