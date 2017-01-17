@@ -61,83 +61,97 @@ var banner = ['view/tpls/images/banner1.jpg','view/tpls/images/banner2.jpg','vie
 
 exports.router = {
     index : function(req,res){
-        res.render('tpls/index',{
 
-            header : header,
-
-            banner : banner,
-
-            product : {
-                flag : true,
-                title : ['产品展示','Product display'],
-                data : [{
-                            title : '在位清洗系统',
-                            img : 'view/tpls/images/product_img1.jpg',
-                            describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                            href : '/'
-                        },
-                        {
-                            title : '在位清洗系统',
-                            img : 'view/tpls/images/product_img1.jpg',
-                            describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                            href : '/'
-                        },
-                        {
-                            title : '在位清洗系统',
-                            img : 'view/tpls/images/product_img2.jpg',
-                            describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                            href : '/'
-                        },
-                        {
-                            title : '在位清洗系统',
-                            img : 'view/tpls/images/product_img3.jpg',
-                            describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                            href : '/'
-                        },
-                        {
-                            title : '在位清洗系统',
-                            img : 'view/tpls/images/product_img4.jpg',
-                            describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                            href : '/'
-                        }]
-            },
-
-            about : {
-                flag : true,
-                title : ['关于我们','About us'],
-                data : []
-            },
-            
-            iNews : {
-                flag : true,
-                title : ['关于我们','About us'],
-                hot : {
-                    title : 'About us',
-                    describe : '多功能提取罐适用于中草药、植物、动物、食品、生物药，化工行业...',
-                    img : 'view/tpls/images/news.jpg',
-                    href : '/index'
-                },
-                liData : [
+        var sqlArr = [
                     {
-                        title : '在位清洗系统（cip）工作原理',
-                        date : '2016-03-24',
-                        href : 'httt://www.jingdong.com'
-                    },
-                    {
-                        title : '服务计划',
-                        date : '2016-03-24',
-                        href : 'httt://www.jingdong.com'
-                    },
-                        {
-                        title : '服务计划',
-                        date : '2016-03-24',
-                        href : 'httt://www.jingdong.com'
+                        sql : 'select * from web_cfg',
+                        field : 'cfg'
                     }
-                ] 
-            },
+                ]
+            tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
 
-            footer : footer
-        });
+                res.render('tpls/index',{
+
+                    header : header,
+
+                    banner : banner,
+
+                    product : {
+                        flag : true,
+                        title : ['产品展示','Product display'],
+                        data : [{
+                                    title : '在位清洗系统',
+                                    img : 'view/tpls/images/product_img1.jpg',
+                                    describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                    href : '/'
+                                },
+                                {
+                                    title : '在位清洗系统',
+                                    img : 'view/tpls/images/product_img1.jpg',
+                                    describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                    href : '/'
+                                },
+                                {
+                                    title : '在位清洗系统',
+                                    img : 'view/tpls/images/product_img2.jpg',
+                                    describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                    href : '/'
+                                },
+                                {
+                                    title : '在位清洗系统',
+                                    img : 'view/tpls/images/product_img3.jpg',
+                                    describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                    href : '/'
+                                },
+                                {
+                                    title : '在位清洗系统',
+                                    img : 'view/tpls/images/product_img4.jpg',
+                                    describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                    href : '/'
+                                }]
+                    },
+
+                    about : {
+                        flag : true,
+                        title : ['关于我们','About us'],
+                        data : []
+                    },
+                    
+                    iNews : {
+                        flag : true,
+                        title : ['关于我们','About us'],
+                        hot : {
+                            title : 'About us',
+                            describe : '多功能提取罐适用于中草药、植物、动物、食品、生物药，化工行业...',
+                            img : 'view/tpls/images/news.jpg',
+                            href : '/index'
+                        },
+                        liData : [
+                            {
+                                title : '在位清洗系统（cip）工作原理',
+                                date : '2016-03-24',
+                                href : 'httt://www.jingdong.com'
+                            },
+                            {
+                                title : '服务计划',
+                                date : '2016-03-24',
+                                href : 'httt://www.jingdong.com'
+                            },
+                                {
+                                title : '服务计划',
+                                date : '2016-03-24',
+                                href : 'httt://www.jingdong.com'
+                            }
+                        ] 
+                    },
+                    
+                    cfg : data.cfg,
+
+                    footer : footer
+                });
+            })
+
+
     },
     cat : function(req,res){
         res.render('tpls/cat',{
@@ -218,7 +232,7 @@ exports.router = {
                     }
                 ]
             tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
-                console.log(data)
+
                 res.render('tpls/detail',{
 
                     header : header,

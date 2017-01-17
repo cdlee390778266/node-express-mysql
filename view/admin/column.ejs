@@ -84,9 +84,52 @@
                             </div>
 
                             <div class="body-nest" id="horizontal">
-                                
+                               <div class="nest" id="tabletreeClose">
+                           
+                            <div class="body-nest" id="tabletree">
 
+                                <!-- <a style="margin:0 0 10px; 0" href="#" class="pull-right btn btn-info" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
+                                <a style="margin:0 10px 10px; 0;" href="#" class="pull-right btn btn-info" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a> -->
 
+                                <table id="example-advanced" class="table-striped treetable coltree">
+                                    <tbody>
+                                        <%
+                                            for(var i=0;i<data.length;i++){
+                                                if(parseInt(data[i].parentid) >0 ){
+                                        %>
+                                        <tr data-tt-id='<%= data[i].ttid %>' data-tt-parent-id='<%= data[i].parentid %>'>
+                                            <td>
+                                                <span ><%= data[i].colname %></span>
+                                                <a class="col-handle" href="javascript:void(0);">删除</a>
+                                                <a class="col-handle" href="javascript:void(0);">移动</a>
+                                                <a class="col-handle" href="javascript:void(0);">更改</a>
+                                                <a class="col-handle" href="javascript:void(0);">增加子类</a>
+                                                <a class="col-handle" href="javascript:void(0);">预览</a>
+                                            </td>
+                                        </tr>
+                                        <%
+                                                    }else{
+                                        %>
+                                        <tr data-tt-id='<%= data[i].ttid %>'>
+                                            <td>
+                                                <span><%= data[i].colname %></span>
+                                                <a class="col-handle" href="javascript:void(0);">删除</a>
+                                                <a class="col-handle" href="javascript:void(0);">移动</a>
+                                                <a class="col-handle" href="javascript:void(0);">更改</a>
+                                                <a class="col-handle" href="javascript:void(0);">增加子类</a>
+                                                <a class="col-handle" href="javascript:void(0);">预览</a>
+                                            </td>
+                                        </tr>
+                                        <%
+                                                    }
+                                            }
+                                        %>
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
 
                             </div>
 
@@ -148,6 +191,102 @@
 
 <script src="view/admin/assets/js/tree/treetable/vendor/jquery-ui.js"></script>
 <script src="view/admin/assets/js/tree/treetable/javascripts/src/jquery.treetable.js"></script>
+
+<script type="text/javascript">
+    $(function() {
+        $("#browser, #browser2").treeview({
+            animated: "fast",
+            collapsed: false,
+            unique: true,
+            persist: "cookie",
+            toggle: function() {
+                window.console && console.log("%o was toggled", this);
+            }
+        });
+    });
+    </script>
+
+    <script>
+    $("#example-basic").treetable({
+        expandable: true
+    });
+
+    $("#example-basic-static").treetable();
+
+    $("#example-basic-expandable").treetable({
+        expandable: true
+    });
+
+    $("#example-advanced").treetable({
+        expandable: true
+    });
+
+    // Highlight selected row
+    $("#example-advanced tbody").on("mousedown", "tr", function() {
+        $(".selected").not(this).removeClass("selected");
+        $(this).toggleClass("selected");
+    });
+
+    // Drag & Drop Example Code
+    $("#example-advanced .file, #example-advanced .folder").draggable({
+        helper: "clone",
+        opacity: .75,
+        refreshPositions: true, // Performance?
+        revert: "invalid",
+        revertDuration: 300,
+        expandable: true,
+        scroll: true
+    });
+
+    $("#example-advanced .folder").each(function() {
+        $(this).parents("#example-advanced tr").droppable({
+            accept: ".file, .folder",
+            drop: function(e, ui) {
+                var droppedEl = ui.draggable.parents("tr");
+                $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+            },
+            hoverClass: "accept",
+            over: function(e, ui) {
+                var droppedEl = ui.draggable.parents("tr");
+                if (this != droppedEl[0] && !$(this).is(".expanded")) {
+                    $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+                }
+            }
+        });
+    });
+
+    $("form#reveal").submit(function() {
+        var nodeId = $("#revealNodeId").val()
+
+        try {
+            $("#example-advanced").treetable("reveal", nodeId);
+        } catch (error) {
+            alert(error.message);
+        }
+
+        return false;
+    });
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        var table1 = $('#table1').tabelize({
+            /*onRowClick : function(){
+            alert('test');
+        }*/
+            fullRowClickable: true,
+            onReady: function() {
+                console.log('ready');
+            },
+            onBeforeRowClick: function() {
+                console.log('onBeforeRowClick');
+            },
+            onAfterRowClick: function() {
+                console.log('onAfterRowClick');
+            },
+        });
+    });
+    </script>
 
 
 <script>

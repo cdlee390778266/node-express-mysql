@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2017-01-11 18:00:50
+* @Last Modified time: 2017-01-17 18:00:39
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -49,19 +49,6 @@ var format = function (obj,fmt) {
 
 //项目根目录
 var uploadImgDir = path.dirname(require.main.filename) + config.articleImgDir;
-
-fs.exists(uploadImgDir, function(exists){
-    if(!exists){
-        fs.mkdir(uploadImgDir,function(err){
-            if (err) {
-                console.error(err);
-                console.log("创建目录" + uploadImgDir + "失败!");
-           }
-           console.log("创建目录" + uploadImgDir + "成功。");
-        })
-    }
-})
-
 
 var imgurls = [];
 

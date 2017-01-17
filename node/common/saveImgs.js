@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-29 14:15:13
     图片储存 npm install multiparty
-* @Last Modified time: 2017-01-04 16:37:23
+* @Last Modified time: 2017-01-17 17:56:20
 */
 var fs = require('fs');
 var multiparty = require('multiparty');
@@ -10,22 +10,19 @@ var path = require('path');
 var config = require('./config');
 var base = require('./base');
 
-//项目根目录
-var uploadDir = path.dirname(require.main.filename) + config.uploadDir;
 
-fs.exists(uploadDir, function(exists){
-    if(!exists){
-        fs.mkdir(uploadDir,function(err){
-            if (err) {
-                console.error(err);
-                console.log("目录创建失败!");
-           }
+var upload = function(req, res,uploaddir,callback){
+
+    //项目根目录
+    var uploadDir = path.dirname(require.main.filename) + uploaddir;
+
+    if(!fs.existsSync(uploadDir)){
+        if(!fs.mkdirSync(uploadDir)){
            console.log("目录创建成功。");
-        })
+        }else{
+           console.log("目录创建失败!");
+        }
     }
-})
-
-var upload = function(req, res,callback){
 
     if (req.method === 'POST') {
   

@@ -3,7 +3,7 @@
 * @Date:   2016-12-22 13:35:33
 * @Last Modified by:   anchen
 <<<<<<< HEAD
-* @Last Modified time: 2017-01-16 17:46:07
+* @Last Modified time: 2017-01-17 18:16:02
 =======
 * @Last Modified time: 2017-01-10 23:55:33
 >>>>>>> 926e4607e17d13491f2979e23f6e69cb5cf3615a
@@ -108,7 +108,7 @@ exports.router = {
     addUser : function(req,res){ 
 
         if(req.body.userface != ''){ //有头像上传
-            upload(req,res,function(fields,imgurls){
+            upload(req,res,config.uploadDir,function(fields,imgurls){
                 query.sqlInsert(req,res,'insert into administrators values('
                     + '"'+ fields.loginID +'",'
                     + '"'+ fields.level +'",'
@@ -261,7 +261,7 @@ exports.router = {
 
 
     saveArticle : function(req,res){
-        upload(req,res,function(fields,imgurls){
+        upload(req,res,config.articleImgDir,function(fields,imgurls){
             if( !fields.art_id[0]){
 
                if(fields.content.toString().indexOf('data:image') == -1){
@@ -306,7 +306,7 @@ exports.router = {
                                     linkData : [
                                         ['发布新文章','/adminArticle'],
                                         ['查看更改','/adminArticle?id='+rows.insertId],
-                                        ['查看文章','/'],
+                                        ['预览','/detail?id='+rows.insertId],
                                         ['管理文章','/adminArticleList']
                                     ]
                                 }
@@ -358,7 +358,7 @@ exports.router = {
                                             linkData : [
                                                 ['发布新文章','/adminArticle'],
                                                 ['查看更改','/adminArticle?id='+rows.insertId],
-                                                ['查看文章','/'],
+                                                ['预览','/detail?id='+rows.insertId],
                                                 ['管理文章','/adminArticleList']
                                             ]
                                         }
@@ -415,7 +415,7 @@ exports.router = {
                                     linkData : [
                                         ['发布新文章','/adminArticle'],
                                         ['查看更改','/adminArticle?id='+fields.art_id],
-                                        ['查看文章','/'],
+                                        ['预览','/detail?id='+fields.art_id],
                                         ['管理文章','/adminArticleList']
                                     ]
                                 }
@@ -467,7 +467,7 @@ exports.router = {
                                             linkData : [
                                                 ['发布新文章','/adminArticle'],
                                                 ['查看更改','/adminArticle?id='+fields.art_id],
-                                                ['查看文章','/'],
+                                                ['预览','/detail?id='+fields.art_id],
                                                 ['管理文章','/adminArticleList']
                                             ]
                                         }
@@ -484,7 +484,20 @@ exports.router = {
     },
 
     column : function(req,res){
-        res.render('admin/column');
+        var sql = 'select * from web_column order by parentid,ttid';
+        query.query(sql,function(err,rows){
+            if(err){
+                console.log('进入"网站栏目管理"出错,错误信息：' + err);
+                res.redirect('/adminNotFound');
+            }else{
+                console.log(rows);
+                res.render('admin/column',{
+                    status : 0,
+                    data : rows
+                }); 
+           }
+        })
+        
     },
 
     addColumn : function(req,res){
@@ -529,14 +542,26 @@ exports.router = {
         })
     },
 
+    banner : function(req,res){
+        res.render('admin/banner');
+    },
 
-
-
+    saveBanner : function(req,res){
+        upload(req,res,config.bannerImgsUrl,function(fields,imgurls){
+            for(var i=0;i<imgurls.length;i++){
+                imgurls[i] = imgurls[i].substr(imgurls[i].indexOf(config.bannerImgsUrl));
+            }
+        })
+    },
 
 
 
     loginOut : function(req,res){
         global.user = '';
         res.redirect('/admin');
+    },
+
+    notfound : function(req,res){
+        res.render('admin/404');
     }
 }

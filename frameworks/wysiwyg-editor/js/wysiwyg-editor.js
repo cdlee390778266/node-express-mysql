@@ -114,8 +114,9 @@
                                         image_width = parseInt(image_width / image_height * max_imagesize[1]);
                                         image_height = max_imagesize[1];
                                     }
-                                    $image.attr('width',image_width)
-                                          .attr('height',image_height);
+                                    $image.css('max-width','100%')
+                                    // $image.attr('width',image_width)
+                                    //       .attr('height',image_height);
                                 }
                             });
                 }

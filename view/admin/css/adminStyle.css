@@ -90,7 +90,24 @@ form .error:after {
   color: #555 !important;
 }
 
-.treeview li {
-  padding-top: 10px;
-  padding-bottom: 10px;
+.coltree td {
+  font-size: 12px;
+}
+.coltree td a {
+  float: right;
+  margin-left: 10px;
+  position: relative;
+  top: 4px;
+}
+.coltree td .indenter {
+  position: relative;
+  top: 1px;
+}
+.coltree td span {
+  padding-left: 0px;
+  color: #9ea7b3;
+}
+
+.admin-banner {
+  margin-top: 20px;
 }

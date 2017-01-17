@@ -62,8 +62,11 @@ app.get('/adminColumn',adminRouter.router.column);
 app.get('/adminAddColumn',adminRouter.router.addColumn);
 app.get('/adminSaveColumn',adminRouter.router.saveColumn);
 
-app.get('/adminLoginOut',adminRouter.router.loginOut);
+app.get('/adminBanner',adminRouter.router.banner);
+app.post('/adminSaveBanner',adminRouter.router.saveBanner);
 
+app.get('/adminLoginOut',adminRouter.router.loginOut);
+app.get('/adminNotFound',adminRouter.router.notfound);
 
 
 
