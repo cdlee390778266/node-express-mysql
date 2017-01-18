@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-29 14:15:13
     图片储存 npm install multiparty
-* @Last Modified time: 2017-01-17 17:56:20
+* @Last Modified time: 2017-01-18 11:15:26
 */
 var fs = require('fs');
 var multiparty = require('multiparty');

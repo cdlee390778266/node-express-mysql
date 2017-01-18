@@ -62,7 +62,9 @@ app.get('/adminColumn',adminRouter.router.column);
 app.get('/adminAddColumn',adminRouter.router.addColumn);
 app.get('/adminSaveColumn',adminRouter.router.saveColumn);
 
-app.get('/adminBanner',adminRouter.router.banner);
+app.get('/adminBannerList',adminRouter.router.bannerList);
+app.post('/adminDelBanner',adminRouter.router.delBanner);
+app.get('/adminAddBanner',adminRouter.router.addBanner);
 app.post('/adminSaveBanner',adminRouter.router.saveBanner);
 
 app.get('/adminLoginOut',adminRouter.router.loginOut);
