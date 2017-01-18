@@ -140,7 +140,7 @@
         showUpload: false
     });
     $('#saveBanner').submit(function(){
-        if(!$('#bannerFile').val()){
+        if(!$('.file-caption-name').attr('title')){
             $('#mes').modal();
             setTimeout(function(){
                 $('#mes').modal('hide');
