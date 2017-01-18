@@ -1,12 +1,6 @@
 /* 
 * @Author: Lee
 * @Date:   2016-12-22 13:35:33
-* @Last Modified by:   anchen
-<<<<<<< HEAD
-* @Last Modified time: 2017-01-17 23:52:27
-=======
-* @Last Modified time: 2017-01-10 23:55:33
->>>>>>> 926e4607e17d13491f2979e23f6e69cb5cf3615a
 */
 
 var query = require('./mysql');
@@ -542,8 +536,51 @@ exports.router = {
         })
     },
 
-    banner : function(req,res){
-        res.render('admin/banner');
+    bannerList : function(req,res){
+        var sql = 'select banner from web_cfg';
+        query.query(sql,function(err,rows){
+            if(rows[0].banner){
+                var bannerArr = rows[0].banner.split(',');
+                for(var i=0;i<bannerArr.length;i++){
+                    if(!bannerArr[i]){
+                        bannerArr.splice(i,1);
+                    }
+                }
+                res.render('admin/bannerlist',{
+                    banner : bannerArr
+                });
+            }else{
+                res.render('admin/bannerlist',{
+                    banner : ''
+                }); 
+            }
+            
+        })
+        
+    },
+
+    delBanner : function(req,res){
+        var bannerUrl = req.body.bannerUrl;
+        var banner = req.body.banner;
+        var reg =new RegExp(',*' +bannerUrl);
+        var banner = banner.replace(reg,'');
+        var sql = 'update web_cfg set banner="' + banner + '"';
+        query.sqlUpdate(req,res,sql,'操作成功','操作失败');
+    },
+
+    addBanner : function(req,res){
+        var sql = 'select banner from web_cfg';
+        query.query(sql,function(err,rows){
+            var updateStr = req.query.updateStr;
+            if(!updateStr){
+                updateStr = '';
+            }
+            res.render('admin/banner',{
+                banner : rows[0].banner,
+                updateStr : updateStr
+            });
+            
+        })
     },
 
     saveBanner : function(req,res){
@@ -551,7 +588,49 @@ exports.router = {
             for(var i=0;i<imgurls.length;i++){
                 imgurls[i] = imgurls[i].substr(imgurls[i].indexOf(config.bannerImgsUrl));
             }
+
+            if(!fields.updateStr[0]){
+               if(fields.banner[0].length){
+                    var sql = 'update web_cfg set banner="' + fields.banner + ',' + imgurls.toString() + '"';
+                }else{
+                    var sql = 'update web_cfg set banner="' + imgurls.toString() + '"';
+                }
+            }else{
+                var banner = fields.banner[0].replace(fields.updateStr[0],imgurls.toString());
+                var sql = 'update web_cfg set banner="' + banner + '"';
+            }
+            
+            var linkData = [
+                                    ['继续添加轮播图','/adminAddBanner'],
+                                    ['轮播图列表','/adminBannerList']
+                                ]
+                                
+            query.query(sql,function(err,rows){
+                    if(err){
+                        console.log('保存失败，错误信息：' + err);
+                        res.render('admin/message',{
+                            status : 1,
+                            data : {
+                                title : '保存轮播图失败',
+                                linkData : [
+                                    ['轮播图列表','/adminBannerList'],
+                                ]
+                            }
+                        })
+                    }else{
+                       res.render('admin/message',{
+                            status : 0,
+                            data : {
+                                title : '保存轮播图成功',
+                                linkData : linkData
+                            }
+                        }) 
+                    }
+
+                });
+              
         })
+
     },
 
 

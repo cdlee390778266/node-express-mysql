@@ -72,13 +72,16 @@
 
                             <div class="title-alt">
                                 <h6>
-                                    轮播图设置</h6>
+                                    添加轮播图</h6>
                             </div>
-                            
-                            <div class="form-group admin-banner">
-                                <input id="banner" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
-                             </div>
-
+                            <form action="/adminSaveBanner" method="post" enctype="multipart/form-data" id="saveBanner">
+                                <input type="hidden" value="<%= updateStr %>" name="updateStr" />
+                                <input type="hidden" name="banner" value="<%= banner %>" />
+                                <div class="form-group admin-banner">
+                                <input id="bannerFile" type="file" class="file" data-upload-url="#" name="bannerFile">
+                                </div>
+                                <input type="submit" value="保存" class="btn btn-success" />
+                             </form>
                         </div>
                     </div>
                 </div>
@@ -121,6 +124,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
+        您没有上传任何图片!
       </div>
     </div>
   </div>
@@ -130,32 +134,22 @@
 <script src="view/admin/js/bootstrap_file_input/zh.js"></script>
 
 <script>
-     
-    $("#banner").fileinput({
-        uploadUrl: '/adminSaveBanner', // you must set a valid URL here else you will get an error
+    $("#bannerFile").fileinput({
         allowedFileExtensions : ['jpg', 'png','gif'],
-        overwriteInitial: false,
-        maxFileSize: 1000,
-        maxFilesNum: 10,
         language: 'zh',
-        slugCallback: function(filename) {
-            return filename.replace('(', '_').replace(']', '_');
+        showUpload: false
+    });
+    $('#saveBanner').submit(function(){
+        if(!$('#bannerFile').val()){
+            $('#mes').modal();
+            setTimeout(function(){
+                $('#mes').modal('hide');
+            }, 2000)
+            return false;
         }
-    });
-   
-    $(document).ready(function() {
-        $("#test-upload").fileinput({
-            'showPreview' : false,
-            'allowedFileExtensions' : ['jpg', 'png','gif'],
-            'elErrorContainer': '#errorBlock'
-        });
-        /*
-        $("#test-upload").on('fileloaded', function(event, file, previewId, index) {
-            alert('i = ' + index + ', id = ' + previewId + ', file = ' + file.name);
-        });
-        */
-    });
-    </script>
+    })
+
+</script>
 
 
 </body>
