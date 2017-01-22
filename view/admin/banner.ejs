@@ -134,11 +134,28 @@
 <script src="view/admin/js/bootstrap_file_input/zh.js"></script>
 
 <script>
+    <%
+        if(updateStr){
+    %>
+    $("#bannerFile").fileinput({
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        language: 'zh',
+        showUpload: false,
+        initialPreview: '<img src="<%= updateStr %>" class="file-preview-image" />',
+        showPreview : true
+    });
+    <%
+        }else{
+    %>
     $("#bannerFile").fileinput({
         allowedFileExtensions : ['jpg', 'png','gif'],
         language: 'zh',
         showUpload: false
     });
+    <%
+        }
+    %>
+    
     $('#saveBanner').submit(function(){
         if(!$('.file-caption-name').attr('title')){
             $('#mes').modal();

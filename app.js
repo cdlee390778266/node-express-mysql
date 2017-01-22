@@ -44,6 +44,7 @@ app.get('/adminCheck',adminRouter.router.check);
 app.get('/adminIndex',adminRouter.router.index);
 app.get('/adminCfg',adminRouter.router.cfg);
 app.post('/adminSaveCfg',adminRouter.router.savecfg);
+app.post('/adminSaveCfgImg',adminRouter.router.savecfgImg);
 
 app.get('/adminUserList',adminRouter.router.userList);
 app.post('/adminUserListPage',adminRouter.router.userListPage);

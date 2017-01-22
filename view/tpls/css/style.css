@@ -623,8 +623,15 @@ a:hover {
   margin-top: 10px;
 }
 
+.navbar-brand {
+  padding: 5px;
+}
+.navbar-brand span {
+  position: relative;
+  top: 11px;
+}
 .navbar-brand img {
-  height: 50px;
+  height: 40px;
 }
 
 .caption {

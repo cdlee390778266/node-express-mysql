@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主机: localhost
--- 生成日期: 2017 年 01 月 17 日 18:19
+-- 生成日期: 2017 年 01 月 22 日 17:40
 -- 服务器版本: 5.5.40
 -- PHP 版本: 5.3.29
 
@@ -46,11 +46,9 @@ CREATE TABLE IF NOT EXISTS `administrators` (
 
 INSERT INTO `administrators` (`loginname`, `level`, `name`, `password`, `pseudonym`, `faceurl`, `eamil`, `logintime`) VALUES
 ('admin', 1, '张三', 'admin', '吹牛', '/view/admin/image/userface.jpg', '', 1482912791767),
-('rootaa', 2, '李四', 'rootaa', '发生大', '', '', 1482910130458),
 ('eefasfsd', 1, '', 'fffff', 'ffff', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-04 14-43-47_9.jpg', '', 1483512227143),
 ('rrrrr', 1, '', 'fffffff', 'dfsafdasf', '', '', 1483951903871),
-('feaeewfas', 3, '', 'ffffff', 'fffff', '', '', 1483951926426),
-('fdsafdas', 4, '', 'fffff', 'fffff', '', '', 1483951946454),
+('fkasdjfklasd ', 5, '', 'admin', 'fdas', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-22 15-57-45_2017-01-18 ', '', 1485071865701),
 ('gfdsgdfgdfsg', 1, 'ffffdsa', 'ffffff', 'gg', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-17 17-37-09_2.jpg', '', 1484645829773),
 ('fdsafdsfdsaf', 1, '', 'fffff', 'ffffff', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-17 17-39-19_1.jpg', '', 1484645959430),
 ('grdfgdsfg', 1, '', 'ffffff', 'gfggggg', 'C:UsersAdministratorDesktopproject\node-express-mysql/upload/userface/2017-01-17 17-51-46_1.jpg', '', 1484646706462),
@@ -80,21 +78,6 @@ CREATE TABLE IF NOT EXISTS `article` (
   `date` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=gbk AUTO_INCREMENT=118 ;
-
---
--- 转存表中的数据 `article`
---
-
-INSERT INTO `article` (`id`, `title`, `diy`, `tag`, `weight`, `writer`, `type`, `keywords`, `description`, `content`, `needwatermark`, `notpost`, `click`, `date`) VALUES
-(115, 'rgsdfsgfsdgsd', '', '', 0, '', '0', '', '', 'pig', 0, 0, 0, '2017-01-17 16:02:53'),
-(116, 'rgsdfsgfsdgsd', '', '', 0, '', '0', '', '', 'pig<img src="/upload/article/20170117160602758.png" alt="" title="5.jpg" style="max-width: 100%;">', 0, 0, 0, '2017-01-17 16:04:23'),
-(117, 'fdsafasdfsdf', '', '', 0, '', '0', '', '', '<img src="/upload/article/20170117180119275.png" alt="" title="3.jpg" style="max-width: 100%;"><img src="/upload/article/20170117180145176.png" alt="" title="9.jpg" style="max-width: 100%;">', 0, 0, 0, '2017-01-17 18:01:19'),
-(114, 'efaefasfdasf', '', '', 0, '', '0', '', '', 'pig', 0, 0, 0, '2017-01-17 16:02:24'),
-(113, 'efaefasfdasf', '', '', 0, '', '0', '', '', '<img src="/upload/article/20170117160217191.png" alt="" title="6.jpg" style="max-width: 100%;"><img src="/upload/article/2017011716021737.png" alt="" title="9.jpg" style="max-width: 100%;"><img src="/upload/article/20170117160217108.png" alt="" title="KU]$24KIJC}ODY]LE[{_6WD.jpg" style="max-width: 100%;">', 0, 0, 0, '2017-01-17 16:02:17'),
-(111, '坑货的世界啊', '', '', 0, '', '0', '', '', 'pig', 0, 0, 0, '2017-01-16 18:12:58'),
-(112, 'efaefasfdasf', '', '', 0, '', '0', '', '', '<img src="/upload/article/20170117160141221.png" alt="" title="6.jpg" style="max-width: 100%;"><img src="/upload/article/20170117160141237.png" alt="" title="9.jpg" style="max-width: 100%;"><img src="/upload/article/20170117160141142.png" alt="" title="KU]$24KIJC}ODY]LE[{_6WD.jpg" style="max-width: 100%;">', 0, 0, 0, '2017-01-17 16:01:41'),
-(110, '我有一只小毛驴', '', '', 0, '', '0', '', '', '<div align="center"><b>别坑我可以不</b><br><br><img src="/upload/article/20170116101021826.png" alt="" title="6.jpg" style="" width="300" height="200"></div>', 0, 0, 0, '2017-01-16 10:10:21'),
-(109, '测试测试测试', '', '', 0, '', '0', '', '', 'pig<img src="/upload/article/20170116100511342.png" alt="" title="1.jpg" style="" width="266" height="200"><img src="/upload/article/20170116100511525.png" alt="" title="4.jpg" style="" width="266" height="200"><img src="/upload/article/20170116100511299.png" alt="" title="7.jpg" style="" width="320" height="200"><img src="/upload/article/20170116100511192.png" alt="" title="KU]$24KIJC}ODY]LE[{_6WD.jpg" style="" width="266" height="200">', 0, 0, 0, '2017-01-16 10:04:45');
 
 -- --------------------------------------------------------
 
@@ -134,15 +117,21 @@ CREATE TABLE IF NOT EXISTS `web_cfg` (
   `keywords` text NOT NULL,
   `webdsc` text NOT NULL,
   `beian` text NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `banner` text NOT NULL,
+  `company` text NOT NULL,
+  `telephone` varchar(100) NOT NULL,
+  `fax` varchar(100) NOT NULL,
+  `address` text NOT NULL,
+  `logo` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=gbk;
 
 --
 -- 转存表中的数据 `web_cfg`
 --
 
-INSERT INTO `web_cfg` (`basehost`, `mainhost`, `hostname`, `webname`, `imgurl`, `docurl`, `docstyle`, `copyright`, `keywords`, `webdsc`, `beian`, `date`) VALUES
-('http://localhosft.com', 'undefined', 'undefined', '我的网站', 'undefined', 0, 'undefined', 'undefined', 'undefined', 'undefined', 'undefined', '2017-01-17 16:09:10');
+INSERT INTO `web_cfg` (`basehost`, `mainhost`, `hostname`, `webname`, `imgurl`, `docurl`, `docstyle`, `copyright`, `keywords`, `webdsc`, `beian`, `date`, `banner`, `company`, `telephone`, `fax`, `address`, `logo`) VALUES
+('http://localhosft.com', '127', 'ko', '很无语', 'undefined', 0, 'default', 'ko', '看好你i哦', '狂拽炫', '050', '2017-01-22 17:07:01', '/upload/banner/2017-01-22 16-59-14_2017-01-18 23-41-36_slide.jpg,/upload/banner/2017-01-22 16-59-21_2017-01-18 23-43-06_slide-2.jpg,/upload/banner/2017-01-22 16-59-28_2017-01-18 23-43-15_slide-3.jpg', '成都乾隆科技有限公司', '02802802', 'ko', '东大街', '');
 
 -- --------------------------------------------------------
 

@@ -2,14 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-4">
-          <img src="<%= footer.imgl %>"  alt="" />
+          <img src="view/tpls/images/ewcode.png"  alt="" />
       </div>
       <div class="col-xs-4">
-          <%= footer.txt %>
+          版权所有:2013-2014  蜀ICP备<%= cfg[0].beian %>号 公司总机：<%= cfg[0].telephone %> 传真：<%= cfg[0].fax %> 地址：<%= cfg[0].address %>
       </div>
       <div class="col-xs-4">
-        <img src="<%= footer.imgr %>"  alt="" /><br />扫一扫
+        <img src="view/tpls/images/ewcode.png"  alt="" /><br />扫一扫
       </div>
     </div>
   </div>
 </div>
+
+<script>
+'use strict';
+    window.scrollReveal = new scrollReveal({ reset: true, move: '50px' });
+</script>

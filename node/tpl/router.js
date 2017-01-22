@@ -49,16 +49,6 @@ var header = [
                 },
             ]
 
-//页脚数据
-var footer = {
-                imgl : 'view/tpls/images/ewcode.png',
-                txt : '版权所有:2013-2014 xxxxxxxxx 蜀ICP备000000000号 公司总机：028-xxxxxxxx 传真：028-8xxxxxxxx 地址：成都市xxxxxxx ',
-                imgr : 'view/tpls/images/ewcode.png'
-            }
-
-//轮播图数据
-var banner = ['view/tpls/images/banner1.jpg','view/tpls/images/banner2.jpg','view/tpls/images/banner1.jpg','view/tpls/images/banner2.jpg'];
-
 exports.router = {
     index : function(req,res){
 
@@ -74,7 +64,6 @@ exports.router = {
 
                 header : header,
 
-                banner : banner,
 
                 product : {
                     flag : true,
@@ -147,7 +136,7 @@ exports.router = {
                 
                 cfg : data.cfg,
 
-                footer : footer
+    
             });
         })
 
@@ -166,7 +155,6 @@ exports.router = {
 
                 header : header,
 
-                banner : banner,
 
                 left : {
                     product : {
@@ -181,7 +169,7 @@ exports.router = {
                     },
                     contact : {
                         title :['联系我们','Contact us'],
-                        txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                        txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                     }
                 },
 
@@ -226,7 +214,7 @@ exports.router = {
 
                 cfg : data.cfg,
 
-                footer : footer
+    
             });
         })
         
@@ -252,8 +240,7 @@ exports.router = {
 
                     header : header,
 
-                    banner : banner,
-
+    
                     left : {
                         product : {
                             title :['产品展示','Product display'],
@@ -267,7 +254,7 @@ exports.router = {
                         },
                         contact : {
                             title :['联系我们','Contact us'],
-                            txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                            txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                         }
                     },
 
@@ -281,7 +268,7 @@ exports.router = {
 
                     cfg : data.cfg,
                     
-                    footer : footer
+        
                 })
             })
             
@@ -296,6 +283,10 @@ exports.router = {
                     {
                         sql : 'select * from web_cfg',
                         field : 'cfg'
+                    },
+                    {
+                        sql : 'select id,title,date from article',
+                        field : 'article'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
@@ -303,8 +294,6 @@ exports.router = {
             res.render('tpls/list',{
 
             header : header,
-
-            banner : banner,
 
             left : {
                 product : {
@@ -319,7 +308,7 @@ exports.router = {
                 },
                 contact : {
                     title :['联系我们','Contact us'],
-                    txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                    txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                 }
             },
 
@@ -329,27 +318,10 @@ exports.router = {
                 ['水处理设备','/index']
             ],
 
-            news : [
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                },
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                },
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                }
-            ],
+            news : data.article,
 
             cfg : data.cfg,
             
-            footer : footer
         });
         })
         

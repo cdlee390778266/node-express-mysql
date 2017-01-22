@@ -8,5 +8,6 @@ module.exports = {
     userListPageNum : 2 ,
     articleImgDir : '/upload/article',
     articlePageNum : 10,
-    bannerImgsUrl : '/upload/banner'
+    bannerImgsUrl : '/upload/banner',
+    logoUrl : '/upload/logo'
 }
