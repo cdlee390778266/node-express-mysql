@@ -78,7 +78,7 @@
                                 <input type="hidden" value="<%= updateStr %>" name="updateStr" />
                                 <input type="hidden" name="banner" value="<%= banner %>" />
                                 <div class="form-group admin-banner">
-                                <input id="bannerFile" type="file" class="file" data-upload-url="#" name="bannerFile">
+                                <input id="bannerFile" type="file" class="file" name="bannerFile" data-upload-url="#">
                                 </div>
                                 <input type="submit" value="保存" class="btn btn-success" />
                              </form>
@@ -140,7 +140,7 @@
         showUpload: false
     });
     $('#saveBanner').submit(function(){
-        if(!$('#bannerFile').val()){
+        if(!$('.file-caption-name').attr('title')){
             $('#mes').modal();
             setTimeout(function(){
                 $('#mes').modal('hide');

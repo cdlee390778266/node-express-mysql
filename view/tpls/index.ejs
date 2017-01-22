@@ -30,12 +30,23 @@
                 <div class="col-xs-6 col-sm-3">
                     <div class="thumbnail">
                       <div class="thum-img">
-                          <img  alt="..." src="<%= product.data[i].img %>" class="img-responsive" >
+                          <%
+                             if(product.data[i].themeimg){
+                          %>
+                            <img  alt="..." src="<%= product.data[i].themeimg %>" class="img-responsive" >
+                          <%
+                                }else{
+                          %>
+                          <img  alt="..." src="/view/tpls/images/news.jpg" class="img-responsive" >
+                          <%
+                                }
+                          %>
+                    
                       </div>
                       <div class="caption">
                         <h3><%= product.data[i].title %></h3>
-                        <p><%= product.data[i].describe %></p>
-                        <p><a href="<%= product.data[i].href %>">查看更多 <span class="go">+</span></a></p>
+                        <p><%= product.data[i].description %></p>
+                        <p><a href="/detail?id=<%= product.data[i].id %>">查看更多 <span class="go">+</span></a></p>
                       </div>
                     </div>
                 </div>

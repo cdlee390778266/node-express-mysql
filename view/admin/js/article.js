@@ -416,7 +416,6 @@ $(document).ready(function(){
         // });
     });
     
-    $('#content').html('pig')
     $("#art_date").datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss',
         language:  'zh-CN',
@@ -424,6 +423,8 @@ $(document).ready(function(){
         todayBtn: true,
         pickerPosition: "bottom-left"
     });
+
+    
 
     $('#article').validate({
             rules : {
@@ -461,4 +462,12 @@ $(document).ready(function(){
             }
         });
    
+    
+
+});
+
+$("#art_themeImg").fileinput({
+        allowedFileExtensions : ['jpg', 'png','gif'],
+        language: 'zh',
+        showUpload: false
 });

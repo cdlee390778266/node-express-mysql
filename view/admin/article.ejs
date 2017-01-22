@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="view/admin/assets/js/progress-bar/number-pb.css">
     <link rel="stylesheet" type="text/css" href="frameworks/wysiwyg-editor/css/wysiwyg-editor.css">
     <link rel="stylesheet" type="text/css" href="view/admin/js/datetimepicker/datetimepicker.css">
-    
+    <link rel="stylesheet" href="view/admin/js/bootstrap_file_input/fileinput.css">
 
     <style type="text/css">
     canvas#canvas4 {
@@ -102,6 +102,7 @@
                                     <form class="form-horizontal article" id="article"  method="post" action="/adminSaveArticle" enctype="multipart/form-data" >
 
                                         <input type="hidden" name="art_id" value="<%= data[0].id %>" />
+                                        <input type="hidden" name="srcthemeImg" value="<%= data[0].themeimg %>" />
                                        
                                         <div class="form-group">
                                             <div class="col-xs-12">
@@ -169,6 +170,12 @@
                                             <label class="col-xs-12 control-label txtleft" for="sart_description">文章摘要：</label>
                                             <div class="col-xs-12">
                                                 <textarea name="art_description" id="art_description" class="form-control" ><%= data[0].description %></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-xs-12 control-label txtleft" for="art_themeImg">文章缩略图：</label>
+                                            <div class="col-xs-12">
+                                                <input id="art_themeImg" type="file" class="file"  name="art_themeImg" value="<%= data[0].themeimg %>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -259,11 +266,14 @@
     <% include common/commonjs %>
     <!-- END OF cononjs-->
 
+    <script src="view/admin/js/bootstrap_file_input/fileinput.js"></script>
+    <script src="view/admin/js/bootstrap_file_input/zh.js"></script>
     <script src="frameworks/wysiwyg-editor/js/wysiwyg.js"></script>
     <script src="frameworks/wysiwyg-editor/js/wysiwyg-editor.js"></script>
     <script src="view/admin/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
     <script src="view/admin/js/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="view/admin/js/article.js"></script>
+
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 * @Author: lee
 * @Date:   2016-12-26 17:11:51
 * 
-* @Last Modified time: 2017-01-17 18:00:39
+* @Last Modified time: 2017-01-20 00:17:36
 */
 
 /** * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -46,13 +46,19 @@ var format = function (obj,fmt) {
 
 }
 
-
-//项目根目录
-var uploadImgDir = path.dirname(require.main.filename) + config.articleImgDir;
-
 var imgurls = [];
 
-var saveImg = function(imgData,callback){
+var saveImg = function(imgData,uploadDir,callback){
+
+    var uploadImgDir = path.dirname(require.main.filename) + uploadDir;
+    if(!fs.existsSync(uploadImgDir)){
+        if(!fs.mkdirSync(uploadImgDir)){
+           console.log("目录创建成功。");
+        }else{
+           console.log("目录创建失败!");
+        }
+    }
+
     imgurls = [];
     var base64Data = imgData.replace(/^data:image\/\w+;base64,/g, "");
         var dataBuffer = new Buffer(base64Data, 'base64');
@@ -71,19 +77,19 @@ var saveImg = function(imgData,callback){
             }
         });
 }
-var saveBase64ToImg = function(req,res,fields,field,callback){
+var saveBase64ToImg = function(req,res,uploadDir,fields,field,callback){
         imgurl = [];
         //接收前台POST过来的base64
         var contentData = fields[field][0];
         //过滤data:URL
         var base64Data = contentData.match(/src\s*=\s*[\"\']\s*data:image([^\"\']*)[\"\']/g);
-        console.log(base64Data.length)
+        
         for(var i=0;i<base64Data.length;i++){
             var srcData = base64Data[i].match(/[\"\']([^\"\']*)[\"\']/);
             if(i == base64Data.length-1){
-                saveImg(srcData[1],callback);
+                saveImg(srcData[1],uploadDir,callback);
             }else{
-                saveImg(srcData[1]);
+                saveImg(srcData[1],uploadDir);
             }
             
         }

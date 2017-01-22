@@ -6,7 +6,8 @@ module.exports = {
     database : 'demo',
     uploadDir : '/upload/userface',  //图片存放地址
     userListPageNum : 2 ,
-    articleImgDir : '/upload/article',
+    articleImgDir : '/upload/article/images',
     articlePageNum : 10,
-    bannerImgsUrl : '/upload/banner'
+    bannerImgsUrl : '/upload/banner',
+    articleThemeImgDir : '/upload/article/theme',
 }

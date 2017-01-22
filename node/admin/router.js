@@ -241,6 +241,7 @@ exports.router = {
                     type: '',
                     keywords: '',
                     description: '',
+                    themeimg : '',
                     content: '',
                     needwatermark: '',
                     notpost: '',
@@ -255,15 +256,15 @@ exports.router = {
 
 
     saveArticle : function(req,res){
-        upload(req,res,config.articleImgDir,function(fields,imgurls){
+        upload(req,res,config.articleThemeImgDir,function(fields,themeimg){
+            themeimg[0] = themeimg[0] ? themeimg[0] : fields.srcthemeImg;
             if( !fields.art_id[0]){
-
                if(fields.content.toString().indexOf('data:image') == -1){
                     var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                     var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                     var click = fields.art_click.toString().length ? fields.art_click : 0;
                     var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
-                    var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
+                    var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,themeimg,content,needwatermark,notpost,click,date) values('
                         + '"' + fields.art_title + '",' 
                         + '"' + fields.art_diy + '",' 
                         + '"' + fields.art_tag + '",' 
@@ -272,6 +273,7 @@ exports.router = {
                         + '"' + fields.art_type + '",' 
                         + '"' + fields.art_keywords + '",' 
                         + '"' + fields.art_description + '",' 
+                        + '"' + themeimg[0] + '",' 
                         + '\'' +fields.content + '\',' 
                         + needwatermark + ',' 
                         + fields.notpost+ ',' 
@@ -308,13 +310,13 @@ exports.router = {
                         }
                     })
                }else{
-                    base.saveBase64ToImg(req,res,fields,'content',function(imgurls){
+                    base.saveBase64ToImg(req,res,config.articleImgDir,fields,'content',function(imgurls){
                        base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
                             var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                             var click = fields.art_click.toString().length ? fields.art_click : 0;
                             var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
-                            var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,content,needwatermark,notpost,click,date) values('
+                            var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,themeimg,content,needwatermark,notpost,click,date) values('
                                 + '"' + fields.art_title + '",' 
                                 + '"' + fields.art_diy + '",' 
                                 + '"' + fields.art_tag + '",' 
@@ -322,7 +324,8 @@ exports.router = {
                                 + '"' + fields.art_writer + '",' 
                                 + '"' + fields.art_type + '",' 
                                 + '"' + fields.art_keywords + '",' 
-                                + '"' + fields.art_description + '",' 
+                                + '"' + fields.art_description + '",'
+                                + '"' + themeimg[0] + '",' 
                                 + '\'' +fields.content + '\',' 
                                 + needwatermark + ',' 
                                 + fields.notpost+ ',' 
@@ -366,7 +369,6 @@ exports.router = {
             }else{
                 
                 if(fields.content.toString().indexOf('data:image') == -1){
-                    console.log(fields)
                     var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                     var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                     var click = fields.art_click.toString().length ? fields.art_click : 0;
@@ -380,6 +382,7 @@ exports.router = {
                             + 'type="' + fields.art_type + '",' 
                             + 'keywords="' + fields.art_keywords + '",' 
                             + 'description="' + fields.art_description + '",' 
+                            + 'themeimg="' + themeimg[0] + '",' 
                             + 'content=\'' +fields.content + '\',' 
                             + 'needwatermark=' + needwatermark + ',' 
                             + 'notpost=' + fields.notpost+ ',' 
@@ -417,7 +420,7 @@ exports.router = {
                         }
                     })
                }else{
-                    base.saveBase64ToImg(req,res,fields,'content',function(imgurls){
+                    base.saveBase64ToImg(req,res,config.articleImgDir,fields,'content',function(imgurls){
                        base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
                             var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
@@ -432,6 +435,7 @@ exports.router = {
                                     + 'type="' + fields.art_type + '",' 
                                     + 'keywords="' + fields.art_keywords + '",' 
                                     + 'description="' + fields.art_description + '",' 
+                                    + 'themeimg="' + themeimg[0] + '",' 
                                     + 'content=\'' +fields.content + '\',' 
                                     + 'needwatermark=' + needwatermark + ',' 
                                     + 'notpost=' + fields.notpost+ ',' 
