@@ -39,6 +39,7 @@ exports.router = {
     },
 
     savecfg : function(req,res){
+
         var basehost = req.body.basehost;
         var mainhost = req.body.mainhost;
         var hostname = req.body.hostname;
@@ -50,6 +51,11 @@ exports.router = {
         var keywords = req.body.keywords;
         var webdsc = req.body.webdsc;
         var beian = req.body.beian;
+        var company = req.body.company;
+        var address = req.body.address;
+        var telephone = req.body.telephone;
+        var fax = req.body.fax;
+        var logo = "";
         var date = req.body.date;
         var sql = 'update web_cfg set '
             + 'basehost="' + basehost + '",' 
@@ -63,8 +69,39 @@ exports.router = {
             + 'keywords="' + keywords + '",'
             + 'webdsc="' + webdsc + '",'
             + 'beian="' + beian + '",'
+            + 'company="' + company + '",'
+            + 'address="' + address + '",'
+            + 'telephone="' + telephone + '",'
+            + 'fax="' + fax + '",'
+            + 'logo="' + logo + '",'
             + 'date="' + date + '"'
         query.sqlUpdate(req,res,sql,'保存成功','保存失败');
+    },
+
+    savecfgImg : function(req,res){
+
+        upload(req,res,config.logoUrl,function(fields,imgurls){
+            var logourl = imgurls[0].substr(imgurls[0].indexOf(config.logoUrl));
+            var sql = 'update web_cfg set '
+            + 'basehost="' + fields.basehost + '",' 
+            + 'mainhost="' + fields.mainhost + '",'
+            + 'hostname="' + fields.hostname + '",'
+            + 'webname="' + fields.webname + '",'
+            + 'imgurl="' + fields.imgurl + '",'
+            + 'docurl="' + fields.docurl + '",'
+            + 'docstyle="' + fields.docstyle + '",'
+            + 'copyright="' + fields.copyright + '",'
+            + 'keywords="' + fields.keywords + '",'
+            + 'webdsc="' + fields.webdsc + '",'
+            + 'beian="' + fields.beian + '",'
+            + 'company="' + fields.company + '",'
+            + 'address="' + fields.address + '",'
+            + 'telephone="' + fields.telephone + '",'
+            + 'fax="' + fields.fax + '",'
+            + 'logo="' + logourl + '",'
+            + 'date="' + fields.date + '"'
+            query.sqlUpdate(req,res,sql,'保存成功','保存失败');
+        })
     },
 
     userList : function(req,res){

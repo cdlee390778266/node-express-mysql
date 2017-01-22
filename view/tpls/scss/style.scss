@@ -95,8 +95,16 @@ a:hover{
     }
 }
 
-.navbar-brand img{
-    height:50px;
+.navbar-brand {
+    padding: 5px;
+    span{
+        position:relative;
+        top:11px;
+    }
+    img{
+        height:40px;
+    }
+
 }
 
 .caption{

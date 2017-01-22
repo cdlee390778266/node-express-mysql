@@ -49,13 +49,6 @@ var header = [
                 },
             ]
 
-//页脚数据
-var footer = {
-                imgl : 'view/tpls/images/ewcode.png',
-                txt : '版权所有:2013-2014 xxxxxxxxx 蜀ICP备000000000号 公司总机：028-xxxxxxxx 传真：028-8xxxxxxxx 地址：成都市xxxxxxx ',
-                imgr : 'view/tpls/images/ewcode.png'
-            }
-
 
 exports.router = {
     index : function(req,res){
@@ -71,7 +64,7 @@ exports.router = {
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
-            console.log(data.article)
+
             res.render('tpls/index',{
 
                 header : header,
@@ -79,7 +72,36 @@ exports.router = {
                 product : {
                     flag : true,
                     title : ['产品展示','Product display'],
-                    data : data.article,
+                    data : [{
+                                title : '在位清洗系统',
+                                img : 'view/tpls/images/product_img1.jpg',
+                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                href : '/'
+                            },
+                            {
+                                title : '在位清洗系统',
+                                img : 'view/tpls/images/product_img1.jpg',
+                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                href : '/'
+                            },
+                            {
+                                title : '在位清洗系统',
+                                img : 'view/tpls/images/product_img2.jpg',
+                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                href : '/'
+                            },
+                            {
+                                title : '在位清洗系统',
+                                img : 'view/tpls/images/product_img3.jpg',
+                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                href : '/'
+                            },
+                            {
+                                title : '在位清洗系统',
+                                img : 'view/tpls/images/product_img4.jpg',
+                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
+                                href : '/'
+                            }]
                 },
 
                 about : {
@@ -108,7 +130,7 @@ exports.router = {
                             date : '2016-03-24',
                             href : 'httt://www.jingdong.com'
                         },
-                            {
+                        {
                             title : '服务计划',
                             date : '2016-03-24',
                             href : 'httt://www.jingdong.com'
@@ -116,9 +138,8 @@ exports.router = {
                     ] 
                 },
                 
-                cfg : data.cfg,
+                cfg : data.cfg
 
-                footer : footer
             });
         })
 
@@ -150,7 +171,7 @@ exports.router = {
                     },
                     contact : {
                         title :['联系我们','Contact us'],
-                        txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                        txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                     }
                 },
 
@@ -195,7 +216,6 @@ exports.router = {
 
                 cfg : data.cfg,
 
-                footer : footer
             });
         })
         
@@ -234,7 +254,7 @@ exports.router = {
                         },
                         contact : {
                             title :['联系我们','Contact us'],
-                            txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                            txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                         }
                     },
 
@@ -248,7 +268,7 @@ exports.router = {
 
                     cfg : data.cfg,
                     
-                    footer : footer
+        
                 })
             })
             
@@ -263,6 +283,11 @@ exports.router = {
                     {
                         sql : 'select * from web_cfg',
                         field : 'cfg'
+
+                    },
+                    {
+                        sql : 'select id,title,date from article',
+                        field : 'article'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
@@ -284,7 +309,7 @@ exports.router = {
                 },
                 contact : {
                     title :['联系我们','Contact us'],
-                    txt : ['四川钢联建环保设备有限公司','联系电话：028-83038288','地址：四川省成都市石板滩产业园']
+                    txt : [data.cfg[0].company,'联系电话：'+data.cfg[0].telephone,'地址：'+data.cfg[0].address]
                 }
             },
 
@@ -294,27 +319,10 @@ exports.router = {
                 ['水处理设备','/index']
             ],
 
-            news : [
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                },
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                },
-                {
-                    title : '服务计划',
-                    date : '2016-03-24',
-                    href : 'httt://www.jingdong.com'
-                }
-            ],
+            news : data.article,
 
             cfg : data.cfg,
             
-            footer : footer
         });
         })
         
