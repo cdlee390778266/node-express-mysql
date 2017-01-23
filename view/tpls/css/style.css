@@ -796,3 +796,7 @@ a:hover {
 .list-body nav {
   text-align: right;
 }
+
+.detail-tag {
+  margin-top: 40px;
+}

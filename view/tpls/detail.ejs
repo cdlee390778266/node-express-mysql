@@ -21,6 +21,17 @@
                   <div class="detail-body">
                     <h2><%= detail[0].title %></h2>
                     <%- detail[0].content %>
+                  </div>
+                  <div class="detail-tag">
+                    标签：
+                    <%
+                      for(var i=0;i<detail[0].tag.length;i++){
+                    %>
+                    <span class="label label-info"><%= detail[0].tag[i] %></span>
+                    <%
+                      }
+                    %>
+                    
                   </div> 
                 </div>
             </div>

@@ -72,36 +72,7 @@ exports.router = {
                 product : {
                     flag : true,
                     title : ['产品展示','Product display'],
-                    data : [{
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img1.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img1.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img2.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img3.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img4.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            }]
+                    data : data.article
                 },
 
                 about : {
@@ -150,6 +121,10 @@ exports.router = {
                     {
                         sql : 'select * from web_cfg',
                         field : 'cfg'
+                    },
+                    {
+                        sql : 'select * from article order by id desc  limit 5 ',
+                        field : 'article'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
@@ -181,38 +156,7 @@ exports.router = {
                     ['水处理设备','/index']
                 ],
 
-               product :[
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img1.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img1.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img2.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img3.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            },
-                            {
-                                title : '在位清洗系统',
-                                img : 'view/tpls/images/product_img4.jpg',
-                                describe : '在位清洗系统是一套基于客户的清洗工艺，集成了罐体、管道、阀门...',
-                                href : '/'
-                            }
-                        ],
+               product : data.article,
 
                 cfg : data.cfg,
 
@@ -237,6 +181,9 @@ exports.router = {
                     res.redirect('/notfound');
                     return ;
                }
+
+               data.article[0].tag = data.article[0].tag.split(',');
+
                 res.render('tpls/detail',{
 
                     header : header,

@@ -7,6 +7,7 @@ var query = require('./mysql');
 var base = require('../common/base');
 var upload = require('../common/saveImgs');
 var config = require('../common/config');
+var tree = require('../common/tree');
 
 exports.router = {
     login : function(req,res){
@@ -297,6 +298,8 @@ exports.router = {
             themeimg[0] = themeimg[0] ? themeimg[0] : fields.srcthemeImg;
             if( !fields.art_id[0]){
                if(fields.content.toString().indexOf('data:image') == -1){
+
+                    var tag = fields.art_tag[0].replace(/，/ig,',');
                     var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                     var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                     var click = fields.art_click.toString().length ? fields.art_click : 0;
@@ -304,7 +307,7 @@ exports.router = {
                     var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,themeimg,content,needwatermark,notpost,click,date) values('
                         + '"' + fields.art_title + '",' 
                         + '"' + fields.art_diy + '",' 
-                        + '"' + fields.art_tag + '",' 
+                        + '"' + tag + '",' 
                         + weight + ',' 
                         + '"' + fields.art_writer + '",' 
                         + '"' + fields.art_type + '",' 
@@ -349,6 +352,7 @@ exports.router = {
                }else{
                     base.saveBase64ToImg(req,res,config.articleImgDir,fields,'content',function(imgurls){
                        base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
+                            var tag = fields.art_tag[0].replace(/，/ig,',');
                             var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                             var click = fields.art_click.toString().length ? fields.art_click : 0;
@@ -356,7 +360,7 @@ exports.router = {
                             var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,themeimg,content,needwatermark,notpost,click,date) values('
                                 + '"' + fields.art_title + '",' 
                                 + '"' + fields.art_diy + '",' 
-                                + '"' + fields.art_tag + '",' 
+                                + '"' + tag + '",' 
                                 + weight + ',' 
                                 + '"' + fields.art_writer + '",' 
                                 + '"' + fields.art_type + '",' 
@@ -406,6 +410,7 @@ exports.router = {
             }else{
                 
                 if(fields.content.toString().indexOf('data:image') == -1){
+                    var tag = fields.art_tag[0].replace(/，/ig,',');
                     var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                     var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                     var click = fields.art_click.toString().length ? fields.art_click : 0;
@@ -413,7 +418,7 @@ exports.router = {
                     var sql = 'update article set '
                             + 'title="' + fields.art_title + '",' 
                             + 'diy="' + fields.art_diy + '",' 
-                            + 'tag="' + fields.art_tag + '",' 
+                            + 'tag="' + tag + '",' 
                             + 'weight=' + weight + ',' 
                             + 'writer="' + fields.art_writer + '",' 
                             + 'type="' + fields.art_type + '",' 
@@ -459,6 +464,7 @@ exports.router = {
                }else{
                     base.saveBase64ToImg(req,res,config.articleImgDir,fields,'content',function(imgurls){
                        base.replaceBase64Src(req,res,fields,'content',imgurls,function(req,res,fields){
+                            var tag = fields.art_tag[0].replace(/，/ig,',');
                             var needwatermark = fields.art_needwatermark ? fields.art_needwatermark : 0;
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                             var click = fields.art_click.toString().length ? fields.art_click : 0;
@@ -466,7 +472,7 @@ exports.router = {
                             var sql = 'update article set '
                                     + 'title="' + fields.art_title + '",' 
                                     + 'diy="' + fields.art_diy + '",' 
-                                    + 'tag="' + fields.art_tag + '",' 
+                                    + 'tag="' + tag + '",' 
                                     + 'weight=' + weight + ',' 
                                     + 'writer="' + fields.art_writer + '",' 
                                     + 'type="' + fields.art_type + '",' 
@@ -519,13 +525,15 @@ exports.router = {
     },
 
     column : function(req,res){
-        var sql = 'select * from web_column order by parentid,ttid';
+        var sql = 'select * from web_column';
         query.query(sql,function(err,rows){
             if(err){
                 console.log('进入"网站栏目管理"出错,错误信息：' + err);
                 res.redirect('/adminNotFound');
             }else{
-                console.log(rows);
+                
+                var treeData = tree(rows,'ttid','parentid');
+               
                 res.render('admin/column',{
                     status : 0,
                     data : rows
