@@ -59,9 +59,12 @@ app.get('/adminArticle',adminRouter.router.article);
 app.post('/adminSaveArticle',adminRouter.router.saveArticle);
 app.post('/adminDelArticle',adminRouter.router.delArticle);
 
+app.get('/adminColumnList',adminRouter.router.columnList);
+app.post('/adminDelColumn',adminRouter.router.delColumn);
 app.get('/adminColumn',adminRouter.router.column);
-app.get('/adminAddColumn',adminRouter.router.addColumn);
 app.get('/adminSaveColumn',adminRouter.router.saveColumn);
+app.get('/adminMoveColumn',adminRouter.router.moveColumn);
+app.get('/adminSaveMoveColumn',adminRouter.router.saveMoveColumn);
 
 app.get('/adminBannerList',adminRouter.router.bannerList);
 app.post('/adminDelBanner',adminRouter.router.delBanner);

@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-29 14:15:13
     无限层级的树形结构（类似递归） 
-* @Last Modified time: 2017-01-23 14:26:44
+* @Last Modified time: 2017-01-24 18:15:58
 */
 // var zNodes=[
 // {id:0,pId:-1,name:"Aaaa"},
@@ -25,17 +25,16 @@
 //     {id:38,pId:37,name:"z123123123"}   
 // ];
 
-function treeMenu(a,id,pId){
+function treeMenu(a,ttId,pId){
     this.tree=a||[];
     this.groups={};
-    this.id = id;
+    this.ttId = ttId;
     this.pId = pId;
 };
 treeMenu.prototype={
     init:function(pid){
         this.group();
-        return this.groups;
-        // return this.getDom(this.groups[pid]);
+        return this.getDom(this.groups[pid]);
     },
     group:function(){
         for(var i=0;i<this.tree.length;i++){
@@ -51,8 +50,14 @@ treeMenu.prototype={
         if(!a){return ''}
         var html='\n<ul >\n';
         for(var i=0;i<a.length;i++){
-            html+='<li><a href="#">'+a[i].name+'</a>';
-            html+=this.getDom(this.groups[a[i].id]);
+            html+=  '<li><span>'+a[i].colname+'</span>'
+                +   '<a class="col-del" href="javascript:void(0);" data-ttid="' + a[i].id + '">删除</a>'
+                +   '<a class="col-move" href="/adminMoveColumn?id=' + a[i].id + '&colname=' + a[i].colname + '&parentId='+ a[i].parentid +'" >移动</a>'
+                +   '<a class="col-update" href="/adminColumn?id=' + a[i].id + '&handle=update" >更改</a>'
+                +   '<a class="col-add" href="/adminColumn?id=' + a[i].id + '&handle=add"  >增加子类</a>'
+                +   '<a class="col-handle" href="/cat?id=' + a[i].id + '">预览</a>'
+
+            html+=this.getDom(this.groups[a[i][this.ttId]]);
             html+='</li>\n';
         };
         html+='</ul>\n';
@@ -61,8 +66,9 @@ treeMenu.prototype={
 };
 // var html=new treeMenu(zNodes).init(0);
 // alert(html);
-var tree = function(dataObj,id,pId){
-    return new treeMenu(dataObj,id,pId).init(0);
+
+function tree(zNodes,ttId,pId){
+    return new treeMenu(zNodes,ttId,pId).init(0);
 }
 
 module.exports = tree;

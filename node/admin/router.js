@@ -524,7 +524,7 @@ exports.router = {
         
     },
 
-    column : function(req,res){
+    columnList : function(req,res){
         var sql = 'select * from web_column';
         query.query(sql,function(err,rows){
             if(err){
@@ -532,25 +532,70 @@ exports.router = {
                 res.redirect('/adminNotFound');
             }else{
                 
-                var treeData = tree(rows,'ttid','parentid');
-               
-                res.render('admin/column',{
+               var treeHtml = tree(rows,'id','parentid');
+                res.render('admin/columnlist',{
                     status : 0,
-                    data : rows
+                    dataHtml : treeHtml
                 }); 
            }
         })
         
     },
 
-    addColumn : function(req,res){
-        res.render('admin/addcolumn',{
-            'parentId' : 0
-        });
+    delColumn : function(req,res){
+        var sql = 'delete from web_column where id=' + req.body.id;
+        query.sqlDelete(req,res,sql,'删除成功','删除失败');
+    },
+
+    column : function(req,res){
+        if(req.query.id){
+            if(req.query.handle == 'add'){
+                res.render('admin/column',{
+                'title' : '增加子栏目',
+                'parentId' : req.query.id,
+                'handle' : req.query.handle,
+                'data' : [{
+                        colname : '',
+                        hide : '',
+                        rank : '',
+                        sort : 50
+                    }]
+                });
+            }else if(req.query.handle == 'update'){
+                query.query('select * from web_column where id=' + req.query.id,function(err,rows){
+                    if(err){
+                        console.log('进入"修改栏目"页面出错,错误休息：' + error);
+                        es.redirect('/adminNotFound');
+                    }else{
+                        res.render('admin/column',{
+                            'title' : '修改栏目',
+                            'parentId' : req.query.id,
+                            'handle' : req.query.handle,
+                            'data' : rows
+                        });  
+                    }
+                    
+                })
+            }
+        }else{
+            res.render('admin/column',{
+                'title' : '增加顶级栏目',
+                'parentId' : 0,
+                'handle' : req.query.handle,
+                'data' : [{
+                        colname : '',
+                        hide : '',
+                        rank : '',
+                        sort : 50
+                    }]
+            });
+        }
     },
 
     saveColumn : function(req,res){
-        var parentId = req.query.parentId ? req.query.parentId : 0;
+        if(req.query.handle == 'add'){
+            var parentId = req.query.parentId ? req.query.parentId : 0;
+            req.query.colsort = req.query.colsort ? req.query.colsort : 50;
             var sql = 'insert into web_column (colname,hide,rank,sort,parentid) values ('
                 + '"' + req.query.colname + '"'
                 + ',' + req.query.colhide 
@@ -558,31 +603,91 @@ exports.router = {
                 + ',' + req.query.colsort
                 + ',"' + parentId + '"'
                 + ')';
-        query.query(sql,function(err,rows){
+            query.query(sql,function(err,rows){
+                if(err){
+                    console.log('保存失败，错误信息：' + err);
+                    res.render('admin/message',{
+                        status : 1,
+                        data : {
+                            title : '添加栏目失败',
+                            linkData : [
+                                ['栏目管理','/adminColumnList']
+                            ]
+                        }
+                    })
+                }else{
+                   res.render('admin/message',{
+                        status : 0,
+                        data : {
+                            title : '添加栏目成功',
+                            linkData : [
+                                ['继续添加栏目','/adminColumn?id=' + parentId + '&handle=add'],
+                                ['修改栏目','/adminColumn?id='+ rows.insertId +'&handle=update'],
+                                ['栏目管理','/adminColumnList']
+                            ]
+                        }
+                    }) 
+                }
+            })
+        }else if(req.query.handle == 'update'){
+
+            var parentId = req.query.parentId;
+            req.query.colsort = req.query.colsort ? req.query.colsort : 50;
+            var sql = 'update web_column  set '
+                    + 'colname="' + req.query.colname + '"'
+                    + ',hide=' + req.query.colhide 
+                    + ',rank=' + req.query.rank + ''
+                    + ',sort=' + req.query.colsort
+                    + ',"parentid=' + parentId + '"'
+
+            query.query(sql,function(err,rows){
+                if(err){
+                    console.log('修改栏目失败，错误信息：' + err);
+                    res.render('admin/message',{
+                        status : 1,
+                        data : {
+                            title : '修改栏目失败',
+                            linkData : [
+                                ['栏目管理','/adminColumnList']
+                            ]
+                        }
+                    })
+                }else{
+                   res.render('admin/message',{
+                        status : 0,
+                        data : {
+                            title : '修改栏目成功',
+                            linkData : [
+                                ['栏目管理','/adminColumnList']
+                            ]
+                        }
+                    }) 
+                }
+            })
+        }
+    },
+
+    moveColumn : function(req,res){
+        var sql = "select id,colname from web_column where id!=" + req.query.id;
+        query.query(sql,function(err,rows,fields){
             if(err){
-                console.log('保存失败，错误信息：' + err);
-                res.render('admin/message',{
-                    status : 1,
-                    data : {
-                        title : '添加栏目失败',
-                        linkData : [
-                            ['栏目管理','/adminColumn']
-                        ]
-                    }
-                })
+                console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
+                res.redirect('/adminNotFound');
+                return ;
             }else{
-               res.render('admin/message',{
-                    status : 0,
-                    data : {
-                        title : '添加栏目成功',
-                        linkData : [
-                            ['继续添加顶级栏目','/adminAddColumn'],
-                            ['栏目管理','/adminColumn']
-                        ]
-                    }
-                }) 
+                    res.render('admin/movecolumn',{
+                        data : rows,
+                        colname : req.query.colname,
+                        parentId : req.query.parentId
+                    })
+                
             }
+
         })
+    },
+
+    saveMoveColumn : function(req,res){
+
     },
 
     bannerList : function(req,res){

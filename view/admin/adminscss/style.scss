@@ -1,3 +1,4 @@
+@import 'base';
 .txtleft {
     text-align: left  !important;
 }
@@ -114,22 +115,39 @@ form {
 //     }
 // }
 .coltree{
-    td{ 
-        font-size: 12px;
-        a{
-            float: right;
-            margin-left: 10px;
-            position:relative;
-            top:4px;
+    ul{
+        display:none;
+        padding-left: 20px;
+        line-height: 30px;
+        li{
+            a{
+                float: right;
+                margin-left: 10px;
+                &:hover{
+                    text-decoration: underline !important;
+                }
+            }
+            span{
+                cursor: pointer;
+            }
         }
-        .indenter{
-            position:relative;
-            top:1px;
-        }
-        span{
-            padding-left: 0px;
-            color:#9ea7b3;
-        }
+    }
+    &>ul{
+        display:block;
+    }
+    .col-open{
+        display:inline-block;
+        width:9px;
+        height:9px;
+        background:url('/view/admin/image/icons.gif') -83px -5px;
+        margin-right: 5px;
+    }
+    .col-close{
+        display:inline-block;
+        width:9px;
+        height:9px;
+        background:url('/view/admin/image/icons.gif') -67px -27px;
+        margin-right: 5px;
     }
 }
 
@@ -141,4 +159,7 @@ form {
 }
 .alert{
     padding-left: 60px;
+}
+.red{
+    color:#ff2121;
 }
