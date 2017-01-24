@@ -543,7 +543,7 @@ exports.router = {
     },
 
     delColumn : function(req,res){
-        var sql = 'delete from web_column where id=' + req.body.id;
+        var sql = 'delete from web_column where id=' + req.body.id + ' or parentid=' + req.body.id;
         query.sqlDelete(req,res,sql,'删除成功','删除失败');
     },
 
@@ -621,7 +621,8 @@ exports.router = {
                         data : {
                             title : '添加栏目成功',
                             linkData : [
-                                ['继续添加栏目','/adminColumn?id=' + parentId + '&handle=add'],
+                                ['继续添加同级栏目','/adminColumn?id=' + parentId + '&handle=add'],
+                                ['添加子栏目','/adminColumn?id=' + rows.insertId + '&handle=add'],
                                 ['修改栏目','/adminColumn?id='+ rows.insertId +'&handle=update'],
                                 ['栏目管理','/adminColumnList']
                             ]
@@ -638,8 +639,8 @@ exports.router = {
                     + ',hide=' + req.query.colhide 
                     + ',rank=' + req.query.rank + ''
                     + ',sort=' + req.query.colsort
-                    + ',"parentid=' + parentId + '"'
-
+                    + ',parentid="' + parentId + '"'
+                
             query.query(sql,function(err,rows){
                 if(err){
                     console.log('修改栏目失败，错误信息：' + err);
@@ -668,7 +669,7 @@ exports.router = {
     },
 
     moveColumn : function(req,res){
-        var sql = "select id,colname from web_column where id!=" + req.query.id;
+        var sql = "select id,colname from web_column where id!=" + req.query.id + ' and parentid!=' + req.query.id;
         query.query(sql,function(err,rows,fields){
             if(err){
                 console.log('数据库操作失败，请检查sql语句，错误信息：' + err);
@@ -678,7 +679,8 @@ exports.router = {
                     res.render('admin/movecolumn',{
                         data : rows,
                         colname : req.query.colname,
-                        parentId : req.query.parentId
+                        parentId : req.query.parentId,
+                        colId : req.query.id
                     })
                 
             }
@@ -687,7 +689,31 @@ exports.router = {
     },
 
     saveMoveColumn : function(req,res){
-
+        var sql = "update web_column set parentid=" + req.query.parentId + ' where id=' + req.query.colId;
+        query.query(sql,function(err,rows){
+            if(err){
+                console.log('移动栏目失败！错误信息:'+err);
+                res.render('admin/message',{
+                    status : 1,
+                    data : {
+                        title : '移动栏目失败',
+                        linkData : [
+                            ['栏目管理','/adminColumnList']
+                        ]
+                    }
+                }) 
+            }else{
+                res.render('admin/message',{
+                    status : 0,
+                    data : {
+                        title : '移动栏目成功',
+                        linkData : [
+                            ['栏目管理','/adminColumnList']
+                        ]
+                    }
+                }) 
+            }
+        })
     },
 
     bannerList : function(req,res){

@@ -69,7 +69,8 @@
                             </div>
 
                             <div class="body-nest" id="horizontal">
-                                <form role="form" class="form-horizontal" id="savecol" novalidate="novalidate" action="/adminSaveMoveColumn"> 
+                                <form role="form" class="form-horizontal" id="savecol" novalidate="novalidate" action="/adminSaveMoveColumn">
+                                    <input type="hidden" value="<%= colId %>" name="colId" /> 
                                     <div class="form-group red">
                                         <div class="col-xs-12">
                                             移动目录时不会删除原来已创建的列表
@@ -85,7 +86,7 @@
                                         <label class="col-lg-2 col-sm-4 control-label" for="colrank">你希望移动到那个栏目？</label>
                                         <div class="col-lg-10 col-sm-8">
                                             <select name="parentId" class="form-control" >
-                                                <option value="0">移动为顶级了栏目</option>
+                                                <option value="0">移动为顶级栏目</option>
                                                 <%
                                                     for(var i=0;i<data.length;i++){
                                                         if(data[i].id == parentId){
