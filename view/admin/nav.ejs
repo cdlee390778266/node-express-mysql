@@ -70,7 +70,7 @@
 
                             <div class="body-nest" id="horizontal">
                                 <form role="form" class="form-horizontal" id="saveNav" novalidate="novalidate" action="/adminSaveNav" method="get"> 
-                                    
+                                    <input type="hidden" value="<%= data[0].id %>" name="updateId" />
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" for="navSys">系统内容：</label>
                                         <div class="col-lg-10 col-sm-8">
@@ -84,33 +84,57 @@
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" for="navName">名称：</label>
                                         <div class="col-lg-10 col-sm-8">
-                                            <input id="navName" name="navName" class="form-control" value="" type="text">
+                                            <input id="navName" name="navName" class="form-control" value="<%= data[0].navname %>" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" for="navLink">链接地址：</label>
                                         <div class="col-lg-10 col-sm-8">
-                                            <input id="navLink" name="navLink" class="form-control" value="" type="text">
+                                            <input id="navLink" name="navLink" class="form-control" value="<%= data[0].navlink %>" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" for="navSort">排序：</label>
                                         <div class="col-lg-10 col-sm-8">
-                                            <input id="navSort" name="navSort" class="form-control" value="" type="text">
+                                            <input id="navSort" name="navSort" class="form-control" value="<%= data[0].navsort %>" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" >是否显示：</label>
                                         <div class="col-lg-10 col-sm-8">
-                                            <input type="radio" name="navShow" value="1" />是
+                                            <%
+                                            if(data[0].navshow){
+                                            %>
+                                            <input type="radio" name="navShow" value="1" checked="checked" />是
                                             <input type="radio" name="navShow" value="0" />否
+                                            <%
+                                                }else{
+                                            %>
+                                            <input type="radio" name="navShow" value="1" />是
+                                            <input type="radio" name="navShow" value="0" checked="checked" />否
+                                            <%
+                                                }
+                                            %>
+                                            
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-lg-2 col-sm-4 control-label" >是否新窗口：</label>
                                         <div class="col-lg-10 col-sm-8">
-                                            <input type="radio" name="navWindow" value="1" />是
+                                            <%
+                                            if(data[0].navwindow){
+                                            %>
+                                            <input type="radio" name="navWindow" value="1" checked="checked" />是
                                             <input type="radio" name="navWindow" value="0" />否
+                                            <%
+                                                }else{
+                                            %>
+                                            <input type="radio" name="navWindow" value="1" />是
+                                            <input type="radio" name="navWindow" value="0" checked="checked" />否
+                                            <%
+                                                }
+                                            %>
+
                                         </div>
                                     </div>
                                     
@@ -154,6 +178,10 @@
     
 <script>
     $(function(){
+        
+        $('#navPos').val('<%= data[0].navpos %>');
+        $('#navSys').val('<%= data[0].navcolid %>');
+
         $('#navSys').change(function(event) {
             var $selectedOpt = $(this).find('option:selected');
             $('#navName').val($selectedOpt.html());

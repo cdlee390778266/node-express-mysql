@@ -745,8 +745,11 @@ exports.router = {
 
     navHandle : function(req,res){
         if(req.body.handle == 'delete'){
-            var sql = 'delete from nav where id=' + req.query.navId;
-            query.sqlDelete(req,res,sql,)
+            var sql = 'delete from nav where id=' + req.body.navId;
+            query.sqlDelete(req,res,sql,'删除导航成功','删除导航失败');
+        }else if(req.body.handle == 'update'){
+            var sql = 'update nav set ' + req.body.field +'=' + req.body.fieldVal + ' where id=' + req.body.navId;
+            query.sqlUpdate(req,res,sql,'修改成功','修改失败');
         }
     },
 
@@ -760,14 +763,34 @@ exports.router = {
                 
                var treeHtml = tree(rows,'id','parentid',1);
                if(req.query.id){
-                    res.render('admin/nav',{
-                        title : '编辑导航',
-                        dataHtml : treeHtml
-                    });
+                    query.query('select * from nav where id=' + req.query.id,function(errc,rowsc){
+                            if(err){
+                            console.log('进入"网站栏目管理"出错,错误信息：' + err);
+                            res.redirect('/adminNotFound');
+                        }else{
+                
+                            res.render('admin/nav',{
+                                title : '编辑导航',
+                                dataHtml : treeHtml,
+                                data : rowsc
+                            });
+                        }
+                    })
+                    
                 }else{
                     res.render('admin/nav',{
                         title : '添加导航',
-                        dataHtml : treeHtml
+                        dataHtml : treeHtml,
+                        data : [{
+                                id: '',
+                                navname: '',
+                                navlink: '',
+                                navsort: 50,
+                                navshow: 1,
+                                navwindow: 0,
+                                navpos: 0,
+                                navcolid: '' 
+                            } ]
                     });
                 }
 
@@ -780,8 +803,9 @@ exports.router = {
         var navSort = req.query.navSort ? req.query.navSort : 50;
         var navShow = req.query.navShow ? req.query.navShow : 1;
         var navWindow = req.query.navWindow ? req.query.navWindow : 0;
-        var navId = req.query.navId ? req.query.navId : '';
-        var sql = 'insert into nav (navname,navlink,navsort,navshow,navwindow,navpos,navcolid) values('
+        var navId = req.query.navSys ? req.query.navSys : '';
+        if(!req.query.updateId.length){
+            var sql = 'insert into nav (navname,navlink,navsort,navshow,navwindow,navpos,navcolid) values('
             + '"' + req.query.navName + '",'
             + '"' + req.query.navLink + '",'
             + navSort + ','
@@ -791,30 +815,70 @@ exports.router = {
             + '"' + navId + '"'
             + ')';
 
-        query.query(sql,function(err,rows){
-            if(err){
-                console.log('添加导航失败！错误信息：' + err);
-                res.render('admin/message',{
-                    status : 1,
-                    data : {
-                        title : '添加导航失败',
-                        linkData : [
-                            ['自定义导航栏','/adminNavList']
-                        ]
-                    }
-                }) 
-            }else{
-                res.render('admin/message',{
-                    status : 0,
-                    data : {
-                        title : '添加导航成功',
-                        linkData : [
-                            ['继续添加导航','/adminAddNav']
-                        ]
-                    }
-                }) 
-            }
-        })
+            query.query(sql,function(err,rows){
+                if(err){
+                    console.log('添加导航失败！错误信息：' + err);
+                    res.render('admin/message',{
+                        status : 1,
+                        data : {
+                            title : '添加导航失败',
+                            linkData : [
+                                ['自定义导航栏','/adminNavList']
+                            ]
+                        }
+                    }) 
+                }else{
+                    res.render('admin/message',{
+                        status : 0,
+                        data : {
+                            title : '添加导航成功',
+                            linkData : [
+                                ['继续添加导航','/adminAddNav'],
+                                ['自定义导航栏','/adminNavList']
+                            ]
+                        }
+                    }) 
+                }
+            })
+        }else{
+            var sql = 'update nav set '
+            + 'navname="' + req.query.navName + '",'
+            + 'navlink="' + req.query.navLink + '",'
+            + 'navsort=' + navSort + ','
+            + 'navshow=' + navShow + ','
+            + 'navwindow=' + navWindow + ','
+            + 'navpos=' + req.query.navPos + ','
+            + 'navcolid="' + navId + '"'
+            + ' where id=' + req.query.updateId;
+            
+            query.query(sql,function(err,rows){
+                if(err){
+                    console.log('编辑导航失败！错误信息：' + err);
+                    res.render('admin/message',{
+                        status : 1,
+                        data : {
+                            title : '编辑导航失败',
+                            linkData : [
+                                ['自定义导航栏','/adminNavList']
+                            ]
+                        }
+                    }) 
+                }else{
+                    res.render('admin/message',{
+                        status : 0,
+                        data : {
+                            title : '编辑导航成功',
+                            linkData : [
+                                ['继续编辑导航','/adminAddNav'],
+                                ['自定义导航栏','/adminNavList']
+                            ]
+                        }
+                    }) 
+                }
+            })
+        }
+        
+        
     },
 
     bannerList : function(req,res){

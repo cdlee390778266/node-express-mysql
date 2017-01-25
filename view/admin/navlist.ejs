@@ -92,7 +92,8 @@
                                 <tbody>
                                     
                                     <%
-                                    for(var i=0;i<data.length;i++){
+                                    if(data.length>0){
+                                        for(var i=0;i<data.length;i++){
                                     %>
                                     <tr>
                                         <td><%= data[i].navname %></td>
@@ -100,11 +101,11 @@
                                         <%
                                             if(data[i].navshow){
                                         %>
-                                        <img src="view/admin/image/yes.gif" alt="" />
+                                        <img src="view/admin/image/yes.gif" alt="" class="updateShow" data-navid="<%= data[i].id %>" navshow="<%= data[i].navshow %>" />
                                         <%
                                             }else{
                                         %>
-                                        <img src="view/admin/image/no.gif" alt="" />
+                                        <img src="view/admin/image/no.gif" alt="" class="updateShow" data-navid="<%= data[i].id %>" navshow="<%= data[i].navshow %>" />
                                         <%           
                                             }
                                         %>
@@ -113,11 +114,11 @@
                                         <%
                                             if(data[i].navwindow){
                                         %>
-                                        <img src="view/admin/image/yes.gif" alt="" />
+                                        <img src="view/admin/image/yes.gif" alt="" class="updateWindow" data-navid="<%= data[i].id %>" navwindow="<%= data[i].navwindow %>" />
                                         <%
                                             }else{
                                         %>
-                                        <img src="view/admin/image/no.gif" alt="" />
+                                        <img src="view/admin/image/no.gif" alt="" class="updateWindow" data-navid="<%= data[i].id %>" navwindow="<%= data[i].navwindow %>" />
                                         <%           
                                             }
                                         %>
@@ -125,9 +126,16 @@
                                         <td><%= data[i].navsort %></td>
                                         <td><%= data[i].navpos %></td>
                                         <td>
-                                            <a class="btn btn-success btn-sm" href="/adminArticle?id=<%= data[i].id %>">编辑</a>
+                                            <a class="btn btn-success btn-sm" href="/adminAddNav?id=<%= data[i].id %>">编辑</a>
                                             <a class="btn btn-warning btn-sm navCancle" data-navid="<%= data[i].id %>" >删除</a>
                                         </td>  
+                                    </tr>
+                                    <%
+                                        }
+                                    }else{
+                                    %>
+                                    <tr>
+                                        <td colspan="6">没有内容</td>
                                     </tr>
                                     <%
                                     }
@@ -136,6 +144,9 @@
                                     </tbody>
                                 </table>
                                
+                               <%
+                               if(data.length>0){
+                               %>
                                 <nav class="txtright">
                                   <ul class="pagination">
                                     <li id="page-first"><a href="javascript:void(0);" data-page="0">首页</a></li>
@@ -155,6 +166,9 @@
                                     <li id="page-last"><a href="javascript:void(0);" data-page="<%= pages-1 %>">尾页</a></li>
                                   </ul>
                                 </nav>
+                                <%
+                                }
+                                %>
 
                             </div>
 
@@ -273,8 +287,11 @@
                         }
 
                         for(var i=0;i<data.data.length;i++){
-                            var showImg = data.data[i].navshow ? '<img src="view/admin/image/yes.gif" alt="" />' : '<img src="view/admin/image/no.gif" alt="" />';
-                            var windowImg = data.data[i].windowshow ? '<img src="view/admin/image/yes.gif" alt="" />' : '<img src="view/admin/image/no.gif" alt="" />';
+
+                            var showImg = data.data[i].navshow ? '<img src="view/admin/image/yes.gif" alt="" class="updateShow" data-navid="' + data.data[i].id + '" navshow="' + data.data[i].navshow + '" />' : '<img src="view/admin/image/no.gif" alt="" class="updateShow" data-navid="' + data.data[i].id + '" navshow="' + data.data[i].navshow + '" />';
+
+                            var windowImg = data.data[i].windowshow ? '<img src="view/admin/image/yes.gif" alt="" class="updateWindow" data-navid="' + data.data[i].id + '" navwindow="' + data.data[i].navwindow + '" />' : '<img src="view/admin/image/no.gif" alt="" class="updateWindow" data-navid="' + data.data[i].id + '" navwindow="' + data.data[i].navwindow + '" />';
+
                             tbody += '<tr>'
                                   + '<td>' + data.data[i].navname +'</td>'
                                   + '<td>' + showImg + '</td>'
@@ -282,7 +299,7 @@
                                   + '<td>' + data.data[i].navsort +'</td>'
                                   + '<td>' + data.data[i].navpos +'</td>'
                                   + '<td>'
-                                  +     '<a class="btn btn-success" href="/adminNav?id=' + data.data[i].id + '">编辑</a>'
+                                  +     '<a class="btn btn-success" href="/adminAddNav?id=' + data.data[i].id + '">编辑</a>'
                                   +     ' <button  class="btn btn-warning navCancle" data-navid="' + data.data[i].id + '"  >删除</button></td>'
                                   + '</tr>'
                         }
@@ -312,17 +329,116 @@
                     }
                 })
                 .done(function(data) {
-                    console.log("success");
+                    $('#mes .modal-body').html(data.data);
+                    $('#mes').modal({
+                        keyboard : true
+                    });
+                    setTimeout(function(){
+                    $('#mes').modal('hide');
+                        if(data.status == 0){
+                            location.href = '/adminNavList';
+                        }
+                    },1000);
                 })
                 .fail(function() {
-                    console.log("error");
-                })
-               
-                
+                    $('#mes .modal-body').html('删除失败');
+                    $('#mes').modal({
+                        keyboard : true
+                    });
+                    setTimeout(function(){
+                    $('#mes').modal('hide');
+                    },1000);
+                }) 
             });
+        
+        var showFlag = true;
+        $('body').delegate('.updateShow', 'click', function(event) {
+            if(showFlag){
+                showFlag = false;
+                $self = $(this);
+                $self.attr('src','view/admin/image/loading.gif');
+                var navId = $(this).data('navid');
+                var navShow = !parseInt($(this).attr('navshow')) ? 1:0;
+                $.ajax({
+                    url: '/adminNavHandle',
+                    type: 'post',
+                    data: {
+                        navId : navId,
+                        field : 'navshow',
+                        fieldVal : navShow,
+                        handle : 'update'
+                    }
+                })
+                .done(function(data) {
+                    showFlag = true;
+                    if(!data.status){
+                        $self.attr('navshow',navShow);
+                        if(navShow){
+                            $self.attr('src','view/admin/image/yes.gif');
+                        }else{
+                             $self.attr('src','view/admin/image/no.gif');
+                        }
+                        
+                    }
+                })
+                .fail(function() {
+                    showFlag = true;
+                    var navShow = !parseInt($(this).attr('navshow'));
+                    if(navShow){
+                        $self.attr('src','view/admin/image/yes.gif');
+                    }else{
+                         $self.attr('src','view/admin/image/no.gif');
+                    }
+                })    
+            }
+        });
+
+        var windowFlag = true;
+        $('body').delegate('.updateWindow', 'click', function(event) {
+            if(windowFlag){
+                windowFlag = false;
+                $self = $(this);
+                $self.attr('src','view/admin/image/loading.gif');
+                var navId = $(this).data('navid');
+                var navWindow = !parseInt($(this).attr('navwindow')) ? 1:0;
+                
+                $.ajax({
+                    url: '/adminNavHandle',
+                    type: 'post',
+                    data: {
+                        navId : navId,
+                        field : 'navwindow',
+                        fieldVal : navWindow,
+                        handle : 'update'
+                    }
+                })
+                .done(function(data) {
+                    windowFlag = true;
+                    if(!data.status){
+                        $self.attr('navwindow',navWindow);
+                        if(navWindow){
+                            $self.attr('src','view/admin/image/yes.gif');
+                        }else{
+                             $self.attr('src','view/admin/image/no.gif');
+                        }
+                        
+                    }
+                })
+                .fail(function() {
+                    windowFlag = true;
+                    var navWindow = !parseInt($(this).attr('navwindow'));
+                    if(navWindow){
+                        $self.attr('src','view/admin/image/yes.gif');
+                    }else{
+                         $self.attr('src','view/admin/image/no.gif');
+                    }
+                })    
+            }
+        });
         
     })
    
+
 </script>
 
 
