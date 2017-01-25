@@ -10,5 +10,6 @@ module.exports = {
     articlePageNum : 10,
     bannerImgsUrl : '/upload/banner',
     articleThemeImgDir : '/upload/article/theme',
-    logoUrl : '/upload/logo'
+    logoUrl : '/upload/logo',
+    navListPageNum : 1
 }

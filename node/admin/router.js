@@ -716,6 +716,107 @@ exports.router = {
         })
     },
 
+    navList : function(req,res){
+        var sql = 'select * from nav '+  'ORDER BY id ' +' limit 0,' + config.navListPageNum  ;
+        query.query('select count(*) as records from nav',function(perr,prows,pfields){
+            pages = Math.ceil(prows[0].records/config.navListPageNum);
+            query.sqlSelectRender(req,res,sql,'admin/navlist',pages);
+        })
+       
+    },
+
+     navListPage : function(req,res){
+        var start = req.body.page * config.navListPageNum;
+        var sql = 'select * from nav ORDER BY id limit ' + start + ',' + config.navListPageNum ;
+        query.query(sql,function(err,rows,fields){
+            if(err){
+                res.json({
+                    status : 1,
+                    data : '操作失败'
+                })
+            }else{
+                res.json({
+                    status : 0,
+                    data : rows
+                })
+            }
+        })
+    },
+
+    navHandle : function(req,res){
+        if(req.body.handle == 'delete'){
+            var sql = 'delete from nav where id=' + req.query.navId;
+            query.sqlDelete(req,res,sql,)
+        }
+    },
+
+    addNav : function(req,res){
+        var sql = 'select * from web_column';
+        query.query(sql,function(err,rows){
+            if(err){
+                console.log('进入"网站栏目管理"出错,错误信息：' + err);
+                res.redirect('/adminNotFound');
+            }else{
+                
+               var treeHtml = tree(rows,'id','parentid',1);
+               if(req.query.id){
+                    res.render('admin/nav',{
+                        title : '编辑导航',
+                        dataHtml : treeHtml
+                    });
+                }else{
+                    res.render('admin/nav',{
+                        title : '添加导航',
+                        dataHtml : treeHtml
+                    });
+                }
+
+           }
+        })
+
+    },
+
+    saveNav : function(req,res){
+        var navSort = req.query.navSort ? req.query.navSort : 50;
+        var navShow = req.query.navShow ? req.query.navShow : 1;
+        var navWindow = req.query.navWindow ? req.query.navWindow : 0;
+        var navId = req.query.navId ? req.query.navId : '';
+        var sql = 'insert into nav (navname,navlink,navsort,navshow,navwindow,navpos,navcolid) values('
+            + '"' + req.query.navName + '",'
+            + '"' + req.query.navLink + '",'
+            + navSort + ','
+            + navShow + ','
+            + navWindow + ','
+            + req.query.navPos + ','
+            + '"' + navId + '"'
+            + ')';
+
+        query.query(sql,function(err,rows){
+            if(err){
+                console.log('添加导航失败！错误信息：' + err);
+                res.render('admin/message',{
+                    status : 1,
+                    data : {
+                        title : '添加导航失败',
+                        linkData : [
+                            ['自定义导航栏','/adminNavList']
+                        ]
+                    }
+                }) 
+            }else{
+                res.render('admin/message',{
+                    status : 0,
+                    data : {
+                        title : '添加导航成功',
+                        linkData : [
+                            ['继续添加导航','/adminAddNav']
+                        ]
+                    }
+                }) 
+            }
+        })
+    },
+
     bannerList : function(req,res){
         var sql = 'select banner from web_cfg';
         query.query(sql,function(err,rows){

@@ -66,6 +66,12 @@ app.get('/adminSaveColumn',adminRouter.router.saveColumn);
 app.get('/adminMoveColumn',adminRouter.router.moveColumn);
 app.get('/adminSaveMoveColumn',adminRouter.router.saveMoveColumn);
 
+app.get('/adminNavList',adminRouter.router.navList);
+app.post('/adminNavListPage',adminRouter.router.navListPage);
+app.post('/adminNavHandle',adminRouter.router.navHandle);
+app.get('/adminAddNav',adminRouter.router.addNav);
+app.get('/adminSaveNav',adminRouter.router.saveNav);
+
 app.get('/adminBannerList',adminRouter.router.bannerList);
 app.post('/adminDelBanner',adminRouter.router.delBanner);
 app.get('/adminAddBanner',adminRouter.router.addBanner);

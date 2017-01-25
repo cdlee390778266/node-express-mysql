@@ -2,7 +2,7 @@
 * @Author: Lee
 * @Date:   2016-12-29 14:15:13
     无限层级的树形结构（类似递归） 
-* @Last Modified time: 2017-01-24 18:15:58
+* @Last Modified time: 2017-01-25 13:56:41
 */
 // var zNodes=[
 // {id:0,pId:-1,name:"Aaaa"},
@@ -25,16 +25,22 @@
 //     {id:38,pId:37,name:"z123123123"}   
 // ];
 
-function treeMenu(a,ttId,pId){
+function treeMenu(a,ttId,pId,domType){
     this.tree=a||[];
     this.groups={};
     this.ttId = ttId;
     this.pId = pId;
+    this.domType = domType;
 };
 treeMenu.prototype={
-    init:function(pid){
+    init:function(pid,domType){
         this.group();
-        return this.getDom(this.groups[pid]);
+        if(!!this.domType){
+            return this.getOpts(this.groups[pid],0);
+        }else{
+            return this.getDom(this.groups[pid]);
+        }
+        
     },
     group:function(){
         for(var i=0;i<this.tree.length;i++){
@@ -62,13 +68,24 @@ treeMenu.prototype={
         };
         html+='</ul>\n';
         return html;
+    },
+    getOpts:function(a,j){
+        if(!a){return ''}
+        var html='';
+    
+        for(var i=0;i<a.length;i++){
+            html+=  '<option value="' + a[i].id + '" data-link="/cat?id=' + a[i].id + '" >'+ j +a[i].colname+'</option>\n'    
+            html+=this.getOpts(this.groups[a[i][this.ttId]],++j);
+            html+='';
+        };
+        return html;
     }
 };
 // var html=new treeMenu(zNodes).init(0);
 // alert(html);
 
-function tree(zNodes,ttId,pId){
-    return new treeMenu(zNodes,ttId,pId).init(0);
+function tree(zNodes,ttId,pId,domType){
+    return new treeMenu(zNodes,ttId,pId,domType).init(0);
 }
 
 module.exports = tree;
