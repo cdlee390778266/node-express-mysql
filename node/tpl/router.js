@@ -61,9 +61,14 @@ exports.router = {
                     {
                         sql : 'select * from article order by id desc  limit 5 ',
                         field : 'article'
+                    },
+                    {
+                        sql : 'select n.id,c.id from nav as n left join web_column as c' ,
+                        field : 'nav'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
+            console.log(data.nav)
 
             res.render('tpls/index',{
 

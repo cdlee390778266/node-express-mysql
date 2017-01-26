@@ -18,7 +18,7 @@ var sqlSelectAll = function(req,res,sqlArr,callback){
                data[sqlArr[index].field] = rows;
                index++;
                if(index<length){
-                    sqlSelectOne(index);
+                    sqlSelectOne(sqlArr.length);
                }else{
                     callback(data);
                }
