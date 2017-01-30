@@ -31,24 +31,24 @@
       
       
       <ul class="nav navbar-nav navbar-right">
-      
+        <li><a href="/">首页</a></li>
          <% 
-         for(var i in header){ 
-          if(!header[i].child){
+         for(var i in nav){ 
+          if(!nav[i].cData.length){
 
         %>
-        <li><a href="<%= header[i].href %>"><%= header[i].key %></a></li>
+        <li><a href="<%= nav[i].data.navlink %>"><%= nav[i].data.navname %></a></li>
         <%  
             }else{
         %>
         
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= header[i].key %></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= nav[i].data.navname %></a>
           <ul class="dropdown-menu" role="menu">
           <%
-          for(var j in header[i].data){
+          for(var j in nav[i].cData){
           %>
-          <li><a href="<%= header[i].data[j][1] %>"><%= header[i].data[j][0] %></a></li>
+          <li><a href="/cat?id=<%= nav[i].cData[j].id %>"><%= nav[i].cData[j].colname %></a></li>
           <%
           }
           %>

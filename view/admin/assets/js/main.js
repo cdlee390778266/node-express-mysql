@@ -39,7 +39,7 @@ head.js("view/admin/assets/js/custom/scriptbreaker-multiple-accordion-1.js", fun
 
 ////Right Sliding menu
 
-head.js("view/admin/assets/js/slidebars/slidebars.min.js", "http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js", function() {
+head.js("view/admin/assets/js/slidebars/slidebars.min.js", "view/admin/js/jquery.easing.min.js", function() {
 
     $(document).ready(function() {
         var mySlidebars = new $.slidebars();

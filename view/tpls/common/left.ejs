@@ -3,9 +3,15 @@
   <ul>
     <%
     for(var i=0;i<left.product.liData.length;i++){
+      if(left.product.activeUrl == left.product.liData[i].navlink ){
     %>
-    <li class="<%= left.product.liData[i][2] %>"><a href="<%= left.product.liData[i][1] %>"><%= left.product.liData[i][0] %></a></li>
+      <li class="active"><a href="<%= left.product.liData[i].navlink %>"><%= left.product.liData[i].navname %></a></li>
     <%
+      }else{
+    %>
+      <li><a href="<%= left.product.liData[i].navlink %>"><%= left.product.liData[i].navname %></a></li>
+    <%
+      }
     }
     %>
   </ul>

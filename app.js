@@ -31,13 +31,13 @@ app.get('/list',router.router.list);
 app.get('/notfound',router.router.notfound);
 
 //后台
-// app.use(function(req,res,next){
-//     if(!global.user && req.url != '/admin' && req.url.indexOf('/adminCheck') == -1 ){
-//         res.redirect('/admin');
-//     }else{
-//         next();
-//     }
-// });
+app.use(function(req,res,next){
+    if(!global.user && req.url != '/admin' && req.url.indexOf('/adminCheck') == -1 ){
+        res.redirect('/admin');
+    }else{
+        next();
+    }
+});
 
 app.get('/admin',adminRouter.router.login);
 app.get('/adminCheck',adminRouter.router.check);

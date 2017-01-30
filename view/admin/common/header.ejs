@@ -22,7 +22,7 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
+                <!-- <ul class="nav navbar-nav">
 
                     <li class="dropdown">
 
@@ -59,7 +59,7 @@
                     <li><a href="#"><i data-toggle="tooltip" data-placement="bottom" title="Help" style="font-size:20px;" class="icon-help tooltitle"></i></a>
                     </li>
 
-                </ul>
+                </ul> -->
                 <div id="nt-title-container" class="navbar-left running-text visible-lg">
                     <ul class="date-top">
                         <li class="entypo-calendar" style="margin-right:5px"></li>
@@ -77,34 +77,13 @@
                         <li class="sec"></li>
                         <li class="meridiem"></li>
                     </ul>
-                    <ul id="nt-title">
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Berlin&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Yogyakarta&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; Tonight- 72 °F (22.2 °C)
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Sttugart&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Muchen&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-
-                        <li><i class="wi-day-lightning"></i>&#160;&#160;Frankurt&#160;
-                            <b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h
-                        </li>
-
-                    </ul>
                 </div>
 
                 <ul style="margin-right:0;" class="nav navbar-nav navbar-right">
                     
                     <li>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" class="admin-pic img-circle" src="<= user.faceurl %>">Hi, <= user.username %> <b class="caret"></b>
+                            <img alt="" class="admin-pic img-circle" src="<%= user.faceurl %>">Hi, <%= user.username %> <b class="caret"></b>
                         </a>
                         <ul style="margin-top:14px;" role="menu" class="dropdown-setting dropdown-menu">
                             <li>

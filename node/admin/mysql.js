@@ -117,7 +117,8 @@ var sqlSelectLogin = function(req,res,sql,updateSql){
                     status : 'online',
                     username : rows[0].name,
                     level : rows[0].level,
-                    faceurl : rows[0].faceurl
+                    faceurl : rows[0].faceurl,
+                    lastlogin : rows[0].logintime
                 }
             }else{
                 res.json({

@@ -16,6 +16,8 @@
 var fs = require('fs');
 var path = require('path');  
 var config = require('./config');
+var wateImages = require('images');
+var crypto = require('crypto');  //加载crypto库
 
 var dateFormat=function(fmt) {
 
@@ -109,9 +111,34 @@ var replaceBase64Src = function(req,res,fields,field,imgurls,callback){
         callback(req,res,fields);
 }
 
+var water = function(req,res,mainPath,imageUrl){
+    var watermarkImg = wateImages(mainPath +'/view/admin/image/water.png');
+    var sourceImg = wateImages(mainPath + imageUrl);
+    // 比如放置在右下角，先获取原图的尺寸和水印图片尺寸
+    var sWidth = sourceImg.width();
+    var sHeight = sourceImg.height();
+    var wmWidth = watermarkImg.width();
+    var wmHeight = watermarkImg.height();
+    wateImages(sourceImg)
+    // 设置绘制的坐标位置，右下角距离 40px
+    .draw(watermarkImg, sWidth - wmWidth - 40, sHeight - wmHeight - 40)
+    // 保存格式会自动识别
+    .save(mainPath + imageUrl);
+}
+
+var md5 = function(content){
+    var md5 = crypto.createHash('md5');//定义加密方式:md5不可逆,此处的md5可以换成任意hash加密的方法名称；
+    md5.update(content);
+    var d = md5.digest('hex');  //加密后的值d
+    return d;
+}
+
+
 module.exports = {
     'dateFormat' : dateFormat,
     'format' : format,
     saveBase64ToImg : saveBase64ToImg,
-    replaceBase64Src : replaceBase64Src
+    replaceBase64Src : replaceBase64Src,
+    water : water,
+    md5 : md5
 }      

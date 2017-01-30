@@ -9,46 +9,22 @@ var base = require('../common/base');
 var upload = require('../common/saveImgs');
 var config = require('../common/config');
 
-//头部数据
-var header = [
-                {
-                    key : '首页',
-                    child : false,
-                    href : '/index'
-                },
-                {
-                    key : '关于企业',
-                    child : true,
-                    data : [[2 ,'www.baidus.com']]
-                },
-                 {
-                    key : '解决方案',
-                    child : true,
-                    data : [[3 ,'www.baidus.com']]
-                },
-                {
-                    key : '产品展示',
-                    child : true,
-                    data : [[4 ,'www.baidus.com']]
-                },
-                {
-                    key : '服务与支持',
-                    child : true,
-                    data : [[5 ,'www.baidus.com']]
-                },
-                {
-                    key : '新闻动态',
-                    child : true,
-                    data : [[6 ,'www.baidus.com']]
-
-                },
-                {
-                    key : '联系我们',
-                    child : true,
-                    data : [[7 ,'www.baidus.com']]
-                },
-            ]
-
+var getNavData = function(nav,col){
+    var dataObj = {};
+    for(var i=0;i<nav.length;i++ ){
+        if(!dataObj[nav[i].id]){
+            dataObj[nav[i].id] = {};
+            dataObj[nav[i].id].data = nav[i];
+            dataObj[nav[i].id].cData = [];
+        }
+        for(var j=0;j<col.length;j++){
+            if(col[j].parentid == nav[i].navcolid){
+                dataObj[nav[i].id].cData.push(col[j]);
+            }   
+        }
+    }
+    return dataObj;
+}
 
 exports.router = {
     index : function(req,res){
@@ -63,16 +39,20 @@ exports.router = {
                         field : 'article'
                     },
                     {
-                        sql : 'select n.id,c.id from nav as n left join web_column as c' ,
+                        sql : 'select * from nav where navshow=1  and navpos=0' ,
                         field : 'nav'
+                    },
+                    {
+                        sql : 'select * from web_column ' ,
+                        field : 'col'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
-            console.log(data.nav)
-
+            var navObj = getNavData(data.nav,data.col);
+        
             res.render('tpls/index',{
 
-                header : header,
+                nav : navObj,
 
                 product : {
                     flag : true,
@@ -130,24 +110,32 @@ exports.router = {
                     {
                         sql : 'select * from article order by id desc  limit 5 ',
                         field : 'article'
+                    },
+                    {
+                        sql : 'select * from nav where navshow=1  and navpos=0' ,
+                        field : 'nav'
+                    },
+                    {
+                        sql : 'select * from web_column ' ,
+                        field : 'col'
+                    },
+                    {
+                        sql : 'select navname,navlink from nav where navshow=1  and navpos=1' ,
+                        field : 'left'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
+            var navObj = getNavData(data.nav,data.col);
 
             res.render('tpls/cat',{
 
-                header : header,
+                nav : navObj,
 
                 left : {
                     product : {
                         title :['产品展示','Product display'],
-                        liData : [
-                            ['食品化工机械','http://www.baidu.com','active'],
-                            ['制药设备','http://www.baidu.com'],
-                            ['PE化粪池','http://www.baidu.com'],
-                            ['方形-保温水箱','http://www.baidu.com'],
-                            ['水箱封盖及半成品','http://www.baidu.com']
-                        ]
+                        liData : data.left,
+                        activeUrl : req.url 
                     },
                     contact : {
                         title :['联系我们','Contact us'],
@@ -179,6 +167,18 @@ exports.router = {
                     {
                         sql : 'select * from article where id=' + req.query.id,
                         field : 'article'
+                    },
+                    {
+                        sql : 'select * from nav where navshow=1  and navpos=0' ,
+                        field : 'nav'
+                    },
+                    {
+                        sql : 'select * from web_column ' ,
+                        field : 'col'
+                    },
+                    {
+                        sql : 'select navname,navlink from nav where navshow=1  and navpos=1' ,
+                        field : 'left'
                     }
                 ]
             tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
@@ -186,23 +186,19 @@ exports.router = {
                     res.redirect('/notfound');
                     return ;
                }
+               var navObj = getNavData(data.nav,data.col);
 
                data.article[0].tag = data.article[0].tag.split(',');
 
                 res.render('tpls/detail',{
 
-                    header : header,
+                    nav : navObj,
 
                     left : {
                         product : {
                             title :['产品展示','Product display'],
-                            liData : [
-                                ['食品化工机械','http://www.baidu.com','active'],
-                                ['制药设备','http://www.baidu.com'],
-                                ['PE化粪池','http://www.baidu.com'],
-                                ['方形-保温水箱','http://www.baidu.com'],
-                                ['水箱封盖及半成品','http://www.baidu.com']
-                            ]
+                            liData : data.left,
+                            activeUrl : req.url
                         },
                         contact : {
                             title :['联系我们','Contact us'],
@@ -240,24 +236,32 @@ exports.router = {
                     {
                         sql : 'select id,title,date from article',
                         field : 'article'
+                    },
+                    {
+                        sql : 'select * from nav where navshow=1  and navpos=0' ,
+                        field : 'nav'
+                    },
+                    {
+                        sql : 'select * from web_column ' ,
+                        field : 'col'
+                    },
+                    {
+                        sql : 'select navname,navlink from nav where navshow=1  and navpos=1' ,
+                        field : 'left'
                     }
                 ]
         tplQuery.sqlSelectAll(req,res,sqlArr,function(data){
+            var navObj = getNavData(data.nav,data.col);
 
             res.render('tpls/list',{
 
-            header : header,
+            nav : navObj,
 
             left : {
                 product : {
                     title :['产品展示','Product display'],
-                    liData : [
-                        ['食品化工机械','http://www.baidu.com','active'],
-                        ['制药设备','http://www.baidu.com'],
-                        ['PE化粪池','http://www.baidu.com'],
-                        ['方形-保温水箱','http://www.baidu.com'],
-                        ['水箱封盖及半成品','http://www.baidu.com']
-                    ]
+                    liData : data.left,
+                    activeUrl : req.url
                 },
                 contact : {
                     title :['联系我们','Contact us'],

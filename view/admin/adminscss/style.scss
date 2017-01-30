@@ -154,6 +154,10 @@ form {
 .admin-banner{
     margin-top: 20px;
 }
+#logo{
+    top : -10px;
+}
+
 #logo a{
     color:#fff;
 }
@@ -162,4 +166,19 @@ form {
 }
 .red{
     color:#ff2121;
+}
+
+.date-top{
+    margin-left: -5px;
+}
+#digital-clock{
+    margin-left: 20px;
+    border-right: none;
+    box-shadow: none;;
+}
+#skin-select #toggle{
+    top : -5px;
+}
+.dark{
+    margin-top: 5px;
 }

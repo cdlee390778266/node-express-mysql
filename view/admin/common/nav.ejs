@@ -9,7 +9,7 @@
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <span class="tittle-alert entypo-info-circled"></span>
                                 欢迎回来,&nbsp;
-                                <strong>Dave mattew!</strong>&nbsp;&nbsp;您上次登录的时间是 <%= dateformat(1482912791767) %>
+                                <strong><%= user.username %>,</strong>&nbsp;&nbsp;您上次登录的时间是 <%= dateformat(user.lastlogin) %>
                             </div>
 
 

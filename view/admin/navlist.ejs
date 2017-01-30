@@ -124,7 +124,7 @@
                                         %>
                                         </td>
                                         <td><%= data[i].navsort %></td>
-                                        <td><%= data[i].navpos %></td>
+                                        <td><%= data[i].navpos==0 ? '顶部' : data[i].navpos==1 ? '中间' : '底部' %></td>
                                         <td>
                                             <a class="btn btn-success btn-sm" href="/adminAddNav?id=<%= data[i].id %>">编辑</a>
                                             <a class="btn btn-warning btn-sm navCancle" data-navid="<%= data[i].id %>" >删除</a>
@@ -292,12 +292,14 @@
 
                             var windowImg = data.data[i].navwindow ? '<img src="view/admin/image/yes.gif" alt="" class="updateWindow" data-navid="' + data.data[i].id + '" navwindow="' + data.data[i].navwindow + '" />' : '<img src="view/admin/image/no.gif" alt="" class="updateWindow" data-navid="' + data.data[i].id + '" navwindow="' + data.data[i].navwindow + '" />';
 
+                            var pos = data.data[i].navpos==0 ? '顶部' : data.data[i].navpos==1 ? '中间' : '底部' 
+
                             tbody += '<tr>'
                                   + '<td>' + data.data[i].navname +'</td>'
                                   + '<td>' + showImg + '</td>'
                                   + '<td>' + windowImg +'</td>'
                                   + '<td>' + data.data[i].navsort +'</td>'
-                                  + '<td>' + data.data[i].navpos +'</td>'
+                                  + '<td>' + pos +'</td>'
                                   + '<td>'
                                   +     '<a class="btn btn-success" href="/adminAddNav?id=' + data.data[i].id + '">编辑</a>'
                                   +     ' <button  class="btn btn-warning navCancle" data-navid="' + data.data[i].id + '"  >删除</button></td>'

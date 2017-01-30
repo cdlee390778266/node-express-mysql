@@ -74,7 +74,7 @@ treeMenu.prototype={
         var html='';
     
         for(var i=0;i<a.length;i++){
-            html+=  '<option value="' + a[i].id + '" data-link="/cat?id=' + a[i].id + '" >'+ j +a[i].colname+'</option>\n'    
+            html+=  '<option value="' + a[i].id + '" data-link="/cat?id=' + a[i].id + '" >'+ a[i].colname+'</option>\n'    
             html+=this.getOpts(this.groups[a[i][this.ttId]],++j);
             html+='';
         };

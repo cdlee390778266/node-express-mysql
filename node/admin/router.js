@@ -8,23 +8,25 @@ var base = require('../common/base');
 var upload = require('../common/saveImgs');
 var config = require('../common/config');
 var tree = require('../common/tree');
+var path = require('path');  
+
+var mainPath = path.dirname(require.main.filename);
 
 exports.router = {
     login : function(req,res){
-        res.render('admin/login');
-        // if(!global.user){
-        //     res.render('admin/login');
-        // }else{
-        //     res.redirect('/adminIndex');
-        // }
+        if(!global.user){
+            res.render('admin/login');
+        }else{
+            res.redirect('/adminIndex');
+        }
         
     },
     check : function(req,res){
         var userName = req.query.userName;
-        var userPWD = req.query.userPWD;
+        var userPWD = base.md5(req.query.userPWD);
         var loginTime = req.query.loginTime;
         var sql = 'select * from administrators where loginname="' + userName + '" and password="' + userPWD + '"';
-        var updateSql = 'update administrators set logintime="' + loginTime + '"  where name="' + userName + '"';
+        var updateSql = 'update administrators set logintime="' + loginTime + '"  where loginname="' + userName + '"';
         query.sqlSelectLogin(req,res,sql,updateSql);
     },
 
@@ -106,9 +108,8 @@ exports.router = {
     },
 
     userList : function(req,res){
-        // var sql = 'select * from administrators  where level>' + global.user.level;
-        var sql = 'select * from administrators  where level>1 limit 0,' + config.userListPageNum ;
-        query.query('select count(*) as records from administrators where level>1',function(perr,prows,pfields){
+        var sql = 'select * from administrators  where level>' + global.user.level + ' limit 0,' +config.userListPageNum;
+        query.query('select count(*) as records from administrators where level>' + global.user.level,function(perr,prows,pfields){
             pages = Math.ceil(prows[0].records/config.userListPageNum);
             query.sqlSelectRender(req,res,sql,'admin/userlist',pages);
         })
@@ -116,9 +117,9 @@ exports.router = {
     },
 
      userListPage : function(req,res){
-        // var sql = 'select * from administrators  where level>' + global.user.level;
+        var sql = 'select * from administrators  where level>' + global.user.level + ' limit 0,' +config.userListPageNum;
         var start = req.body.page*config.userListPageNum;
-        var sql = 'select loginname,pseudonym,name,level,logintime from administrators  where level>1 limit ' + start + ',' + config.userListPageNum ;
+        var sql = 'select loginname,pseudonym,name,level,logintime from administrators  where level>' + global.user.level + ' limit ' + start + ',' + config.userListPageNum ;
         query.query(sql,function(err,rows,fields){
             if(err){
                 res.json({
@@ -141,11 +142,12 @@ exports.router = {
 
         if(req.body.userface != ''){ //有头像上传
             upload(req,res,config.uploadDir,function(fields,imgurls){
+                var md5Pwd = base.md5(fields.loginPWD[0])
                 query.sqlInsert(req,res,'insert into administrators values('
                     + '"'+ fields.loginID +'",'
                     + '"'+ fields.level +'",'
                     + '"'+ fields.name +'",'
-                    + '"'+ fields.loginPWD +'",'
+                    + '"'+ md5Pwd +'",'
                     + '"'+ fields.pseudonym +'",'
                     + '"'+ imgurls +'",'
                     + '"'+ fields.email +'",'
@@ -153,11 +155,12 @@ exports.router = {
                     +')','添加成功!','添加失败!');
             });
         }else{  //无头像上传
+            var md5Pwd = base.md5(req.body.loginPWD);
             query.sqlInsert(req,res,'insert into administrators values('
                 + '"'+ req.body.loginID +'",'
                 + '"'+ req.body.level +'",'
                 + '"'+ req.body.name +'",'
-                + '"'+ req.body.loginPWD +'",'
+                + '"'+ md5Pwd +'",'
                 + '"'+ req.body.pseudonym +'",'
                 + '"'+ req.body.userface +'",'
                 + '"'+ req.body.email +'",'
@@ -193,12 +196,14 @@ exports.router = {
     },
 
     updateUser : function(req,res){
-        var sql = 'select * from administrators where loginname="' + req.body.uloginID + '" and password="' + req.body.oldPWD + '"';
+        var md5OldPwd = base.md5(req.body.oldPWD);
+        var sql = 'select * from administrators where loginname="' + req.body.uloginID + '" and password="' + md5OldPwd + '"';
         if(req.body.newPWD){
+            var md5NewPwd = base.md5(req.body.newPWD);
             query.query(sql,function(err,rows,fields){
                 if(rows.length>0){
-                    if(rows[0].password != req.body.newPWD){
-                        var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",password="' + req.body.newPWD + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
+                    if(rows[0].password != md5NewPwd){
+                        var usql = 'update administrators set level="' + req.body.ulevel + '",name="' + req.body.uname + '",password="' + md5NewPwd + '",pseudonym="' + req.body.upseudonym + '" where loginname="' + req.body.uloginID + '"';
                         query.sqlUpdate(req,res,usql,'修改成功','修改失败！');
                     }else{
                         res.json({
@@ -357,6 +362,13 @@ exports.router = {
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                             var click = fields.art_click.toString().length ? fields.art_click : 0;
                             var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
+            
+                            if(needwatermark){
+                                for(var i=0;i<imgurls.length;i++){
+                                    base.water(req,res,mainPath,imgurls[i]);
+                                }
+                            }
+
                             var sql = 'insert into article (title,diy,tag,weight,writer,type,keywords,description,themeimg,content,needwatermark,notpost,click,date) values('
                                 + '"' + fields.art_title + '",' 
                                 + '"' + fields.art_diy + '",' 
@@ -415,6 +427,7 @@ exports.router = {
                     var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                     var click = fields.art_click.toString().length ? fields.art_click : 0;
                     var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
+                    
                     var sql = 'update article set '
                             + 'title="' + fields.art_title + '",' 
                             + 'diy="' + fields.art_diy + '",' 
@@ -469,6 +482,13 @@ exports.router = {
                             var weight = fields.art_weight.toString().length ? fields.art_weight : 0;
                             var click = fields.art_click.toString().length ? fields.art_click : 0;
                             var date = fields.art_date.toString().length ? fields.art_date : base.format(new Date(),'yyyy-MM-dd hh:mm:ss');
+                            
+                            if(needwatermark){
+                                for(var i=0;i<imgurls.length;i++){
+                                    base.water(req,res,mainPath,imgurls[i]);
+                                }
+                            }
+
                             var sql = 'update article set '
                                     + 'title="' + fields.art_title + '",' 
                                     + 'diy="' + fields.art_diy + '",' 

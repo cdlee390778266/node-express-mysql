@@ -45,8 +45,7 @@
                       </div>
                       <div class="caption">
                         <h3><%= product.data[i].title %></h3>
-                        <p><%= product.data[i].description %></p>
-                        <p><a href="/detail?id=<%= product.data[i].id %>">查看更多 <span class="go">+</span></a></p>
+                        <p><%= product.data[i].description %><a href="/detail?id=<%= product.data[i].id %>"></a></p>
                       </div>
                     </div>
                 </div>
@@ -112,6 +111,14 @@
 
         <% include common/footer %>
         
+        <script type="text/javascript">
+            $(function(){
+                $('.thumbnail').click(function(){
+                     location.href = $(this).find('a').attr('href');
+                })
+            })
+
+        </script>
 
     </body>
 </html>
